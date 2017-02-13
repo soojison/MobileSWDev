@@ -1,10 +1,13 @@
 package hu.ait.aittime;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // used to figure out where the snackbar should be situated
+        final LinearLayout layoutRoot = (LinearLayout) findViewById(R.id.activity_main);
 
         // Everything you put on a screen is extended from the View class
         Button btnTime = (Button) findViewById(R.id.btnTime);
@@ -50,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 // independent of the application, so you need a context for where the toast occurred
 
                 tvStatus.setText(time);
+
+                Snackbar.make(layoutRoot, time, Snackbar.LENGTH_LONG).show();
+
             }
         });
     }
