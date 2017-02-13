@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AITTime</string>
+    <string name="btn_time">Show Time</string>
+    <string name="txt_hello">Hello!</string>
+</resources>
