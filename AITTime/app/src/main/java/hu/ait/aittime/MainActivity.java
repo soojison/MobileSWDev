@@ -14,6 +14,8 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    // One method should probably do only one thing, not multiple things
+    // so you should extract the things into several methods.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

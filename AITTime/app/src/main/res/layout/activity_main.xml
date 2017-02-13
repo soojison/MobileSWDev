@@ -46,4 +46,5 @@
          Useful shortcuts:
            * cmd + backspace: delete line
            * alt + return: quickfix
+           * cmd + alt + m: extract to method
     -->
