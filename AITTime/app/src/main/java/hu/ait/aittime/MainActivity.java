@@ -2,7 +2,11 @@ package hu.ait.aittime;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,5 +23,16 @@ public class MainActivity extends AppCompatActivity {
         // --> A final class that has all the integer ids for the things
         // --> Just don't touch the file at all, if it says there is an error in the R file,
         //     it must be in the resources files, so check that.
+
+        btnTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(
+                        MainActivity.this,
+                        "Date is: " + new Date(System.currentTimeMillis()).toString(),
+                        Toast.LENGTH_LONG).show();
+                // independent of the application, so you need a context for where the toast occurred
+            }
+        });
     }
 }
