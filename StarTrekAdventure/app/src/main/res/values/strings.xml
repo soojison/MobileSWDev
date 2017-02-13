@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Star Trek Adventure</string>
+    <string name="txt_opening">Space, the final frontier!</string>
+    <string name="txt_subtitle">A Choose-Your-Adventure Game</string>
+    <string name="txt_getName">Hello, Ensign. What is your name?</string>
+    <string name="et_yourName">Your Name</string>
+</resources>
