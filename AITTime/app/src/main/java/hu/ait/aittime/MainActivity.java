@@ -27,17 +27,20 @@ public class MainActivity extends AppCompatActivity {
         // --> Just don't touch the file at all, if it says there is an error in the R file,
         //     it must be in the resources files, so check that.
 
+        final TextView tvStatus = (TextView) findViewById(R.id.tvStatus);
+        // final because it's a constant, a fixed reference
+
         btnTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String time = getString(R.string.txt_dateIs) + new Date(System.currentTimeMillis()).toString();
                 Toast.makeText(
                         MainActivity.this,
-                        getString(R.string.txt_dateIs) + new Date(System.currentTimeMillis()).toString(),
+                        time,
                         Toast.LENGTH_LONG).show();
                 // independent of the application, so you need a context for where the toast occurred
 
-                TextView tv = (TextView) findViewById(R.id.tvStatus);
-                tv.setText(getString(R.string.txt_dateIs) + new Date(System.currentTimeMillis()).toString());
+                tvStatus.setText(time);
             }
         });
     }
