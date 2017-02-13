@@ -12,6 +12,12 @@
     tools:context="hu.ait.aittime.MainActivity">
 
 
+    <EditText
+        android:id="@+id/usrName"
+        android:hint="@string/txt_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/btnTime"
         android:layout_width="wrap_content"

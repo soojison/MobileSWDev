@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +31,16 @@ public class MainActivity extends AppCompatActivity {
         final TextView tvStatus = (TextView) findViewById(R.id.tvStatus);
         // final because it's a constant, a fixed reference
 
+        final EditText username = (EditText) findViewById(R.id.usrName);
+
         btnTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String time = getString(R.string.txt_dateIs) + new Date(System.currentTimeMillis()).toString();
+                String name = username.getText().toString();
+
+                String time = getString(R.string.txt_date_message,
+                        name, new Date(System.currentTimeMillis()).toString());
+
                 Toast.makeText(
                         MainActivity.this,
                         time,
