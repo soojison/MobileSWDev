@@ -4,7 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -29,9 +32,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(
                         MainActivity.this,
-                        "Date is: " + new Date(System.currentTimeMillis()).toString(),
+                        getString(R.string.txt_dateIs) + new Date(System.currentTimeMillis()).toString(),
                         Toast.LENGTH_LONG).show();
                 // independent of the application, so you need a context for where the toast occurred
+
+                TextView tv = (TextView) findViewById(R.id.tvStatus);
+                tv.setText(getString(R.string.txt_dateIs) + new Date(System.currentTimeMillis()).toString());
             }
         });
     }
