@@ -4,6 +4,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import org.w3c.dom.Text;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String MAIN_TAG = "MAIN_TAG";
 
     // One method should probably do only one thing, not multiple things
     // so you should extract the things into several methods.
@@ -36,14 +39,21 @@ public class MainActivity extends AppCompatActivity {
         // --> Just don't touch the file at all, if it says there is an error in the R file,
         //     it must be in the resources files, so check that.
 
-        final TextView tvStatus = (TextView) findViewById(R.id.tvStatus);
         // final because it's a constant, a fixed reference
+        final TextView tvStatus = (TextView) findViewById(R.id.tvStatus);
+
 
         final EditText username = (EditText) findViewById(R.id.usrName);
 
         btnTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Log messages - check them from Android Monitor pane, bc you can filter them out
+                // You can restart the log too
+                // Create the name of the error as a constant > refactor by extract constant: cmd+opt+c
+                Log.d(MAIN_TAG, "onClick called");
+
                 String name = username.getText().toString();
 
                 String time = getString(R.string.txt_date_message,
