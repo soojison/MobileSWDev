@@ -71,4 +71,9 @@ public class TicTacToeView extends View {
         return true;
 
     }
+
+    public void clearCircles() {
+        coords.clear();
+        invalidate();
+    }
 }
