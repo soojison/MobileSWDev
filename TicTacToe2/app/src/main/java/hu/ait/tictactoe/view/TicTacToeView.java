@@ -18,9 +18,6 @@ public class TicTacToeView extends View {
     // factor out so it doesn't get created every time onDraw is called
     private Paint paintBg;
     private Paint paintLine;
-    private Paint paintRedCircle;
-
-    private List<PointF> coords = new ArrayList<PointF>();
 
     public TicTacToeView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -33,10 +30,6 @@ public class TicTacToeView extends View {
         paintLine.setColor(Color.WHITE);
         paintLine.setStyle(Paint.Style.STROKE);
         paintLine.setStrokeWidth(5);
-
-        paintRedCircle = new Paint();
-        paintRedCircle.setColor(Color.RED);
-        paintRedCircle.setStyle(Paint.Style.FILL);
     }
 
     @Override
@@ -45,23 +38,13 @@ public class TicTacToeView extends View {
 
         canvas.drawRect(0, 0, getWidth(), getHeight(), paintBg);
 
-        canvas.drawLine(0, 0, getWidth(), getHeight(), paintLine);
-
-        // shortcut: coords.for
-        for (PointF coord : coords) {
-            //canvas.drawCircle(coord.x, coord.y, 50, paintLine);
-            // Pekler: "HAHA! I have circles"
-            canvas.drawCircle(coord.x, coord.y, 50, paintRedCircle);
-        }
-        
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            coords.add(new PointF(event.getX(), event.getY()));
-            
+
             // invalidate redraws everything on the view
             invalidate();
             
@@ -72,8 +55,4 @@ public class TicTacToeView extends View {
 
     }
 
-    public void clearCircles() {
-        coords.clear();
-        invalidate();
-    }
 }
