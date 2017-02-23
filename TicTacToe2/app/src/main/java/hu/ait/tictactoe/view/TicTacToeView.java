@@ -13,6 +13,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.ait.tictactoe.MainActivity;
 import hu.ait.tictactoe.model.TicTacToeModel;
 
 public class TicTacToeView extends View {
@@ -105,6 +106,13 @@ public class TicTacToeView extends View {
                         TicTacToeModel.getInstance().getNextPlayer());
                 TicTacToeModel.getInstance().changeNextPlayer();
                 invalidate();
+
+                String next = "O";
+                if (TicTacToeModel.getInstance().getNextPlayer() == TicTacToeModel.CROSS) {
+                    next = "X";
+                }
+
+                ((MainActivity)getContext()).setMessage("Next player is " + next);
             }
         }
 
