@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import hu.ait.tictactoe.model.TicTacToeModel;
 import hu.ait.tictactoe.view.TicTacToeView;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                gameView.resetGame();
             }
         });
     }
