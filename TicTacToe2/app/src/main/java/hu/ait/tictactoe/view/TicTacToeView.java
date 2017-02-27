@@ -1,6 +1,8 @@
 package hu.ait.tictactoe.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import hu.ait.tictactoe.MainActivity;
+import hu.ait.tictactoe.R;
 import hu.ait.tictactoe.model.TicTacToeModel;
 
 public class TicTacToeView extends View {
@@ -17,8 +20,9 @@ public class TicTacToeView extends View {
     private Paint paintBg;
     private Paint paintLine;
     private Paint redLine;
-    private boolean isTouchable = true;
+    private Bitmap bitmapBG;
 
+    private boolean isTouchable = true;
 
 
     public TicTacToeView(Context context, AttributeSet attrs) {
@@ -37,6 +41,16 @@ public class TicTacToeView extends View {
         paintLine.setColor(Color.WHITE);
         paintLine.setStyle(Paint.Style.STROKE);
         paintLine.setStrokeWidth(5);
+
+        bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_bg);
+    }
+
+    // resize bitmap here
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        bitmapBG = Bitmap.createScaledBitmap(bitmapBG, getWidth(), getHeight(), false);
     }
 
     @Override
@@ -44,6 +58,9 @@ public class TicTacToeView extends View {
         super.onDraw(canvas);
 
         canvas.drawRect(0, 0, getWidth(), getHeight(), paintBg);
+
+        // you shouldn't draw/create bitmap here because of the huge memory use
+        canvas.drawBitmap(bitmapBG, 0, 0, null);
 
         drawGameGrid(canvas);
 
@@ -119,18 +136,18 @@ public class TicTacToeView extends View {
                     next = "X";
                 }
 
-                if(TicTacToeModel.getInstance().isBoardFull()) {
-                    ((MainActivity)getContext()).setMessage("Game over with a tie");
-                    isTouchable = false;
+                short winner = TicTacToeModel.getInstance().checkWinner();
+                if (winner == 0) {
+                    ((MainActivity) getContext()).setMessage("Next player is " + next);
                 } else {
-                    short winner = TicTacToeModel.getInstance().checkWinner();
-                    if (winner == 0) {
-                        ((MainActivity) getContext()).setMessage("Next player is " + next);
-                    } else {
-                        String winnerS = (winner == 1) ? "Circle" : "Cross";
-                        ((MainActivity) getContext()).setMessage("Winner is " + winnerS);
-                        isTouchable = false;
-                    }
+                    String winnerS = (winner == 1) ? "Circle" : "Cross";
+                    ((MainActivity) getContext()).setMessage("Winner is " + winnerS);
+                    isTouchable = false;
+                }
+
+                if(winner == 0 && TicTacToeModel.getInstance().isBoardFull()) {
+                    ((MainActivity) getContext()).setMessage("Game over with a tie");
+                    isTouchable = false;
                 }
             }
         }
@@ -151,6 +168,8 @@ public class TicTacToeView extends View {
                                 screenWidth : screenHeight;
         setMeasuredDimension(smallerValue, smallerValue);
     }
+
+
 
     public void resetGame() {
         TicTacToeModel.getInstance().resetModel();
