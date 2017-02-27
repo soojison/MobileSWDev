@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -36,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
         ShimmerFrameLayout shimmerFrameLayout =
                 (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container);
         shimmerFrameLayout.startShimmerAnimation();
+
     }
+
+
 
     public void setMessage(String text) {
         tvData.setText(text);

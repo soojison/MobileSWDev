@@ -21,6 +21,7 @@ public class TicTacToeView extends View {
     // factor out so it doesn't get created every time onDraw is called
     private Paint paintBg;
     private Paint paintLine;
+    private Paint redLine;
 
     public TicTacToeView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -28,6 +29,11 @@ public class TicTacToeView extends View {
         paintBg = new Paint();
         paintBg.setColor(Color.BLACK);
         paintBg.setStyle(Paint.Style.FILL); // fills the area
+
+        redLine = new Paint();
+        redLine.setColor(Color.RED);
+        redLine.setStyle(Paint.Style.STROKE);
+        redLine.setStrokeWidth(5);
 
         paintLine = new Paint();
         paintLine.setColor(Color.WHITE);
@@ -67,10 +73,10 @@ public class TicTacToeView extends View {
                 } else if (TicTacToeModel.getInstance().getField(i,j) == TicTacToeModel.CROSS) {
                     canvas.drawLine(i * getWidth() / 3, j * getHeight() / 3,
                             (i + 1) * getWidth() / 3,
-                            (j + 1) * getHeight() / 3, paintLine);
+                            (j + 1) * getHeight() / 3, redLine);
 
                     canvas.drawLine((i + 1) * getWidth() / 3, j * getHeight() / 3,
-                            i * getWidth() / 3, (j + 1) * getHeight() / 3, paintLine);
+                            i * getWidth() / 3, (j + 1) * getHeight() / 3, redLine);
                 }
             }
         }
@@ -93,9 +99,16 @@ public class TicTacToeView extends View {
                 paintLine);
     }
 
+
+
+    private boolean isTouchable = true;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
+        if(!isTouchable) {
+            return false;
+        }
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
             int touchX = ((int)event.getX() / (getWidth()/3));
@@ -112,7 +125,19 @@ public class TicTacToeView extends View {
                     next = "X";
                 }
 
-                ((MainActivity)getContext()).setMessage("Next player is " + next);
+                if(TicTacToeModel.getInstance().isBoardFull()) {
+                    ((MainActivity)getContext()).setMessage("Game over with a tie");
+                    isTouchable = false;
+                } else {
+                    short winner = TicTacToeModel.getInstance().checkWinner();
+                    if (winner == 0) {
+                        ((MainActivity) getContext()).setMessage("Next player is " + next);
+                    } else {
+                        String winnerS = (winner == 1) ? "Circle" : "Cross";
+                        ((MainActivity) getContext()).setMessage("Winner is " + winnerS);
+                        isTouchable = false;
+                    }
+                }
             }
         }
 
@@ -136,5 +161,7 @@ public class TicTacToeView extends View {
     public void resetGame() {
         TicTacToeModel.getInstance().resetModel();
         invalidate();
+        isTouchable = true;
+        ((MainActivity) getContext()).setMessage("Touch the game area to play");
     }
 }

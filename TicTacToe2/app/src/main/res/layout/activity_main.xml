@@ -35,4 +35,9 @@
             android:text="Touch the game area to play"/>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/winnermsg" />
+
 </LinearLayout>

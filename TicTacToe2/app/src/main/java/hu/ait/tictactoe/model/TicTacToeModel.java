@@ -25,6 +25,7 @@ public class TicTacToeModel {
     public static final short EMPTY =  0;
     public static final short CIRCLE = 1;
     public static final short CROSS = 2;
+    public static final short NOWINNER = 3;
 
     private short[][] model = {
             {EMPTY, EMPTY, EMPTY},
@@ -47,8 +48,33 @@ public class TicTacToeModel {
         //      instance = null;
     }
 
+    public boolean isBoardFull() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(model[i][j] == EMPTY) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public short checkWinner() {
-        return 0;
+        short winner = EMPTY;
+
+        if (model[0][0] == model[1][1] && model[1][1] == model[2][2] ||
+                model[0][2] == model[1][1] && model[1][1] == model[2][0]) {
+            return model[1][1];
+        }
+
+        for (int i = 0; i < 3; i++) {
+            if(model[i][0] == model[i][1] && model[i][1] == model[i][2]) {
+                return model[i][0];
+            } else if (model[0][i] == model[1][i] && model[1][i] == model[2][i]) {
+                return model[0][i];
+            }
+        }
+        return winner;
     }
 
     public void changeNextPlayer() {
