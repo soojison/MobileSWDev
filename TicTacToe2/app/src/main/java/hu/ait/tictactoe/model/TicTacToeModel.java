@@ -2,6 +2,10 @@ package hu.ait.tictactoe.model;
 
 // A singleton model = only one instance of it can exist
 
+import android.widget.Chronometer;
+
+import hu.ait.tictactoe.R;
+
 public class TicTacToeModel {
 
     // we should have one instance of this
@@ -25,7 +29,6 @@ public class TicTacToeModel {
     public static final short EMPTY =  0;
     public static final short CIRCLE = 1;
     public static final short CROSS = 2;
-    public static final short NOWINNER = 3;
 
     private short[][] model = {
             {EMPTY, EMPTY, EMPTY},
@@ -62,11 +65,13 @@ public class TicTacToeModel {
     public short checkWinner() {
         short winner = EMPTY;
 
+        // diagonal
         if (model[0][0] == model[1][1] && model[1][1] == model[2][2] ||
                 model[0][2] == model[1][1] && model[1][1] == model[2][0]) {
             return model[1][1];
         }
 
+        // row or col
         for (int i = 0; i < 3; i++) {
             if(model[i][0] == model[i][1] && model[i][1] == model[i][2]) {
                 return model[i][0];
@@ -74,6 +79,7 @@ public class TicTacToeModel {
                 return model[0][i];
             }
         }
+
         return winner;
     }
 
@@ -93,4 +99,6 @@ public class TicTacToeModel {
     public short getNextPlayer() {
         return nextPlayer;
     }
+
+
 }

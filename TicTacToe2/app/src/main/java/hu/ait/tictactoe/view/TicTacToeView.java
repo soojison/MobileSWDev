@@ -9,11 +9,13 @@ import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Chronometer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import hu.ait.tictactoe.MainActivity;
+import hu.ait.tictactoe.R;
 import hu.ait.tictactoe.model.TicTacToeModel;
 
 public class TicTacToeView extends View {
@@ -22,6 +24,9 @@ public class TicTacToeView extends View {
     private Paint paintBg;
     private Paint paintLine;
     private Paint redLine;
+    private boolean isTouchable = true;
+
+
 
     public TicTacToeView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -98,10 +103,6 @@ public class TicTacToeView extends View {
         canvas.drawLine(2 * getWidth() / 3, 0, 2 * getWidth() / 3, getHeight(),
                 paintLine);
     }
-
-
-
-    private boolean isTouchable = true;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
