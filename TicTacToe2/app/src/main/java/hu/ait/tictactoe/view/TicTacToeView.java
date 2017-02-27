@@ -4,18 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Chronometer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import hu.ait.tictactoe.MainActivity;
-import hu.ait.tictactoe.R;
 import hu.ait.tictactoe.model.TicTacToeModel;
 
 public class TicTacToeView extends View {

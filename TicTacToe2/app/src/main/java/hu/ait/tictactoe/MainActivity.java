@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
         tvData = (TextView) findViewById(R.id.tvData);
 
+        // find view by id in the view
+        // Create an instance of the view and call methods on it to edit the view properties?
+        // getcontext casted to mainactivity can call methods too?
         final TicTacToeView gameView = (TicTacToeView) findViewById(R.id.gameView);
 
         Button btnClear = (Button) findViewById(R.id.btnClear);
