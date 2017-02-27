@@ -22,6 +22,9 @@ public class TicTacToeView extends View {
     private Paint redLine;
     private Bitmap bitmapBG;
 
+    // draw texts on the app
+    private Paint paintText;
+
     private boolean isTouchable = true;
 
 
@@ -42,6 +45,9 @@ public class TicTacToeView extends View {
         paintLine.setStyle(Paint.Style.STROKE);
         paintLine.setStrokeWidth(5);
 
+        paintText = new Paint();
+        paintText.setColor(Color.RED);
+
         bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.dirt_bg);
     }
 
@@ -51,6 +57,7 @@ public class TicTacToeView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
 
         bitmapBG = Bitmap.createScaledBitmap(bitmapBG, getWidth(), getHeight(), false);
+        paintText.setTextSize(getHeight()/3);
     }
 
     @Override
@@ -61,6 +68,9 @@ public class TicTacToeView extends View {
 
         // you shouldn't draw/create bitmap here because of the huge memory use
         canvas.drawBitmap(bitmapBG, 0, 0, null);
+
+        // lower left coordinate = 0 0
+        canvas.drawText("OK", 0, getHeight()/3, paintText);
 
         drawGameGrid(canvas);
 
@@ -138,7 +148,9 @@ public class TicTacToeView extends View {
 
                 short winner = TicTacToeModel.getInstance().checkWinner();
                 if (winner == 0) {
-                    ((MainActivity) getContext()).setMessage("Next player is " + next);
+                    ((MainActivity) getContext()).setMessage(
+                            getResources().getString(R.string.next_player, next) // use string parameters instead of concat
+                    );
                 } else {
                     String winnerS = (winner == 1) ? "Circle" : "Cross";
                     ((MainActivity) getContext()).setMessage("Winner is " + winnerS);
