@@ -1,6 +1,8 @@
 package io.github.soojison.minesweeper.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import io.github.soojison.minesweeper.R;
 import io.github.soojison.minesweeper.model.GameLogic;
 
 public class GridView extends View {
@@ -18,6 +21,7 @@ public class GridView extends View {
     private Paint paintTextG;
     private Paint paintTextB;
     private Paint paintDiscoveredBG;
+    private Bitmap bitmapBomb;
 
     private void setPaintObjAttrs() {
         paintBG.setColor(Color.GRAY);
@@ -41,6 +45,7 @@ public class GridView extends View {
         paintTextG = new Paint();
         paintTextB = new Paint();
         paintDiscoveredBG = new Paint();
+        bitmapBomb = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
 
         setPaintObjAttrs();
     }
@@ -67,6 +72,13 @@ public class GridView extends View {
         setMeasuredDimension(smallerValue, smallerValue);
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        bitmapBomb = Bitmap.createScaledBitmap(bitmapBomb, getWidth()/5, getHeight()/5, false);
+    }
+
     private void drawGrid(Canvas canvas) {
         canvas.drawRect(0, 0, getWidth(), getHeight(), paintLine);
 
@@ -90,6 +102,8 @@ public class GridView extends View {
                     canvas.drawRect(i * getWidth() / 5, j * getHeight() / 5,
                             (i + 1) * getWidth() / 5, (j + 1) * getHeight() / 5,
                             paintDiscoveredBG);
+                } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.BOMB) {
+                    canvas.drawBitmap(bitmapBomb, i * getWidth() / 5, j * getHeight() / 5, null);
                 }
             }
         }
@@ -102,10 +116,19 @@ public class GridView extends View {
             int touchY = ((int)event.getY() / (getHeight()/5));
 
             if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
-                GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
+                if(GameLogic.getInstance().getHiddenModelField(touchX, touchY) == GameLogic.BOMB) {
+                    GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.BOMB);
+                } else {
+                    GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
+                }
             }
             invalidate();
         }
         return true;
+    }
+
+    public void resetGame() {
+        GameLogic.getInstance().resetModel();
+        invalidate();
     }
 }

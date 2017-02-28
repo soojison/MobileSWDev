@@ -42,18 +42,28 @@ public class GameLogic {
     };
 
     public void resetModel() {
-        short bombCount = 0;
         Random rand = new Random();
+        int mineCount = 0;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                if(bombCount < 5) {
-                    hiddenModel[i][j] = (rand.nextInt(1) == 0)? EMPTY : BOMB;
-                    bombCount++;
-                }
                 hiddenModel[i][j] = EMPTY;
                 model[i][j] = UNDISCOVERED;
             }
         }
+
+        // adding random 5 bombs
+        // consider the 2D array in terms of 1D array
+        // the row would be index / width, column would be index % width
+        while(mineCount < 5) {
+            int bomb = rand.nextInt(25);
+            int row = bomb / 5;
+            int col = bomb % 5;
+            if(hiddenModel[row][col] != BOMB) {
+                hiddenModel[row][col] = BOMB;
+                mineCount++;
+            }
+        }
+
     }
 
     public short getModelField(int x, int y) {
