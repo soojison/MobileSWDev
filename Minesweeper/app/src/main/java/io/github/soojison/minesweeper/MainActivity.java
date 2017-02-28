@@ -12,7 +12,9 @@ import io.github.soojison.minesweeper.view.GridView;
 public class MainActivity extends AppCompatActivity {
 
     private TextView tvData;
-    private boolean isExplore; // explore if true, flag if false
+    public static final short EXPLORE = 1;
+    public static final short FLAG = 2;// explore if true, flag if false
+    public static short choice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         btnExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isExplore = true;
+                choice = EXPLORE;
                 setMessage("Choose a tile to explore");
             }
         });
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         btnFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isExplore = false;
+                choice = FLAG;
                 setMessage("Choose a tile to place the flag");
             }
         });
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         tvData.setText(text);
     }
 
-    public boolean getChoice() {
-        return isExplore;
+    public short getChoice() {
+        return choice;
     }
 }

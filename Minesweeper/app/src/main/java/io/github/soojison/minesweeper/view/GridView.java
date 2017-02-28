@@ -56,9 +56,10 @@ public class GridView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         canvas.drawRect(0, 0, getWidth(), getHeight(), paintBG);
 
-        drawPlayers(canvas);
+        drawProgress(canvas);
 
         drawGrid(canvas);
 
@@ -101,7 +102,7 @@ public class GridView extends View {
         }
     }
 
-    private void drawPlayers(Canvas canvas) {
+    private void drawProgress(Canvas canvas) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (GameLogic.getInstance().getModelField(i, j) == GameLogic.DISCOVERED) {
@@ -124,7 +125,8 @@ public class GridView extends View {
             int touchX = ((int)event.getX() / (getWidth()/5));
             int touchY = ((int)event.getY() / (getHeight()/5));
 
-            if( ((MainActivity) getContext()).getChoice() ) { // if true, then we are exploring
+
+            if( ((MainActivity) getContext()).getChoice() == MainActivity.FLAG ) { // if true, then we are exploring
 
                 // +1 for player who is not a computer scientist thus starts their counting from 1
                 ((MainActivity) getContext()).setMessage(
@@ -137,13 +139,14 @@ public class GridView extends View {
                         GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
                     }
                 }
-            } else { // then we are placing the flag
+            } else if ( ((MainActivity) getContext()).getChoice() == MainActivity.EXPLORE ){ // then we are placing the flag
                 if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
                     GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.FLAG);
                 }
             }
 
             invalidate();
+            MainActivity.choice = 0; // reset choice
 
         }
         return true;
