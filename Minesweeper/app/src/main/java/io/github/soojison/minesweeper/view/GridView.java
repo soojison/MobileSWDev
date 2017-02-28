@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import io.github.soojison.minesweeper.MainActivity;
 import io.github.soojison.minesweeper.R;
 import io.github.soojison.minesweeper.model.GameLogic;
 
@@ -22,6 +23,7 @@ public class GridView extends View {
     private Paint paintTextB;
     private Paint paintDiscoveredBG;
     private Bitmap bitmapBomb;
+    private Bitmap bitmapFlag;
 
     private void setPaintObjAttrs() {
         paintBG.setColor(Color.GRAY);
@@ -46,6 +48,7 @@ public class GridView extends View {
         paintTextB = new Paint();
         paintDiscoveredBG = new Paint();
         bitmapBomb = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
+        bitmapFlag = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
 
         setPaintObjAttrs();
     }
@@ -58,6 +61,8 @@ public class GridView extends View {
         drawPlayers(canvas);
 
         drawGrid(canvas);
+
+        ((MainActivity) getContext()).setMessage("Choose an action from below");
     }
 
     @Override
@@ -77,6 +82,7 @@ public class GridView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
 
         bitmapBomb = Bitmap.createScaledBitmap(bitmapBomb, getWidth()/5, getHeight()/5, false);
+        bitmapFlag = Bitmap.createScaledBitmap(bitmapFlag, getWidth()/5, getHeight()/5, false);
     }
 
     private void drawGrid(Canvas canvas) {
@@ -104,9 +110,12 @@ public class GridView extends View {
                             paintDiscoveredBG);
                 } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.BOMB) {
                     canvas.drawBitmap(bitmapBomb, i * getWidth() / 5, j * getHeight() / 5, null);
+                } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.FLAG) {
+                    canvas.drawBitmap(bitmapFlag, i * getWidth() / 5, j * getHeight() / 5, null);
                 }
             }
         }
+
     }
 
     @Override
@@ -115,14 +124,27 @@ public class GridView extends View {
             int touchX = ((int)event.getX() / (getWidth()/5));
             int touchY = ((int)event.getY() / (getHeight()/5));
 
-            if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
-                if(GameLogic.getInstance().getHiddenModelField(touchX, touchY) == GameLogic.BOMB) {
-                    GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.BOMB);
-                } else {
-                    GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
+            if( ((MainActivity) getContext()).getChoice() ) { // if true, then we are exploring
+
+                // +1 for player who is not a computer scientist thus starts their counting from 1
+                ((MainActivity) getContext()).setMessage(
+                        "Action for: " + (touchX + 1) + ", " + (touchY + 1) + " is Explore");
+
+                if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
+                    if(GameLogic.getInstance().getHiddenModelField(touchX, touchY) == GameLogic.BOMB) {
+                        GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.BOMB);
+                    } else {
+                        GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
+                    }
+                }
+            } else { // then we are placing the flag
+                if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
+                    GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.FLAG);
                 }
             }
+
             invalidate();
+
         }
         return true;
     }
