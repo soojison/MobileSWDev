@@ -4,12 +4,15 @@ package hu.ait.tictactoe.model;
 
 import android.widget.Chronometer;
 
+import hu.ait.tictactoe.MainActivity;
 import hu.ait.tictactoe.R;
 
 public class TicTacToeModel {
 
     // we should have one instance of this
     private static TicTacToeModel instance = null;
+
+
 
     // private constructor: you cannot create a new instance of this in the main method
     private TicTacToeModel() {
@@ -85,7 +88,9 @@ public class TicTacToeModel {
 
     public void changeNextPlayer() {
         nextPlayer = (nextPlayer == CIRCLE) ? CROSS : CIRCLE;
+
     }
+
 
     public void setField(int x, int y, short player) {
         model[x][y] = player;

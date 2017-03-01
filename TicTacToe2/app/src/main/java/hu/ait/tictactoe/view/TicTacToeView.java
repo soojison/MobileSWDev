@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Chronometer;
 
 import hu.ait.tictactoe.MainActivity;
 import hu.ait.tictactoe.R;
@@ -124,6 +125,8 @@ public class TicTacToeView extends View {
                 paintLine);
     }
 
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -132,6 +135,9 @@ public class TicTacToeView extends View {
         }
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
+            ((MainActivity) getContext()).stopChronos();
+            ((MainActivity) getContext()).getElapsedTime();
+
             int touchX = ((int)event.getX() / (getWidth()/3));
             int touchY = ((int)event.getY() / (getHeight()/3));
 
@@ -139,6 +145,8 @@ public class TicTacToeView extends View {
                 TicTacToeModel.getInstance().setField(touchX, touchY,
                         TicTacToeModel.getInstance().getNextPlayer());
                 TicTacToeModel.getInstance().changeNextPlayer();
+
+                ((MainActivity) getContext()).startChronos();
                 invalidate();
 
                 String next = "O";
