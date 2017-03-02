@@ -1,5 +1,6 @@
 package io.github.soojison.highlowgame;
 
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
 
+    public static final String KEY_RAND = "KEY_RAND";
     private int random;
 
     @Override
@@ -18,7 +20,14 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        generateNewRandom();
+        // when screen rotates, you get a new number and you confuse the user
+        // you could lock the orientation, but that's just a quickfix
+        // so you use onSaveInstanceState(Bundle outState) to save the generated number
+        if(savedInstanceState != null && savedInstanceState.containsKey(KEY_RAND)) {
+            random = savedInstanceState.getInt(KEY_RAND);
+        } else {
+            generateNewRandom();
+        }
 
         final EditText etGuess = (EditText) findViewById(R.id.etGuess);
         Button btnGuess = (Button) findViewById(R.id.btnGuess);
@@ -51,5 +60,12 @@ public class GameActivity extends AppCompatActivity {
 
     private void generateNewRandom() {
         random = new Random(System.currentTimeMillis()).nextInt(99);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // this will save the number in the activity
+        outState.putInt(KEY_RAND, random);
     }
 }
