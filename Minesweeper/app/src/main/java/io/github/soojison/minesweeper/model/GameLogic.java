@@ -30,6 +30,7 @@ public class GameLogic {
     public static final short DISCOVERED = 7;
     public static final short UNDISCOVERED = 8;
     public static final short FLAG = 9;
+    public static final short BOMB_ORIGIN = 10;
 
     private short[][] hiddenModel = {
             {EMPTY, BOMB, EMPTY, EMPTY, EMPTY},
@@ -47,14 +48,6 @@ public class GameLogic {
             {UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED}
     };
 
-    private void printModel() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                System.out.print(hiddenModel[i][j]);
-            }
-            System.out.println();
-        }
-    }
     public void resetModel() {
         Random rand = new Random();
         int mineCount = 0;
@@ -79,9 +72,6 @@ public class GameLogic {
         }
 
         calculateHints();
-
-        // DEBUG PURPOSES
-        printModel();
 
     }
 
@@ -133,15 +123,13 @@ public class GameLogic {
         return hiddenModel[x][y];
     }
 
-    public void setHiddenModelField(int x, int y, short item) {
-        hiddenModel[x][y] = item;
-    }
-
     public void gameOver() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if(hiddenModel[i][j] == BOMB) {
-                    model[i][j] = BOMB;
+                    if(model[i][j] != BOMB_ORIGIN) {
+                        model[i][j] = BOMB;
+                    }
                 }
             }
         }
@@ -176,5 +164,7 @@ public class GameLogic {
     }
 
     //TODO: WIN GAME -- if you've flagged all the bombs you win
+    // expand doesn't expand flags
+    // when you lose, the flag over bomb --> bomb with cross
     //TODO: Undo Flags
 }

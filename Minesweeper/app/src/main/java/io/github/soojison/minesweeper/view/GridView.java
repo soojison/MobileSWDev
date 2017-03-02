@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.MotionEvent;
@@ -31,6 +32,7 @@ public class GridView extends View {
     private Paint paintDiscoveredBG;
     private Bitmap bitmapBomb;
     private Bitmap bitmapFlag;
+    private Bitmap bitmapTile;
 
     private void setPaintObjAttrs() {
         paintBG.setColor(Color.GRAY);
@@ -41,6 +43,11 @@ public class GridView extends View {
         paintTextB.setColor(rgb(25, 118, 210));
         paintTextDB.setColor(rgb(48, 63, 159));
         paintTextDR.setColor(rgb(183, 28, 28));
+        paintTextR.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        paintTextG.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        paintTextB.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        paintTextDB.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        paintTextDR.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         paintDiscoveredBG.setColor(Color.LTGRAY);
         paintBG.setStyle(Paint.Style.FILL);
         paintLine.setStyle(Paint.Style.STROKE);
@@ -60,6 +67,7 @@ public class GridView extends View {
         paintDiscoveredBG = new Paint();
         bitmapBomb = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
         bitmapFlag = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
+        bitmapTile = BitmapFactory.decodeResource(getResources(), R.drawable.tile);
         setPaintObjAttrs();
 
     }
@@ -96,14 +104,15 @@ public class GridView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        bitmapBomb = Bitmap.createScaledBitmap(bitmapBomb, getWidth()/5, getHeight()/5, false);
-        bitmapFlag = Bitmap.createScaledBitmap(bitmapFlag, getWidth()/5, getHeight()/5, false);
+        bitmapBomb = Bitmap.createScaledBitmap(bitmapBomb, getWidth()/6, getHeight()/6, false);
+        bitmapFlag = Bitmap.createScaledBitmap(bitmapFlag, getWidth()/6, getHeight()/6, false);
+        bitmapTile = Bitmap.createScaledBitmap(bitmapTile, getWidth()/5, getHeight()/5, false);
 
-        paintTextR.setTextSize(getWidth()/6);
-        paintTextG.setTextSize(getHeight()/6);
-        paintTextB.setTextSize(getHeight()/6);
-        paintTextDB.setTextSize(getHeight()/6);
-        paintTextDR.setTextSize(getHeight()/6);
+        paintTextR.setTextSize(getWidth()/7);
+        paintTextG.setTextSize(getHeight()/7);
+        paintTextB.setTextSize(getHeight()/7);
+        paintTextDB.setTextSize(getHeight()/7);
+        paintTextDR.setTextSize(getHeight()/7);
 
     }
 
@@ -152,6 +161,9 @@ public class GridView extends View {
         int padding = getWidth()/20;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
+                if(GameLogic.getInstance().getModelField(i,j) == GameLogic.UNDISCOVERED) {
+                    canvas.drawBitmap(bitmapTile, i*getWidth()/5, j*getHeight()/5, null);
+                }
                 if (GameLogic.getInstance().getModelField(i, j) == GameLogic.DISCOVERED) {
                         canvas.drawRect(i * getWidth() / 5, j * getHeight() / 5,
                                 (i + 1) * getWidth() / 5, (j + 1) * getHeight() / 5,
@@ -161,9 +173,16 @@ public class GridView extends View {
                         canvas.drawText((String)txt.first, i*getWidth()/5 + padding, (j+1)*getHeight()/5 - padding, (Paint) txt.second);
                     }
                 } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.BOMB) {
-                    canvas.drawBitmap(bitmapBomb, i * getWidth() / 5, j * getHeight() / 5, null);
+                    canvas.drawRect(i * getWidth() / 5, j * getHeight() / 5,
+                            (i + 1) * getWidth() / 5, (j + 1) * getHeight() / 5,
+                            paintDiscoveredBG);
+                    canvas.drawBitmap(bitmapBomb, i * getWidth() / 5 + padding/3, j * getHeight() / 5 + padding/3, null);
+                } else if (GameLogic.getInstance().getModelField(i,j) == GameLogic.BOMB_ORIGIN) { // only when game over
+                    canvas.drawRect(i*getWidth()/5, j*getHeight()/5, (i+1) * getWidth()/5, (j+1) * getHeight()/5, paintTextR);
+                    canvas.drawBitmap(bitmapBomb, i * getWidth() / 5 + padding/3, j * getHeight() / 5 + padding/3, null);
                 } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.FLAG) {
-                    canvas.drawBitmap(bitmapFlag, i * getWidth() / 5, j * getHeight() / 5, null);
+                    canvas.drawBitmap(bitmapTile, i*getWidth()/5, j*getHeight()/5, null);
+                    canvas.drawBitmap(bitmapFlag, i * getWidth() / 5 + padding/3, j * getHeight() / 5 + padding/3, null);
                 }
             }
         }
@@ -180,13 +199,9 @@ public class GridView extends View {
             if(((MainActivity) getContext()).isTouchable && !((MainActivity) getContext()).gameOver) {
                 if( ((MainActivity) getContext()).getChoice() == MainActivity.EXPLORE ) { // if true, then we are exploring
 
-                    // +1 for player who is not a computer scientist thus starts their counting from 1
-                    Toast.makeText(getContext(),
-                            "Action for: " + (touchX + 1) + ", " + (touchY + 1) + " is Explore", Toast.LENGTH_SHORT).show();
-
                     if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
                         if(GameLogic.getInstance().getHiddenModelField(touchX, touchY) == GameLogic.BOMB) {
-                            GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.BOMB);
+                            GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.BOMB_ORIGIN);
                             gameOver();
                         } else {
                             GameLogic.getInstance().expandNearbyEmpty(touchX, touchY);
