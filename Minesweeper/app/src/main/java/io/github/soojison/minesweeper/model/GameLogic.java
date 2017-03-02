@@ -166,5 +166,6 @@ public class GameLogic {
     //TODO: WIN GAME -- if you've flagged all the bombs you win
     // expand doesn't expand flags
     // when you lose, the flag over bomb --> bomb with cross
+    // Make it so that you don't lose on your first turn
     //TODO: Undo Flags
 }
