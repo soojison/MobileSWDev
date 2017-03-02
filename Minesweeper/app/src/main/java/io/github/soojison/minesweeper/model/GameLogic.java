@@ -1,12 +1,6 @@
 package io.github.soojison.minesweeper.model;
 
-import android.icu.text.UnicodeSetIterator;
-import android.icu.util.TimeZone;
-
 import java.util.Random;
-
-import static android.R.attr.x;
-import static android.R.attr.y;
 
 // Singleton Model
 public class GameLogic {
@@ -69,8 +63,6 @@ public class GameLogic {
             }
         }
 
-
-
         // adding random 5 bombs
         // consider the 2D array in terms of 1D array
         // the row would be index / width, column would be index % width
@@ -85,6 +77,8 @@ public class GameLogic {
         }
 
         calculateHints();
+
+        // DEBUG PURPOSES
         printModel();
 
     }
@@ -147,6 +141,25 @@ public class GameLogic {
                 if(hiddenModel[i][j] == BOMB) {
                     model[i][j] = BOMB;
                 }
+            }
+        }
+    }
+
+    // TODO: Expand till the numbers
+    public void expandNearbyEmpty(int x, int y) {
+        if(isInBound(x, 0, 5-1) && isInBound(y, 0, 5-1)) {
+            if(hiddenModel[x][y] == EMPTY && model[x][y] == UNDISCOVERED) {
+                model[x][y] = DISCOVERED;
+                expandNearbyEmpty(x-1, y-1);
+                expandNearbyEmpty(x-1, y);
+                expandNearbyEmpty(x-1, y+1);
+                expandNearbyEmpty(x, y-1);
+                expandNearbyEmpty(x, y+1);
+                expandNearbyEmpty(x+1, y-1);
+                expandNearbyEmpty(x+1, y);
+                expandNearbyEmpty(x+1, y+1);
+            } else if(hiddenModel[x][y] != BOMB && model[x][y] == UNDISCOVERED) {
+                model[x][y] = DISCOVERED;
             }
         }
     }

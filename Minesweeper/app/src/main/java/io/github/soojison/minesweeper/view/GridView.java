@@ -190,6 +190,7 @@ public class GridView extends View {
                             GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.BOMB);
                             gameOver();
                         } else {
+                            GameLogic.getInstance().expandNearbyEmpty(touchX, touchY);
                             GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
                         }
                     }
