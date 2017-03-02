@@ -108,11 +108,11 @@ public class GridView extends View {
         bitmapFlag = Bitmap.createScaledBitmap(bitmapFlag, getWidth()/6, getHeight()/6, false);
         bitmapTile = Bitmap.createScaledBitmap(bitmapTile, getWidth()/5, getHeight()/5, false);
 
-        paintTextR.setTextSize(getWidth()/7);
-        paintTextG.setTextSize(getHeight()/7);
-        paintTextB.setTextSize(getHeight()/7);
-        paintTextDB.setTextSize(getHeight()/7);
-        paintTextDR.setTextSize(getHeight()/7);
+        paintTextR.setTextSize(getWidth()/5);
+        paintTextG.setTextSize(getHeight()/5);
+        paintTextB.setTextSize(getHeight()/5);
+        paintTextDB.setTextSize(getHeight()/5);
+        paintTextDR.setTextSize(getHeight()/5);
 
     }
 
@@ -170,7 +170,7 @@ public class GridView extends View {
                                 paintDiscoveredBG);
                     if(GameLogic.getInstance().getHiddenModelField(i,j) > 0) {
                         Pair txt = drawHints(GameLogic.getInstance().getHiddenModelField(i,j));
-                        canvas.drawText((String)txt.first, i*getWidth()/5 + padding, (j+1)*getHeight()/5 - padding, (Paint) txt.second);
+                        canvas.drawText((String)txt.first, i*getWidth()/5 + padding, (j+1)*getHeight()/5 - padding/2, (Paint) txt.second);
                     }
                 } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.BOMB) {
                     canvas.drawRect(i * getWidth() / 5, j * getHeight() / 5,
