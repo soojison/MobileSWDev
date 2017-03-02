@@ -35,7 +35,7 @@ public class GridView extends View {
     private void setPaintObjAttrs() {
         paintBG.setColor(Color.GRAY);
         paintLine.setColor(Color.DKGRAY);
-        paintLine.setStrokeWidth(3);
+        paintLine.setStrokeWidth(5);
         paintTextR.setColor(rgb(211, 47, 47));
         paintTextG.setColor(rgb(56, 142, 60));
         paintTextB.setColor(rgb(25, 118, 210));
@@ -69,7 +69,6 @@ public class GridView extends View {
         super.onDraw(canvas);
 
         canvas.drawRect(0, 0, getWidth(), getHeight(), paintBG);
-
         drawProgress(canvas);
 
         drawGrid(canvas);
@@ -206,8 +205,11 @@ public class GridView extends View {
             } else if(!((MainActivity) getContext()).gameOver) {
                 Toast.makeText(getContext(),
                         "Please choose an action", Toast.LENGTH_SHORT).show();
+            } else if(GameLogic.getInstance().gameWon()) {
+                Toast.makeText(getContext(), "u won", Toast.LENGTH_SHORT).show();
             }
         }
+
         return true;
     }
 

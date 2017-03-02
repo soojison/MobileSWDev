@@ -10,6 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:weightSum="1"
+    android:background="@color/colorAccent"
     tools:context="io.github.soojison.minesweeper.MainActivity">
 
     <ImageButton
@@ -17,7 +18,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/imgBtnReset"
         android:src="@drawable/pros"
-        android:contentDescription="@string/smiley_face"/>
+        android:contentDescription="@string/smiley_face"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15sp"/>
 
     <io.github.soojison.minesweeper.view.GridView
         android:id="@+id/gridView"

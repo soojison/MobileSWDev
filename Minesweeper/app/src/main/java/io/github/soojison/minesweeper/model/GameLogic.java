@@ -2,6 +2,8 @@ package io.github.soojison.minesweeper.model;
 
 import java.util.Random;
 
+import io.github.soojison.minesweeper.MainActivity;
+
 // Singleton Model
 public class GameLogic {
     private static GameLogic instance = null;
@@ -161,6 +163,16 @@ public class GameLogic {
                 model[x][y] = DISCOVERED;
             }
         }
+    }
+
+    public boolean gameWon() {
+        boolean won = true;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                won &= (model[i][j] == DISCOVERED || model[i][j] == FLAG);
+            }
+        }
+        return won;
     }
 
     //TODO: WIN GAME -- if you've flagged all the bombs you win

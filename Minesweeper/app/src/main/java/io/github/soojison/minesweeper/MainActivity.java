@@ -7,8 +7,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import io.github.soojison.minesweeper.model.GameLogic;
 import io.github.soojison.minesweeper.view.GridView;
 
