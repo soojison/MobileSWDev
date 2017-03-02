@@ -37,17 +37,21 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!etGuess.getText().toString().equals("")) {
-                    int myNumber = Integer.parseInt(etGuess.getText().toString());
-                    if(random == myNumber) {
-                        // pekler: is it you have won or you've won? how can I learn english if it's both?
-                        tvStatus.setText("You have won!");
-                    } else if(random < myNumber) {
-                        // pekler: is it bigger? higher?
-                        // student: both
-                        // student: you could also do larger
-                        tvStatus.setText("Your number is higher.");
-                    } else if (random > myNumber) {
-                        tvStatus.setText("Your number is lower");
+                    try { // if you put #s other than ints, the app will crash. so have a try catch block to alert the user
+                        int myNumber = Integer.parseInt(etGuess.getText().toString());
+                        if(random == myNumber) {
+                            // pekler: is it you have won or you've won? how can I learn english if it's both?
+                            tvStatus.setText("You have won!");
+                        } else if(random < myNumber) {
+                            // pekler: is it bigger? higher?
+                            // student: both
+                            // student: you could also do larger
+                            tvStatus.setText("Your number is higher.");
+                        } else if (random > myNumber) {
+                            tvStatus.setText("Your number is lower");
+                        }
+                    } catch (NumberFormatException e) {
+                        etGuess.setError("This must be an integer number!");
                     }
                 } else {
                     // how to tell the user to stop being dumb and input a number
