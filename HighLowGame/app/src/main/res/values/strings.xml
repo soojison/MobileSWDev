@@ -3,4 +3,5 @@
     <string name="start">Start</string>
     <string name="help">Help</string>
     <string name="about">About</string>
+    <string name="guess">Guess</string>
 </resources>
