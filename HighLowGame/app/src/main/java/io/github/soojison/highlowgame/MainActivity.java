@@ -21,9 +21,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // start the game activity
-                Intent intentStartGame = new Intent();
-                intentStartGame.setClass(MainActivity.this, GameActivity.class);
-                startActivity(intentStartGame);
+                startActivity(new Intent().setClass(MainActivity.this, GameActivity.class));
             }
         });
     }
