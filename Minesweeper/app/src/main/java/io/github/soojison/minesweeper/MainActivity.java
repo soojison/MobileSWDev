@@ -13,8 +13,10 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvData;
     public static final short EXPLORE = 1;
-    public static final short FLAG = 2;// explore if true, flag if false
+    public static final short FLAG = 2;
     public static short choice = 0;
+    public boolean isTouchable = false;
+    public boolean gameOver = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +41,22 @@ public class MainActivity extends AppCompatActivity {
         btnExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choice = EXPLORE;
-                setMessage("Choose a tile to explore");
+                if(!gameOver) {
+                    choice = EXPLORE;
+                    setMessage("Choose a tile to explore");
+                    isTouchable = true;
+                }
             }
         });
 
         btnFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choice = FLAG;
-                setMessage("Choose a tile to place the flag");
+                if(!gameOver) {
+                    choice = FLAG;
+                    setMessage("Choose a tile to place the flag");
+                    isTouchable = true;
+                }
             }
         });
 
@@ -61,5 +69,17 @@ public class MainActivity extends AppCompatActivity {
 
     public short getChoice() {
         return choice;
+    }
+
+    public void gameOver() {
+        isTouchable = false;
+        gameOver = true;
+        setMessage("GAME OVER");
+    }
+
+    public void reset() {
+        isTouchable = false;
+        gameOver = false;
+        choice = 0;
     }
 }
