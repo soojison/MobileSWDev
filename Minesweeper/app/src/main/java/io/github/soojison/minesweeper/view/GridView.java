@@ -76,7 +76,7 @@ public class GridView extends View {
 
         ((MainActivity) getContext()).isTouchable = false;
         if(!((MainActivity) getContext()).gameOver) {
-            ((MainActivity) getContext()).setMessage("Choose an action from below + choice: " + MainActivity.choice);
+            ((MainActivity) getContext()).setMessage("Choose an action from below");
         }
 
     }

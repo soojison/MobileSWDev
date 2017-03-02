@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import io.github.soojison.minesweeper.model.GameLogic;
 import io.github.soojison.minesweeper.view.GridView;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnReset = (Button) findViewById(R.id.btnReset);
         Button btnExplore = (Button) findViewById(R.id.btnExplore);
         Button btnFlag = (Button) findViewById(R.id.btnFlag);
+        GameLogic.getInstance().resetModel();
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override

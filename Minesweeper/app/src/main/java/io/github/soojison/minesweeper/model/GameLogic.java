@@ -145,7 +145,6 @@ public class GameLogic {
         }
     }
 
-    // TODO: Expand till the numbers
     public void expandNearbyEmpty(int x, int y) {
         if(isInBound(x, 0, 5-1) && isInBound(y, 0, 5-1)) {
             if(hiddenModel[x][y] == EMPTY && model[x][y] == UNDISCOVERED) {
@@ -163,4 +162,8 @@ public class GameLogic {
             }
         }
     }
+
+    //TODO: WIN GAME -- if you've flagged all the bombs you win
+    //TODO: Undo Flags
+    //TODO: max 5 flags
 }
