@@ -165,5 +165,4 @@ public class GameLogic {
 
     //TODO: WIN GAME -- if you've flagged all the bombs you win
     //TODO: Undo Flags
-    //TODO: max 5 flags
 }

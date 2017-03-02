@@ -12,6 +12,13 @@
     android:weightSum="1"
     tools:context="io.github.soojison.minesweeper.MainActivity">
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgBtnReset"
+        android:src="@drawable/pros"
+        android:contentDescription="@string/smiley_face"/>
+
     <io.github.soojison.minesweeper.view.GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
@@ -46,10 +53,6 @@
             android:text="@string/flag" />
     </TableRow>
 
-    <Button
-        android:id="@+id/btnReset"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/reset"/>
+
 
 </LinearLayout>

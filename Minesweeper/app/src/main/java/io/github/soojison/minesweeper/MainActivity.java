@@ -2,10 +2,12 @@ package io.github.soojison.minesweeper;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ButtonBarLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import io.github.soojison.minesweeper.model.GameLogic;
 import io.github.soojison.minesweeper.view.GridView;
@@ -27,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
         final GridView gameView = (GridView) findViewById(R.id.gridView);
         tvData = (TextView) findViewById(R.id.gridInfo);
 
-        Button btnReset = (Button) findViewById(R.id.btnReset);
+        ImageButton imgBtnReset = (ImageButton) findViewById(R.id.imgBtnReset);
         Button btnExplore = (Button) findViewById(R.id.btnExplore);
         Button btnFlag = (Button) findViewById(R.id.btnFlag);
         GameLogic.getInstance().resetModel();
 
-        btnReset.setOnClickListener(new View.OnClickListener() {
+        imgBtnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gameView.resetGame();
