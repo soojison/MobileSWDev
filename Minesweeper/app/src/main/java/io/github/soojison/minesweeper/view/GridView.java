@@ -17,6 +17,8 @@ import io.github.soojison.minesweeper.MainActivity;
 import io.github.soojison.minesweeper.R;
 import io.github.soojison.minesweeper.model.GameLogic;
 
+import static android.graphics.Color.rgb;
+
 public class GridView extends View {
 
     private Paint paintBG;
@@ -24,6 +26,8 @@ public class GridView extends View {
     private Paint paintTextR;
     private Paint paintTextG;
     private Paint paintTextB;
+    private Paint paintTextDB;
+    private Paint paintTextDR;
     private Paint paintDiscoveredBG;
     private Bitmap bitmapBomb;
     private Bitmap bitmapFlag;
@@ -32,9 +36,11 @@ public class GridView extends View {
         paintBG.setColor(Color.GRAY);
         paintLine.setColor(Color.DKGRAY);
         paintLine.setStrokeWidth(3);
-        paintTextR.setColor(Color.RED);
-        paintTextG.setColor(Color.GREEN);
-        paintTextB.setColor(Color.BLUE);
+        paintTextR.setColor(rgb(211, 47, 47));
+        paintTextG.setColor(rgb(56, 142, 60));
+        paintTextB.setColor(rgb(25, 118, 210));
+        paintTextDB.setColor(rgb(48, 63, 159));
+        paintTextDR.setColor(rgb(183, 28, 28));
         paintDiscoveredBG.setColor(Color.LTGRAY);
         paintBG.setStyle(Paint.Style.FILL);
         paintLine.setStyle(Paint.Style.STROKE);
@@ -49,6 +55,8 @@ public class GridView extends View {
         paintTextR = new Paint();
         paintTextG = new Paint();
         paintTextB = new Paint();
+        paintTextDR = new Paint();
+        paintTextDB = new Paint();
         paintDiscoveredBG = new Paint();
         bitmapBomb = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
         bitmapFlag = BitmapFactory.decodeResource(getResources(), R.drawable.flag);
@@ -92,9 +100,11 @@ public class GridView extends View {
         bitmapBomb = Bitmap.createScaledBitmap(bitmapBomb, getWidth()/5, getHeight()/5, false);
         bitmapFlag = Bitmap.createScaledBitmap(bitmapFlag, getWidth()/5, getHeight()/5, false);
 
-        paintTextR.setTextSize(getWidth()/5);
-        paintTextG.setTextSize(getHeight()/5);
-        paintTextB.setTextSize(getHeight()/5);
+        paintTextR.setTextSize(getWidth()/6);
+        paintTextG.setTextSize(getHeight()/6);
+        paintTextB.setTextSize(getHeight()/6);
+        paintTextDB.setTextSize(getHeight()/6);
+        paintTextDR.setTextSize(getHeight()/6);
 
     }
 
@@ -118,19 +128,19 @@ public class GridView extends View {
         Pair<String, Paint> ret;
         switch (hint) {
             case GameLogic.ONE:
-                ret = new Pair<>("1", paintTextR);
+                ret = new Pair<>("1", paintTextB);
                 break;
             case GameLogic.TWO:
                 ret = new Pair<>("2", paintTextG);
                 break;
             case GameLogic.THREE:
-                ret = new Pair<>("3", paintTextB);
+                ret = new Pair<>("3", paintTextR);
                 break;
             case GameLogic.FOUR:
-                ret = new Pair<>("4", paintTextR);
+                ret = new Pair<>("4", paintTextDB);
                 break;
             case GameLogic.FIVE:
-                ret = new Pair<>("5", paintTextG);
+                ret = new Pair<>("5", paintTextDR);
                 break;
             default:
                 ret = new Pair<>("wtf", paintTextB);
@@ -144,16 +154,13 @@ public class GridView extends View {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if (GameLogic.getInstance().getModelField(i, j) == GameLogic.DISCOVERED) {
-                    //if(GameLogic.getInstance().getHiddenModelField(i, j) == GameLogic.EMPTY) {
                         canvas.drawRect(i * getWidth() / 5, j * getHeight() / 5,
                                 (i + 1) * getWidth() / 5, (j + 1) * getHeight() / 5,
                                 paintDiscoveredBG);
                     if(GameLogic.getInstance().getHiddenModelField(i,j) > 0) {
                         Pair txt = drawHints(GameLogic.getInstance().getHiddenModelField(i,j));
-                        canvas.drawText((String)txt.first, (i*getWidth()/5) + padding, (j+1)*getHeight()/5 - padding, (Paint) txt.second);
+                        canvas.drawText((String)txt.first, i*getWidth()/5 + padding, (j+1)*getHeight()/5 - padding, (Paint) txt.second);
                     }
-
-                    //}
                 } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.BOMB) {
                     canvas.drawBitmap(bitmapBomb, i * getWidth() / 5, j * getHeight() / 5, null);
                 } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.FLAG) {
