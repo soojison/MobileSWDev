@@ -136,7 +136,7 @@ public class GameLogic {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 if(hiddenModel[i][j] == BOMB) {
-                    if(model[i][j] != BOMB_ORIGIN) {
+                    if(model[i][j] != BOMB_ORIGIN || model[i][j] != FLAG) {
                         model[i][j] = BOMB;
                     }
                 }
@@ -172,10 +172,5 @@ public class GameLogic {
         return won;
     }
 
-    //TODO: WIN GAME -- if you've flagged all the bombs you win
-    // expand doesn't expand flags
-    // when you lose, the flag over bomb --> bomb with cross
-    // Make it so that you don't lose on your first turn
-    // TODO: FLAG on wrong tile = game over
     //TODO: Undo Flags
 }
