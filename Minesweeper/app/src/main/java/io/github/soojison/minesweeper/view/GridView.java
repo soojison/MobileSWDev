@@ -55,7 +55,6 @@ public class GridView extends View {
 
     public GridView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        System.out.println(" - GridView");
 
         paintBG = new Paint();
         paintLine = new Paint();
@@ -76,15 +75,14 @@ public class GridView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        System.out.println("OnDraw - GridView");
-
         canvas.drawRect(0, 0, getWidth(), getHeight(), paintBG);
         drawProgress(canvas);
         drawGrid(canvas);
 
         ((MainActivity) getContext()).isTouchable = false;
         if(!((MainActivity) getContext()).gameOver) {
-            ((MainActivity) getContext()).setMessage("Choose an action from below");
+            ((MainActivity) getContext()).setMessage(R.string.choose_action);
+            // TODO: why isn't bomb origin working
         }
 
     }
@@ -160,15 +158,15 @@ public class GridView extends View {
 
     private void drawProgress(Canvas canvas) {
         int padding = getWidth()/20;
-        int tileSize = getWidth()/5; // our game will always have the condition width = height
+        int tileSize = getWidth()/GameLogic.GRID_SIZE; // our game will always have the condition width = height
 
         if(GameLogic.getInstance().gameWon()) {
             ((MainActivity) getContext()).gameWon();
         }
 
         short curModelField;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < GameLogic.GRID_SIZE; i++) {
+            for (int j = 0; j < GameLogic.GRID_SIZE; j++) {
                 curModelField = GameLogic.getInstance().getModelField(i,j);
                 if (curModelField == GameLogic.UNDISCOVERED) {
                     canvas.drawBitmap(bitmapTile, i * tileSize, j * tileSize, null);
@@ -259,8 +257,8 @@ public class GridView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            int touchX = ((int)event.getX() / (getWidth()/5));
-            int touchY = ((int)event.getY() / (getHeight()/5));
+            int touchX = ((int)event.getX() / (getWidth()/GameLogic.GRID_SIZE));
+            int touchY = ((int)event.getY() / (getHeight()/GameLogic.GRID_SIZE));
 
             if(((MainActivity) getContext()).isTouchable) {
                 performTouchableActions(touchX, touchY);

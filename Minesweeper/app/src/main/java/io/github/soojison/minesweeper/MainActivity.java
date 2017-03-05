@@ -45,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setMessage("Choose an action from below");
+        setMessage(getString(R.string.choose_action));
         btnExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!gameOver) {
                     choice = EXPLORE;
-                    setMessage("Choose a tile to explore");
+                    setMessage(getString(R.string.choose_tile_explore));
                     isTouchable = true;
                 }
             }
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!gameOver) {
                     choice = FLAG;
-                    setMessage("Choose a tile to place the flag");
+                    setMessage(getString(R.string.choose_tile_flag));
                     isTouchable = true;
                 }
             }
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     public void gameOver() {
         isTouchable = false;
         gameOver = true;
-        setMessage("GAME OVER");
+        setMessage(getString(R.string.game_over));
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.cons);
         imgBtnReset.setImageBitmap(bmp);
     }
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     public void gameWon() {
         isTouchable = false;
         gameOver = true;
-        setMessage("You've discovered all the mines!");
+        setMessage(getString(R.string.you_win));
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.win);
         imgBtnReset.setImageBitmap(bmp);
     }

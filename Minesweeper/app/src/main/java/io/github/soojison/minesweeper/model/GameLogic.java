@@ -5,6 +5,8 @@ import java.util.Random;
 
 // Singleton Model
 public class GameLogic {
+    public static final int GRID_SIZE = 5;
+    public static final int NUM_MINES = 3;
     private static GameLogic instance = null;
 
     private GameLogic() {
@@ -37,19 +39,19 @@ public class GameLogic {
             {EMPTY, EMPTY, BOMB, EMPTY, EMPTY},
             {EMPTY, BOMB, EMPTY, EMPTY, EMPTY},
             {EMPTY, EMPTY, EMPTY, EMPTY, BOMB}
-    }; // has info about bombs n shit
+    }; // internal logic -- bombs and hints
 
-    private short[][] model = { //  displays to user
+    private short[][] model = {
             {UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED},
             {UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED},
             {UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED},
             {UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED},
             {UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED}
-    };
+    }; // external -- displays to user
 
     public void printModel() {
         for (short[] a:model) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < GRID_SIZE; i++) {
                 System.out.print(a[i]);
             }
             System.out.println();
@@ -57,41 +59,13 @@ public class GameLogic {
         System.out.println(gameWon());
     }
 
-    public void resetModel() {
-        Random rand = new Random();
-        int mineCount = 0;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                hiddenModel[i][j] = EMPTY;
-                model[i][j] = UNDISCOVERED;
-            }
-        }
-
-        // adding random 3 bombs
-        // consider the 2D array in terms of 1D array
-        // the row would be index / width, column would be index % width
-        while(mineCount < 3) {
-            int bomb = rand.nextInt(25);
-            int row = bomb / 5;
-            int col = bomb % 5;
-            if(hiddenModel[row][col] != BOMB) {
-                hiddenModel[row][col] = BOMB;
-                mineCount++;
-            }
-        }
-
-        calculateHints();
-
-    }
-
     private boolean isInBound(int val, int min, int max) {
         return Math.min(Math.max(val, min), max) == val;
     }
 
-
-    public void calculateHints() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+    private void calculateHints() {
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
                 if(hiddenModel[i][j] != BOMB) {
                     hiddenModel[i][j] = minesNear(i,j);
                 }
@@ -113,12 +87,38 @@ public class GameLogic {
     }
 
     private short mineAt(int x, int y) {
-        if(isInBound(x, 0, 5-1) && isInBound(y, 0, 5-1)) {
+        if(isInBound(x, 0, GRID_SIZE-1) && isInBound(y, 0, GRID_SIZE-1)) {
             if(hiddenModel[x][y] == BOMB) return 1;
         }
         return 0;
     }
 
+    private void generateBombs() {
+        Random rand = new Random();
+        int mineCount = 0;
+        // add 3 bombs randomly by considering the 2D array in terms of 1D array
+        // the row would be index / width, column would be index % width
+        while(mineCount < NUM_MINES) {
+            int bomb = rand.nextInt(GRID_SIZE*GRID_SIZE);
+            int row = bomb / GRID_SIZE;
+            int col = bomb % GRID_SIZE;
+            if(hiddenModel[row][col] != BOMB) {
+                hiddenModel[row][col] = BOMB;
+                mineCount++;
+            }
+        }
+    }
+
+    public void resetModel() {
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                hiddenModel[i][j] = EMPTY;
+                model[i][j] = UNDISCOVERED;
+            }
+        }
+        generateBombs();
+        calculateHints();
+    }
 
     public short getModelField(int x, int y) {
         return model[x][y];
@@ -132,9 +132,12 @@ public class GameLogic {
         return hiddenModel[x][y];
     }
 
+    /**
+     * Reveals all the unflagged bombs
+     */
     public void gameOver() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
                 if(hiddenModel[i][j] == BOMB) {
                     if(model[i][j] != BOMB_ORIGIN || model[i][j] != FLAG) {
                         model[i][j] = BOMB;
@@ -145,7 +148,7 @@ public class GameLogic {
     }
 
     public void expandNearbyEmpty(int x, int y) {
-        if(isInBound(x, 0, 5-1) && isInBound(y, 0, 5-1)) {
+        if(isInBound(x, 0, GRID_SIZE-1) && isInBound(y, 0, GRID_SIZE-1)) {
             if(hiddenModel[x][y] == EMPTY && model[x][y] == UNDISCOVERED) {
                 model[x][y] = DISCOVERED;
                 expandNearbyEmpty(x-1, y-1);
@@ -164,13 +167,14 @@ public class GameLogic {
 
     public boolean gameWon() {
         boolean won = true;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
                 won &= (model[i][j] == DISCOVERED || model[i][j] == FLAG);
             }
         }
         return won;
     }
 
-    //TODO: Undo Flags
+
+    // TODO: STRING EXTRACTIONS
 }
