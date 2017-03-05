@@ -20,6 +20,8 @@
         android:src="@drawable/pros"
         android:contentDescription="@string/smiley_face"
         android:layout_gravity="center"
+        android:background="@drawable/button_background_selector"
+        android:padding="5sp"
         android:layout_marginBottom="15sp"/>
 
     <io.github.soojison.minesweeper.view.GridView
