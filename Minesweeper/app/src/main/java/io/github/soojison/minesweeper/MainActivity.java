@@ -1,5 +1,7 @@
 package io.github.soojison.minesweeper;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,7 @@ import io.github.soojison.minesweeper.view.GridView;
 public class MainActivity extends AppCompatActivity {
 
     private TextView tvData;
+    private ImageButton imgBtnReset;
     public static final short EXPLORE = 1;
     public static final short FLAG = 2;
     public static short choice = 0;
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvData = (TextView) findViewById(R.id.gridInfo);
 
-        ImageButton imgBtnReset = (ImageButton) findViewById(R.id.imgBtnReset);
+        imgBtnReset = (ImageButton) findViewById(R.id.imgBtnReset);
         Button btnExplore = (Button) findViewById(R.id.btnExplore);
         Button btnFlag = (Button) findViewById(R.id.btnFlag);
         GameLogic.getInstance().resetModel();
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         tvData.setText(text);
     }
 
+
     public short getChoice() {
         return choice;
     }
@@ -80,11 +84,23 @@ public class MainActivity extends AppCompatActivity {
         isTouchable = false;
         gameOver = true;
         setMessage("GAME OVER");
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.cons);
+        imgBtnReset.setImageBitmap(bmp);
+    }
+
+    public void gameWon() {
+        isTouchable = false;
+        gameOver = true;
+        setMessage("You've discovered all the mines!");
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.win);
+        imgBtnReset.setImageBitmap(bmp);
     }
 
     public void reset() {
         isTouchable = false;
         gameOver = false;
         choice = 0;
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pros);
+        imgBtnReset.setImageBitmap(bmp);
     }
 }

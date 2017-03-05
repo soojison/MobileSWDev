@@ -161,10 +161,11 @@ public class GridView extends View {
     private void drawProgress(Canvas canvas) {
         int padding = getWidth()/20;
         int tileSize = getWidth()/5; // our game will always have the condition width = height
-        GameLogic.getInstance().printModel();
+
         if(GameLogic.getInstance().gameWon()) {
-            Toast.makeText(getContext(), "u won", Toast.LENGTH_SHORT).show();
+            ((MainActivity) getContext()).gameWon();
         }
+
         short curModelField;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -189,7 +190,8 @@ public class GridView extends View {
                     canvas.drawBitmap(bitmapBomb,
                                       i * tileSize + padding/3, j * tileSize + padding/3,
                                       null);
-                } else if (GameLogic.getInstance().getModelField(i,j) == GameLogic.BOMB_ORIGIN) { // only when game over
+                } else if (GameLogic.getInstance().getModelField(i,j) == GameLogic.BOMB_ORIGIN) {
+                    // game over scenario -- the bomb the user has detonated turns red
                     canvas.drawRect(i * tileSize, j * tileSize,
                                     (i+1) * tileSize, (j+1) * tileSize,
                                     paintTextR);
@@ -204,6 +206,56 @@ public class GridView extends View {
         }
     }
 
+    /**
+     * Performs actions related to exploring a field
+     *  if the field is a bomb, we set the field to the bomb
+     *  if the field is not a bomb, we expand the area
+     * @param touchX x coordinate of the touch
+     * @param touchY y coordinate of the touch
+     */
+    public void performExploreActions(int touchX, int touchY) {
+        if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
+            if(GameLogic.getInstance().getHiddenModelField(touchX, touchY) == GameLogic.BOMB) {
+                GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.BOMB_ORIGIN);
+                gameOver();
+            } else {
+                GameLogic.getInstance().expandNearbyEmpty(touchX, touchY);
+                GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
+            }
+        }
+    }
+
+    /**
+     * Performs actions related to placing a flag
+     *  if the field is a bomb, we place the flag
+     *  if the field is not a bomb, the game ends
+     * @param touchX x coordinate of the touch
+     * @param touchY y coordinate of the touch
+     */
+    public void performFlagActions(int touchX, int touchY) {
+        if (GameLogic.getInstance().getHiddenModelField(touchX, touchY) != GameLogic.BOMB) {
+            gameOver(); // if not bomb and placed flag, game over
+        }
+        if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
+            GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.FLAG);
+        }
+    }
+
+    /**
+     * decides whether we should place a flag or explore the area
+     * @param touchX x coordinate of the touch
+     * @param touchY y coordinate of the touch
+     */
+    public void performTouchableActions(int touchX, int touchY) {
+        if( ((MainActivity) getContext()).getChoice() == MainActivity.EXPLORE ) { // if true, then we are exploring
+            performExploreActions(touchX, touchY);
+        } else if ( ((MainActivity) getContext()).getChoice() == MainActivity.FLAG ){ // then we are placing the flag
+            performFlagActions(touchX, touchY);
+        }
+        invalidate();
+        MainActivity.choice = 0; // reset choice
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -211,33 +263,12 @@ public class GridView extends View {
             int touchY = ((int)event.getY() / (getHeight()/5));
 
             if(((MainActivity) getContext()).isTouchable) {
-                if( ((MainActivity) getContext()).getChoice() == MainActivity.EXPLORE ) { // if true, then we are exploring
-
-                    if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
-                        if(GameLogic.getInstance().getHiddenModelField(touchX, touchY) == GameLogic.BOMB) {
-                            GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.BOMB_ORIGIN);
-                            gameOver();
-                        } else {
-                            GameLogic.getInstance().expandNearbyEmpty(touchX, touchY);
-                            GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
-                        }
-                    }
-                } else if ( ((MainActivity) getContext()).getChoice() == MainActivity.FLAG ){ // then we are placing the flag
-                    if (GameLogic.getInstance().getHiddenModelField(touchX, touchY) != GameLogic.BOMB) {
-                        gameOver();
-                    }
-                    if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
-                        GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.FLAG);
-                    }
-                }
-                invalidate();
-                MainActivity.choice = 0; // reset choice
-            } else if(!((MainActivity) getContext()).gameOver) {
+                performTouchableActions(touchX, touchY);
+            } else if(!((MainActivity) getContext()).gameOver) { // untouchable bc no choice has been made
                 Toast.makeText(getContext(),
-                        "Please choose an action", Toast.LENGTH_SHORT).show();
+                        "Please choose an action from below", Toast.LENGTH_SHORT).show();
             }
         }
-
         return true;
     }
 

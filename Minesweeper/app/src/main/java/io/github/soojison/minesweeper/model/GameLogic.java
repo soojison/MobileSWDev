@@ -67,10 +67,10 @@ public class GameLogic {
             }
         }
 
-        // adding random 5 bombs
+        // adding random 3 bombs
         // consider the 2D array in terms of 1D array
         // the row would be index / width, column would be index % width
-        while(mineCount < 5) {
+        while(mineCount < 3) {
             int bomb = rand.nextInt(25);
             int row = bomb / 5;
             int col = bomb % 5;
