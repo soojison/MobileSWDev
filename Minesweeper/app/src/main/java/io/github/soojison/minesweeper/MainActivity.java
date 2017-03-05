@@ -24,7 +24,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         final GridView gameView = (GridView) findViewById(R.id.gridView);
+
+
         tvData = (TextView) findViewById(R.id.gridInfo);
 
         ImageButton imgBtnReset = (ImageButton) findViewById(R.id.imgBtnReset);

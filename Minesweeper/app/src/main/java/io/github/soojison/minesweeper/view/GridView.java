@@ -1,6 +1,5 @@
 package io.github.soojison.minesweeper.view;
 
-import android.Manifest;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -56,6 +55,7 @@ public class GridView extends View {
 
     public GridView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        System.out.println(" - GridView");
 
         paintBG = new Paint();
         paintLine = new Paint();
@@ -76,9 +76,10 @@ public class GridView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        System.out.println("OnDraw - GridView");
+
         canvas.drawRect(0, 0, getWidth(), getHeight(), paintBG);
         drawProgress(canvas);
-
         drawGrid(canvas);
 
         ((MainActivity) getContext()).isTouchable = false;
@@ -132,7 +133,7 @@ public class GridView extends View {
         }
     }
 
-    private Pair<String, Paint> drawHints(short hint) {
+    private Pair<String, Paint> getHintAttrs(short hint) {
         Pair<String, Paint> ret;
         switch (hint) {
             case GameLogic.ONE:
@@ -159,34 +160,48 @@ public class GridView extends View {
 
     private void drawProgress(Canvas canvas) {
         int padding = getWidth()/20;
+        int tileSize = getWidth()/5; // our game will always have the condition width = height
+        GameLogic.getInstance().printModel();
+        if(GameLogic.getInstance().gameWon()) {
+            Toast.makeText(getContext(), "u won", Toast.LENGTH_SHORT).show();
+        }
+        short curModelField;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                if(GameLogic.getInstance().getModelField(i,j) == GameLogic.UNDISCOVERED) {
-                    canvas.drawBitmap(bitmapTile, i*getWidth()/5, j*getHeight()/5, null);
-                }
-                if (GameLogic.getInstance().getModelField(i, j) == GameLogic.DISCOVERED) {
-                        canvas.drawRect(i * getWidth() / 5, j * getHeight() / 5,
-                                (i + 1) * getWidth() / 5, (j + 1) * getHeight() / 5,
-                                paintDiscoveredBG);
-                    if(GameLogic.getInstance().getHiddenModelField(i,j) > 0) {
-                        Pair txt = drawHints(GameLogic.getInstance().getHiddenModelField(i,j));
-                        canvas.drawText((String)txt.first, i*getWidth()/5 + padding, (j+1)*getHeight()/5 - padding/2, (Paint) txt.second);
+                curModelField = GameLogic.getInstance().getModelField(i,j);
+                if (curModelField == GameLogic.UNDISCOVERED) {
+                    canvas.drawBitmap(bitmapTile, i * tileSize, j * tileSize, null);
+                } else if (curModelField == GameLogic.DISCOVERED) {
+                    canvas.drawRect(i * tileSize, j * tileSize,
+                                    (i + 1) * tileSize, (j + 1) * tileSize,
+                                    paintDiscoveredBG);
+                    // the discovered tile is anything but empty (i.e. hints)
+                    if(GameLogic.getInstance().getHiddenModelField(i,j) > GameLogic.EMPTY) {
+                        Pair txt = getHintAttrs(GameLogic.getInstance().getHiddenModelField(i,j));
+                        canvas.drawText((String)txt.first,
+                                        i * tileSize + padding, (j+1) * tileSize - padding/2,
+                                        (Paint) txt.second);
                     }
-                } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.BOMB) {
-                    canvas.drawRect(i * getWidth() / 5, j * getHeight() / 5,
-                            (i + 1) * getWidth() / 5, (j + 1) * getHeight() / 5,
-                            paintDiscoveredBG);
-                    canvas.drawBitmap(bitmapBomb, i * getWidth() / 5 + padding/3, j * getHeight() / 5 + padding/3, null);
+                } else if (curModelField == GameLogic.BOMB) {
+                    canvas.drawRect(i * tileSize, j * tileSize,
+                                    (i + 1) * tileSize, (j + 1) * tileSize,
+                                    paintDiscoveredBG);
+                    canvas.drawBitmap(bitmapBomb,
+                                      i * tileSize + padding/3, j * tileSize + padding/3,
+                                      null);
                 } else if (GameLogic.getInstance().getModelField(i,j) == GameLogic.BOMB_ORIGIN) { // only when game over
-                    canvas.drawRect(i*getWidth()/5, j*getHeight()/5, (i+1) * getWidth()/5, (j+1) * getHeight()/5, paintTextR);
-                    canvas.drawBitmap(bitmapBomb, i * getWidth() / 5 + padding/3, j * getHeight() / 5 + padding/3, null);
+                    canvas.drawRect(i * tileSize, j * tileSize,
+                                    (i+1) * tileSize, (j+1) * tileSize,
+                                    paintTextR);
+                    canvas.drawBitmap(bitmapBomb,
+                                      i * tileSize + padding/3, j * tileSize + padding/3,
+                                      null);
                 } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.FLAG) {
-                    canvas.drawBitmap(bitmapTile, i*getWidth()/5, j*getHeight()/5, null);
-                    canvas.drawBitmap(bitmapFlag, i * getWidth() / 5 + padding/3, j * getHeight() / 5 + padding/3, null);
+                    canvas.drawBitmap(bitmapTile, i * tileSize, j * tileSize, null);
+                    canvas.drawBitmap(bitmapFlag, i * tileSize + padding/3, j * tileSize + padding/3, null);
                 }
             }
         }
-
     }
 
     @Override
@@ -195,8 +210,7 @@ public class GridView extends View {
             int touchX = ((int)event.getX() / (getWidth()/5));
             int touchY = ((int)event.getY() / (getHeight()/5));
 
-
-            if(((MainActivity) getContext()).isTouchable && !((MainActivity) getContext()).gameOver) {
+            if(((MainActivity) getContext()).isTouchable) {
                 if( ((MainActivity) getContext()).getChoice() == MainActivity.EXPLORE ) { // if true, then we are exploring
 
                     if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
@@ -208,20 +222,19 @@ public class GridView extends View {
                             GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
                         }
                     }
-                } else if ( ((MainActivity) getContext()).getChoice() != MainActivity.EXPLORE ){ // then we are placing the flag
+                } else if ( ((MainActivity) getContext()).getChoice() == MainActivity.FLAG ){ // then we are placing the flag
+                    if (GameLogic.getInstance().getHiddenModelField(touchX, touchY) != GameLogic.BOMB) {
+                        gameOver();
+                    }
                     if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
                         GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.FLAG);
                     }
-                } else {
-                    Toast.makeText(getContext(), "pls action pls", Toast.LENGTH_SHORT).show();
                 }
                 invalidate();
                 MainActivity.choice = 0; // reset choice
             } else if(!((MainActivity) getContext()).gameOver) {
                 Toast.makeText(getContext(),
                         "Please choose an action", Toast.LENGTH_SHORT).show();
-            } else if(GameLogic.getInstance().gameWon()) {
-                Toast.makeText(getContext(), "u won", Toast.LENGTH_SHORT).show();
             }
         }
 

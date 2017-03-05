@@ -2,7 +2,6 @@ package io.github.soojison.minesweeper.model;
 
 import java.util.Random;
 
-import io.github.soojison.minesweeper.MainActivity;
 
 // Singleton Model
 public class GameLogic {
@@ -47,6 +46,16 @@ public class GameLogic {
             {UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED},
             {UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED, UNDISCOVERED}
     };
+
+    public void printModel() {
+        for (short[] a:model) {
+            for (int i = 0; i < 5; i++) {
+                System.out.print(a[i]);
+            }
+            System.out.println();
+        }
+        System.out.println(gameWon());
+    }
 
     public void resetModel() {
         Random rand = new Random();
@@ -167,5 +176,6 @@ public class GameLogic {
     // expand doesn't expand flags
     // when you lose, the flag over bomb --> bomb with cross
     // Make it so that you don't lose on your first turn
+    // TODO: FLAG on wrong tile = game over
     //TODO: Undo Flags
 }
