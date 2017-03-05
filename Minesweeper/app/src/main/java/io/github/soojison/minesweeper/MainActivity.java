@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import io.github.soojison.minesweeper.model.GameLogic;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public static short choice = 0;
     public boolean isTouchable = false;
     public boolean gameOver = false;
+    public LinearLayout layoutRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         imgBtnReset = (ImageButton) findViewById(R.id.imgBtnReset);
         Button btnExplore = (Button) findViewById(R.id.btnExplore);
         Button btnFlag = (Button) findViewById(R.id.btnFlag);
+        layoutRoot = (LinearLayout) findViewById(R.id.activity_main);
+
         GameLogic.getInstance().resetModel();
 
         imgBtnReset.setOnClickListener(new View.OnClickListener() {

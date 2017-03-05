@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.MotionEvent;
@@ -81,7 +82,7 @@ public class GridView extends View {
 
         ((MainActivity) getContext()).isTouchable = false;
         if(!((MainActivity) getContext()).gameOver) {
-            ((MainActivity) getContext()).setMessage(R.string.choose_action);
+            ((MainActivity) getContext()).setMessage(getResources().getString(R.string.choose_action));
             // TODO: why isn't bomb origin working
         }
 
@@ -160,6 +161,7 @@ public class GridView extends View {
         int padding = getWidth()/20;
         int tileSize = getWidth()/GameLogic.GRID_SIZE; // our game will always have the condition width = height
 
+        GameLogic.getInstance().printModel();
         if(GameLogic.getInstance().gameWon()) {
             ((MainActivity) getContext()).gameWon();
         }
@@ -181,18 +183,18 @@ public class GridView extends View {
                                         i * tileSize + padding, (j+1) * tileSize - padding/2,
                                         (Paint) txt.second);
                     }
+                } else if (GameLogic.getInstance().getModelField(i,j) == GameLogic.BOMB_ORIGIN) {
+                    // game over scenario -- the bomb the user has detonated turns red
+                    canvas.drawRect(i * tileSize, j * tileSize,
+                            (i+1) * tileSize, (j+1) * tileSize,
+                            paintTextR);
+                    canvas.drawBitmap(bitmapBomb,
+                            i * tileSize + padding/3, j * tileSize + padding/3,
+                            null);
                 } else if (curModelField == GameLogic.BOMB) {
                     canvas.drawRect(i * tileSize, j * tileSize,
                                     (i + 1) * tileSize, (j + 1) * tileSize,
                                     paintDiscoveredBG);
-                    canvas.drawBitmap(bitmapBomb,
-                                      i * tileSize + padding/3, j * tileSize + padding/3,
-                                      null);
-                } else if (GameLogic.getInstance().getModelField(i,j) == GameLogic.BOMB_ORIGIN) {
-                    // game over scenario -- the bomb the user has detonated turns red
-                    canvas.drawRect(i * tileSize, j * tileSize,
-                                    (i+1) * tileSize, (j+1) * tileSize,
-                                    paintTextR);
                     canvas.drawBitmap(bitmapBomb,
                                       i * tileSize + padding/3, j * tileSize + padding/3,
                                       null);
@@ -263,8 +265,7 @@ public class GridView extends View {
             if(((MainActivity) getContext()).isTouchable) {
                 performTouchableActions(touchX, touchY);
             } else if(!((MainActivity) getContext()).gameOver) { // untouchable bc no choice has been made
-                Toast.makeText(getContext(),
-                        "Please choose an action from below", Toast.LENGTH_SHORT).show();
+                Snackbar.make(((MainActivity) getContext()).layoutRoot, R.string.choose_action, Snackbar.LENGTH_SHORT).show();
             }
         }
         return true;
