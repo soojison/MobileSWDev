@@ -162,9 +162,7 @@ public class GridView extends View {
         int tileSize = getWidth()/GameLogic.GRID_SIZE; // our game will always have the condition width = height
 
         GameLogic.getInstance().printModel();
-        if(GameLogic.getInstance().gameWon()) {
-            ((MainActivity) getContext()).gameWon();
-        }
+
 
         short curModelField;
         for (int i = 0; i < GameLogic.GRID_SIZE; i++) {
@@ -201,6 +199,9 @@ public class GridView extends View {
                 } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.FLAG) {
                     canvas.drawBitmap(bitmapTile, i * tileSize, j * tileSize, null);
                     canvas.drawBitmap(bitmapFlag, i * tileSize + padding/3, j * tileSize + padding/3, null);
+                }
+                if(GameLogic.getInstance().gameWon()) {
+                    ((MainActivity) getContext()).gameWon();
                 }
             }
         }

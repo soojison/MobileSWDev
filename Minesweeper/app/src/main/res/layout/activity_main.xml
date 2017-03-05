@@ -49,6 +49,8 @@
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:background="@drawable/big_tile_background_selector"
+            android:layout_marginRight="10sp"
+            android:layout_marginLeft="10sp"
             android:text="@string/explore" />
 
         <Button
@@ -57,6 +59,8 @@
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:background="@drawable/big_tile_background_selector"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
             android:text="@string/flag" />
     </TableRow>
 
