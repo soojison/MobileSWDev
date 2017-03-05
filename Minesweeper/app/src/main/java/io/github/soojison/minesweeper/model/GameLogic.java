@@ -2,7 +2,6 @@ package io.github.soojison.minesweeper.model;
 
 import java.util.Random;
 
-
 // Singleton Model
 public class GameLogic {
     public static final int GRID_SIZE = 5;

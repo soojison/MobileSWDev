@@ -11,8 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Toast;
+import android.view.View;g
 
 import io.github.soojison.minesweeper.MainActivity;
 import io.github.soojison.minesweeper.R;
