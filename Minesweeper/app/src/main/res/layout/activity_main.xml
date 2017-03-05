@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:background="@color/colorAccent"
+    tools:context="io.github.soojison.minesweeper.MainActivity">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgBtnReset"
+        android:src="@drawable/pros"
+        android:contentDescription="@string/smiley_face"
+        android:layout_gravity="center"
+        android:background="@drawable/small_tile_background_selector"
+        android:padding="10sp"
+        android:layout_marginBottom="15sp"/>
+
+    <io.github.soojison.minesweeper.view.GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/gridInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:padding="@dimen/activity_vertical_margin"
+        android:text="@string/touch_a_tile_to_start"/>
+
+    <TableRow
+        android:id="@+id/tableRowForButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp">
+        <Button
+            android:id="@+id/btnExplore"
+            android:layout_width="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:background="@drawable/big_tile_background_selector"
+            android:layout_marginRight="10sp"
+            android:layout_marginLeft="10sp"
+            android:text="@string/explore" />
+
+        <Button
+            android:id="@+id/btnFlag"
+            android:layout_width="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:background="@drawable/big_tile_background_selector"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:text="@string/flag" />
+    </TableRow>
+
+
+
+</LinearLayout>
