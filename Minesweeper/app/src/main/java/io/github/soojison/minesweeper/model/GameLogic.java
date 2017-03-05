@@ -138,8 +138,8 @@ public class GameLogic {
     public void gameOver() {
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
-                if(hiddenModel[i][j] == BOMB) {
-                    if(model[i][j] != BOMB_ORIGIN || model[i][j] != FLAG) {
+                if(model[i][j] != FLAG) {
+                    if (hiddenModel[i][j] == BOMB && model[i][j] != BOMB_ORIGIN) {
                         model[i][j] = BOMB;
                     }
                 }
