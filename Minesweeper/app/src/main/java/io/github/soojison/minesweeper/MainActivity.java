@@ -2,13 +2,18 @@ package io.github.soojison.minesweeper;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.concurrent.TimeUnit;
 
 import io.github.soojison.minesweeper.model.GameLogic;
 import io.github.soojison.minesweeper.view.GridView;
@@ -23,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean isTouchable = false;
     public boolean gameOver = false;
     public LinearLayout layoutRoot;
+    private Chronometer chronos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         tvData = (TextView) findViewById(R.id.gridInfo);
+        chronos = new Chronometer(this);
 
         imgBtnReset = (ImageButton) findViewById(R.id.imgBtnReset);
         Button btnExplore = (Button) findViewById(R.id.btnExplore);
@@ -87,24 +94,34 @@ public class MainActivity extends AppCompatActivity {
     public void gameOver() {
         isTouchable = false;
         gameOver = true;
+        chronos.stop();
         setMessage(getString(R.string.game_over));
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.cons);
         imgBtnReset.setImageBitmap(bmp);
+
     }
 
     public void gameWon() {
         isTouchable = false;
         gameOver = true;
-        setMessage(getString(R.string.you_win));
+        chronos.stop();
+        long millis = SystemClock.elapsedRealtime() - chronos.getBase();
+        double secs = TimeUnit.MILLISECONDS.toSeconds(millis);
+        setMessage(getString(R.string.you_win, secs));
+        tvData.setTextColor(Color.RED);
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.win);
         imgBtnReset.setImageBitmap(bmp);
+
     }
 
     public void reset() {
         isTouchable = false;
         gameOver = false;
         choice = 0;
+        tvData.setTextColor(Color.BLACK);
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pros);
         imgBtnReset.setImageBitmap(bmp);
+        chronos.setBase(SystemClock.elapsedRealtime());
+        chronos.start();
     }
 }
