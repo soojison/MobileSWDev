@@ -48,7 +48,7 @@ public class GridView extends View {
         paintTextB.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         paintTextDB.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         paintTextDR.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        paintDiscoveredBG.setColor(Color.LTGRAY);
+        paintDiscoveredBG.setColor(rgb(189,189,189));
         paintBG.setStyle(Paint.Style.FILL);
         paintLine.setStyle(Paint.Style.STROKE);
         paintDiscoveredBG.setStyle(Paint.Style.FILL);
