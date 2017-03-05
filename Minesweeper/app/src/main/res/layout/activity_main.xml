@@ -20,7 +20,7 @@
         android:src="@drawable/pros"
         android:contentDescription="@string/smiley_face"
         android:layout_gravity="center"
-        android:background="@drawable/button_background_selector"
+        android:background="@drawable/small_tile_background_selector"
         android:padding="5sp"
         android:layout_marginBottom="15sp"/>
 
@@ -48,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
+            android:background="@drawable/big_tile_background_selector"
             android:text="@string/explore" />
 
         <Button
@@ -55,6 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
+            android:background="@drawable/big_tile_background_selector"
             android:text="@string/flag" />
     </TableRow>
 
