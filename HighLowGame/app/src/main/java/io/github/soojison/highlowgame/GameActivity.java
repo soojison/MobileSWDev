@@ -1,5 +1,6 @@
 package io.github.soojison.highlowgame;
 
+import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +43,9 @@ public class GameActivity extends AppCompatActivity {
                         if(random == myNumber) {
                             // pekler: is it you have won or you've won? how can I learn english if it's both?
                             tvStatus.setText("You have won!");
+
+                            startActivity(new Intent(GameActivity.this, ResultActivity.class));
+
                         } else if(random < myNumber) {
                             // pekler: is it bigger? higher?
                             // student: both
