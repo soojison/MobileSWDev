@@ -3,9 +3,15 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#900C3F</item>
+        <item name="colorPrimaryDark">#581845</item>
+        <item name="colorAccent">#FFC300</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="textColorPrimary">#ff0000</item>
+        <item name="textColorSecondary">#ffff00</item>
+        <item name="actionMenuTextColor">#ffffff</item>
     </style>
 
 </resources>
