@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setMessage(getString(R.string.choose_action));
+        setMessage(getString(R.string.choose_action_below));
         btnExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

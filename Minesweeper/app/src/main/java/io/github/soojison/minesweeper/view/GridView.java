@@ -81,7 +81,7 @@ public class GridView extends View {
 
         ((MainActivity) getContext()).isTouchable = false;
         if(!((MainActivity) getContext()).gameOver) {
-            ((MainActivity) getContext()).setMessage(getResources().getString(R.string.choose_action));
+            ((MainActivity) getContext()).setMessage(getResources().getString(R.string.choose_action_below));
             // TODO: why isn't bomb origin working
         }
 
@@ -265,7 +265,7 @@ public class GridView extends View {
             if(((MainActivity) getContext()).isTouchable) {
                 performTouchableActions(touchX, touchY);
             } else if(!((MainActivity) getContext()).gameOver) { // untouchable bc no choice has been made
-                Snackbar.make(((MainActivity) getContext()).layoutRoot, R.string.choose_action, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(((MainActivity) getContext()).layoutRoot, R.string.choose_action_above, Snackbar.LENGTH_SHORT).show();
             }
         }
         return true;

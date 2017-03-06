@@ -5,9 +5,10 @@
     <string name="reset">RESET</string>
     <string name="touch_a_tile_to_start">Touch a tile to start</string>
     <string name="smiley_face">Smiley Face</string>
-    <string name="choose_action">Choose an action from below</string>
+    <string name="choose_action_below">Choose an action from below</string>
+    <string name="choose_action_above">Choose an action from above</string>
     <string name="choose_tile_explore">Choose a tile to explore</string>
     <string name="choose_tile_flag">Choose a tile to place the flag</string>
     <string name="game_over">GAME OVER</string>
-    <string name="you_win">You\'ve cleared the mine in %1$.2f seconds!</string>
+    <string name="you_win">You\'ve cleared the mine in %1$f seconds!</string>
 </resources>
