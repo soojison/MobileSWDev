@@ -166,6 +166,7 @@ public class GameLogic {
 
     public boolean gameWon() {
         boolean won = true;
+
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 won &= (model[i][j] == DISCOVERED || model[i][j] == FLAG);

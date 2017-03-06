@@ -150,7 +150,7 @@ public class GridView extends View {
                 ret = new Pair<>("5", paintTextDR);
                 break;
             default:
-                ret = new Pair<>("wtf", paintTextB);
+                ret = new Pair<>("wtf", paintTextB); // TODO: GET RID OF THIS
                 break;
         }
         return ret;
