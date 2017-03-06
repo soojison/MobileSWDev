@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvData;
     private ImageButton imgBtnReset;
+    public static short choice = 0;
     public static final short EXPLORE = 1;
     public static final short FLAG = 2;
-    public static short choice = 0;
     public boolean isTouchable = false;
     public boolean gameOver = false;
     public LinearLayout layoutRoot;
@@ -35,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         final GridView gameView = (GridView) findViewById(R.id.gridView);
-
 
         tvData = (TextView) findViewById(R.id.gridInfo);
         chronos = new Chronometer(this);

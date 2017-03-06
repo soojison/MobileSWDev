@@ -33,7 +33,6 @@ public class GridView extends View {
     private Bitmap bitmapBomb;
     private Bitmap bitmapFlag;
     private Bitmap bitmapTile;
-    private int padding;
 
     private void setPaintObjAttrs() {
         paintBG.setColor(Color.GRAY);
@@ -100,7 +99,6 @@ public class GridView extends View {
                         screenWidth : screenWidth < screenHeight?
                         screenWidth : screenHeight;
         setMeasuredDimension(smallerValue, smallerValue);
-        padding = getWidth()/20;
     }
 
     @Override
@@ -160,38 +158,42 @@ public class GridView extends View {
         return ret;
     }
 
-    public void drawUndiscoveredTile(Canvas canvas, int i, int j, int tileSize) {
+    private void drawUndiscoveredTile(Canvas canvas, int i, int j, int tileSize) {
         canvas.drawBitmap(bitmapTile, i * tileSize, j * tileSize, null);
     }
 
-    public void drawFlagTile(Canvas canvas, int i, int j, int tileSize) {
+    private void drawFlagTile(Canvas canvas, int i, int j, int tileSize) {
+        int padding = getWidth()/60;
         drawUndiscoveredTile(canvas, i, j, tileSize);
-        canvas.drawBitmap(bitmapFlag, i * tileSize + padding/3, j * tileSize + padding/3, null);
+        canvas.drawBitmap(bitmapFlag, i * tileSize + padding, j * tileSize + padding, null);
     }
 
-    public void drawDiscoveredTile(Canvas canvas, int i, int j, int tileSize) {
+    private void drawDiscoveredTile(Canvas canvas, int i, int j, int tileSize) {
         canvas.drawRect(i* tileSize, j* tileSize,
                 (i+1) * tileSize, (j+1) * tileSize,
                 paintDiscoveredBG);
     }
 
-    public void drawHints(Canvas canvas, int i, int j, int tileSize) {
+    private void drawHints(Canvas canvas, int i, int j, int tileSize) {
+        int padding = getWidth()/20;
         Pair txt = getHintAttrs(GameLogic.getInstance().getFieldAt(i, j).getBombsNearBy());
         canvas.drawText((String) txt.first, i * tileSize + padding,
                 (j+1) * tileSize - padding/2, (Paint) txt.second);
     }
 
-    public void drawBomb(Canvas canvas, int i, int j, int tileSize) {
+    private void drawBomb(Canvas canvas, int i, int j, int tileSize) {
+        int padding = getWidth()/60;
         drawDiscoveredTile(canvas, i, j, tileSize);
-        canvas.drawBitmap(bitmapBomb, i * tileSize + padding/3,
-                j * tileSize + padding/3, null);
+        canvas.drawBitmap(bitmapBomb, i * tileSize + padding,
+                j * tileSize + padding, null);
     }
 
-    public void drawBombOrigin(Canvas canvas, int i, int j, int tileSize) {
+    private void drawBombOrigin(Canvas canvas, int i, int j, int tileSize) {
+        int padding = getWidth()/60;
         canvas.drawRect(i * tileSize, j * tileSize,
                 (i+1) * tileSize, (j+1) * tileSize, paintTextR);
-        canvas.drawBitmap(bitmapBomb, i * tileSize + padding/3,
-                j * tileSize + padding/3, null);
+        canvas.drawBitmap(bitmapBomb, i * tileSize + padding,
+                j * tileSize + padding, null);
     }
 
     private void drawProgress(Canvas canvas) {
@@ -248,7 +250,7 @@ public class GridView extends View {
      * @param touchX x coordinate of the touch
      * @param touchY y coordinate of the touch
      */
-    public void performExploreActions(int touchX, int touchY) {
+    private void performExploreActions(int touchX, int touchY) {
         Field curField = GameLogic.getInstance().getFieldAt(touchX, touchY);
         if(!curField.isDiscovered()) {
             if(curField.isBomb()) {
@@ -268,7 +270,7 @@ public class GridView extends View {
      * @param touchX x coordinate of the touch
      * @param touchY y coordinate of the touch
      */
-    public void performFlagActions(int touchX, int touchY) {
+    private void performFlagActions(int touchX, int touchY) {
         Field curField = GameLogic.getInstance().getFieldAt(touchX, touchY);
         if (!curField.isBomb() && !curField.isDiscovered()) {
             gameOver(); // if not bomb and placed flag, game over
@@ -283,7 +285,7 @@ public class GridView extends View {
      * @param touchX x coordinate of the touch
      * @param touchY y coordinate of the touch
      */
-    public void performTouchableActions(int touchX, int touchY) {
+    private void performTouchableActions(int touchX, int touchY) {
         if(GameLogic.getInstance().getFieldAt(touchX, touchY).isDiscovered()) {
             Snackbar.make(((MainActivity) getContext()).layoutRoot, R.string.msg_explored_tile, Snackbar.LENGTH_SHORT).show();
         } else {
@@ -318,7 +320,7 @@ public class GridView extends View {
         invalidate();
     }
 
-    public void gameOver() {
+    private void gameOver() {
         GameLogic.getInstance().gameOver();
         ((MainActivity) getContext()).gameOver();
         invalidate();

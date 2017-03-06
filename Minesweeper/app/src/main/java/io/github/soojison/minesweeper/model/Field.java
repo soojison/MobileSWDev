@@ -29,33 +29,33 @@ public class Field {
         return isBomb;
     }
 
-    public void setBomb(boolean val) {
-        isBomb = val;
+    public void setBomb() {
+        isBomb = true;
     }
 
     public boolean isBombOrigin() {
         return isBombOrigin;
     }
 
-    public void setBombOrigin(boolean val) {
-        isBombOrigin = val;
+    public void setBombOrigin() {
+        isBombOrigin = true;
     }
 
     public boolean isDiscovered() {
         return discovered;
     }
 
-    public void setDiscovered(boolean val) {
-        this.discovered = val;
+    public void setDiscovered() {
+        this.discovered = true;
     }
 
     public boolean isFlagged() {
         return flagged;
     }
 
-    public void setFlagged(boolean val) {
-        this.discovered = val;
-        this.flagged = val;
+    public void setFlagged() {
+        this.discovered = true;
+        this.flagged = true;
     }
 
     public int getBombsNearBy() {

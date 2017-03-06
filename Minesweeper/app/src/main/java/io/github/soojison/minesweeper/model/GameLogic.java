@@ -5,9 +5,9 @@ import java.util.Random;
 // Singleton Model
 public class GameLogic {
     public static final int GRID_SIZE = 5;
-    public static final int NUM_MINES = 3;
+    private static final int NUM_MINES = 3;
     private static GameLogic instance = null;
-    private Field[][] fieldModel = new Field[5][5];
+    private final Field[][] fieldModel = new Field[5][5];
 
     private GameLogic() {
         for(int i = 0; i < GRID_SIZE; i++){
@@ -34,7 +34,7 @@ public class GameLogic {
             int row = bomb / GRID_SIZE;
             int col = bomb % GRID_SIZE;
             if(!fieldModel[row][col].isBomb()) {
-                fieldModel[row][col].setBomb(true);
+                fieldModel[row][col].setBomb();
                 mineCount++;
             }
         }
@@ -87,7 +87,7 @@ public class GameLogic {
     public void expandNearbyEmpty(int x, int y) {
         if(isInBound(x, 0, GRID_SIZE-1) && isInBound(y, 0, GRID_SIZE-1)) {
             if(fieldModel[x][y].getBombsNearBy() == 0 && !fieldModel[x][y].isDiscovered()) {
-                fieldModel[x][y].setDiscovered(true);
+                fieldModel[x][y].setDiscovered();
                 expandNearbyEmpty(x-1, y-1);
                 expandNearbyEmpty(x-1, y);
                 expandNearbyEmpty(x-1, y+1);
@@ -97,7 +97,7 @@ public class GameLogic {
                 expandNearbyEmpty(x+1, y);
                 expandNearbyEmpty(x+1, y+1);
             } else if(!fieldModel[x][y].isBomb() && !fieldModel[x][y].isDiscovered()) {
-                fieldModel[x][y].setDiscovered(true);
+                fieldModel[x][y].setDiscovered();
             }
         }
     }
@@ -117,24 +117,24 @@ public class GameLogic {
     }
 
     public void setFieldAsBombOrigin(int i, int j) {
-        fieldModel[i][j].setDiscovered(true);
-        fieldModel[i][j].setBombOrigin(true);
+        fieldModel[i][j].setDiscovered();
+        fieldModel[i][j].setBombOrigin();
     }
 
     public void setFieldAsDiscovered(int i, int j) {
-        fieldModel[i][j].setDiscovered(true);
+        fieldModel[i][j].setDiscovered();
     }
 
     public void setFieldAsFlag (int i, int j) {
-        fieldModel[i][j].setDiscovered(true);
-        fieldModel[i][j].setFlagged(true);
+        fieldModel[i][j].setDiscovered();
+        fieldModel[i][j].setFlagged();
     }
 
     public void gameOver() {
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 if(fieldModel[i][j].isBomb()) {
-                    fieldModel[i][j].setDiscovered(true);
+                    fieldModel[i][j].setDiscovered();
                 }
             }
 
