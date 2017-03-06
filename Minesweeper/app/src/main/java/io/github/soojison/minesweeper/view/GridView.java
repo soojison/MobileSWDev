@@ -15,6 +15,7 @@ import android.view.View;
 
 import io.github.soojison.minesweeper.MainActivity;
 import io.github.soojison.minesweeper.R;
+import io.github.soojison.minesweeper.model.Field;
 import io.github.soojison.minesweeper.model.GameLogic;
 
 import static android.graphics.Color.rgb;
@@ -32,6 +33,7 @@ public class GridView extends View {
     private Bitmap bitmapBomb;
     private Bitmap bitmapFlag;
     private Bitmap bitmapTile;
+    private int padding;
 
     private void setPaintObjAttrs() {
         paintBG.setColor(Color.GRAY);
@@ -76,14 +78,15 @@ public class GridView extends View {
         super.onDraw(canvas);
 
         canvas.drawRect(0, 0, getWidth(), getHeight(), paintBG);
-        drawProgress(canvas);
-        drawGrid(canvas);
 
         ((MainActivity) getContext()).isTouchable = false;
         if(!((MainActivity) getContext()).gameOver) {
             ((MainActivity) getContext()).setMessage(getResources().getString(R.string.choose_action_below));
-            // TODO: why isn't bomb origin working
+            drawProgress(canvas);
+        } else {
+            drawGameOver(canvas);
         }
+        drawGrid(canvas);
 
     }
 
@@ -97,6 +100,7 @@ public class GridView extends View {
                         screenWidth : screenWidth < screenHeight?
                         screenWidth : screenHeight;
         setMeasuredDimension(smallerValue, smallerValue);
+        padding = getWidth()/20;
     }
 
     @Override
@@ -131,76 +135,107 @@ public class GridView extends View {
         }
     }
 
-    private Pair<String, Paint> getHintAttrs(short hint) {
+    private Pair<String, Paint> getHintAttrs(int hint) {
         Pair<String, Paint> ret;
         switch (hint) {
-            case GameLogic.ONE:
+            case 1:
                 ret = new Pair<>("1", paintTextB);
                 break;
-            case GameLogic.TWO:
+            case 2:
                 ret = new Pair<>("2", paintTextG);
                 break;
-            case GameLogic.THREE:
+            case 3:
                 ret = new Pair<>("3", paintTextR);
                 break;
-            case GameLogic.FOUR:
+            case 4:
                 ret = new Pair<>("4", paintTextDB);
                 break;
-            case GameLogic.FIVE:
+            case 5:
                 ret = new Pair<>("5", paintTextDR);
                 break;
             default:
-                ret = new Pair<>("wtf", paintTextB); // TODO: GET RID OF THIS
+                ret = new Pair<>("unknown value", paintTextB); // Gives me error w/o the default case
                 break;
         }
         return ret;
     }
 
+    public void drawUndiscoveredTile(Canvas canvas, int i, int j, int tileSize) {
+        canvas.drawBitmap(bitmapTile, i * tileSize, j * tileSize, null);
+    }
+
+    public void drawFlagTile(Canvas canvas, int i, int j, int tileSize) {
+        drawUndiscoveredTile(canvas, i, j, tileSize);
+        canvas.drawBitmap(bitmapFlag, i * tileSize + padding/3, j * tileSize + padding/3, null);
+    }
+
+    public void drawDiscoveredTile(Canvas canvas, int i, int j, int tileSize) {
+        canvas.drawRect(i* tileSize, j* tileSize,
+                (i+1) * tileSize, (j+1) * tileSize,
+                paintDiscoveredBG);
+    }
+
+    public void drawHints(Canvas canvas, int i, int j, int tileSize) {
+        Pair txt = getHintAttrs(GameLogic.getInstance().getFieldAt(i, j).getBombsNearBy());
+        canvas.drawText((String) txt.first, i * tileSize + padding,
+                (j+1) * tileSize - padding/2, (Paint) txt.second);
+    }
+
+    public void drawBomb(Canvas canvas, int i, int j, int tileSize) {
+        drawDiscoveredTile(canvas, i, j, tileSize);
+        canvas.drawBitmap(bitmapBomb, i * tileSize + padding/3,
+                j * tileSize + padding/3, null);
+    }
+
+    public void drawBombOrigin(Canvas canvas, int i, int j, int tileSize) {
+        canvas.drawRect(i * tileSize, j * tileSize,
+                (i+1) * tileSize, (j+1) * tileSize, paintTextR);
+        canvas.drawBitmap(bitmapBomb, i * tileSize + padding/3,
+                j * tileSize + padding/3, null);
+    }
+
     private void drawProgress(Canvas canvas) {
-        int padding = getWidth()/20;
         int tileSize = getWidth()/GameLogic.GRID_SIZE; // our game will always have the condition width = height
-
-        GameLogic.getInstance().printModel();
-
-
-        short curModelField;
+        Field curModelField;
         for (int i = 0; i < GameLogic.GRID_SIZE; i++) {
             for (int j = 0; j < GameLogic.GRID_SIZE; j++) {
-                curModelField = GameLogic.getInstance().getModelField(i,j);
-                if (curModelField == GameLogic.UNDISCOVERED) {
-                    canvas.drawBitmap(bitmapTile, i * tileSize, j * tileSize, null);
-                } else if (curModelField == GameLogic.DISCOVERED) {
-                    canvas.drawRect(i * tileSize, j * tileSize,
-                                    (i + 1) * tileSize, (j + 1) * tileSize,
-                                    paintDiscoveredBG);
-                    // the discovered tile is anything but empty (i.e. hints)
-                    if(GameLogic.getInstance().getHiddenModelField(i,j) > GameLogic.EMPTY) {
-                        Pair txt = getHintAttrs(GameLogic.getInstance().getHiddenModelField(i,j));
-                        canvas.drawText((String)txt.first,
-                                        i * tileSize + padding, (j+1) * tileSize - padding/2,
-                                        (Paint) txt.second);
+                curModelField = GameLogic.getInstance().getFieldAt(i,j);
+                if (!curModelField.isDiscovered()) {
+                    drawUndiscoveredTile(canvas, i, j, tileSize);
+                } else if(curModelField.isFlagged()) {
+                    drawFlagTile(canvas, i, j, tileSize);
+                } else if(curModelField.isDiscovered()) {
+                    drawDiscoveredTile(canvas, i, j, tileSize);
+                    if(curModelField.getBombsNearBy() > 0) {
+                        drawHints(canvas, i, j, tileSize);
                     }
-                } else if (GameLogic.getInstance().getModelField(i,j) == GameLogic.BOMB_ORIGIN) {
-                    // game over scenario -- the bomb the user has detonated turns red
-                    canvas.drawRect(i * tileSize, j * tileSize,
-                            (i+1) * tileSize, (j+1) * tileSize,
-                            paintTextR);
-                    canvas.drawBitmap(bitmapBomb,
-                            i * tileSize + padding/3, j * tileSize + padding/3,
-                            null);
-                } else if (curModelField == GameLogic.BOMB) {
-                    canvas.drawRect(i * tileSize, j * tileSize,
-                                    (i + 1) * tileSize, (j + 1) * tileSize,
-                                    paintDiscoveredBG);
-                    canvas.drawBitmap(bitmapBomb,
-                                      i * tileSize + padding/3, j * tileSize + padding/3,
-                                      null);
-                } else if (GameLogic.getInstance().getModelField(i, j) == GameLogic.FLAG) {
-                    canvas.drawBitmap(bitmapTile, i * tileSize, j * tileSize, null);
-                    canvas.drawBitmap(bitmapFlag, i * tileSize + padding/3, j * tileSize + padding/3, null);
                 }
-                if(GameLogic.getInstance().gameWon()) {
+                if(GameLogic.getInstance().gameIsWon()) {
                     ((MainActivity) getContext()).gameWon();
+                }
+            }
+        }
+    }
+
+    private void drawGameOver(Canvas canvas) {
+        int tileSize = getWidth()/GameLogic.GRID_SIZE; // our game will always have the condition width = height
+        Field curModelField;
+        for (int i = 0; i < GameLogic.GRID_SIZE; i++) {
+            for (int j = 0; j < GameLogic.GRID_SIZE; j++) {
+                curModelField = GameLogic.getInstance().getFieldAt(i, j);
+                if (curModelField.isBombOrigin()) {
+                    drawBombOrigin(canvas, i, j, tileSize);
+                } else if(curModelField.isBomb() && !curModelField.isFlagged()) {
+                    drawBomb(canvas, i, j, tileSize);
+                } else if(curModelField.isFlagged()) {
+                    drawFlagTile(canvas, i, j, tileSize);
+                } else if (!curModelField.isDiscovered()) {
+                    drawUndiscoveredTile(canvas, i, j, tileSize);
+                } else if(curModelField.isDiscovered()) {
+                    drawDiscoveredTile(canvas, i, j, tileSize);
+                    if(curModelField.getBombsNearBy() > 0) {
+                        drawHints(canvas, i, j, tileSize);
+                    }
                 }
             }
         }
@@ -214,13 +249,14 @@ public class GridView extends View {
      * @param touchY y coordinate of the touch
      */
     public void performExploreActions(int touchX, int touchY) {
-        if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
-            if(GameLogic.getInstance().getHiddenModelField(touchX, touchY) == GameLogic.BOMB) {
-                GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.BOMB_ORIGIN);
+        Field curField = GameLogic.getInstance().getFieldAt(touchX, touchY);
+        if(!curField.isDiscovered()) {
+            if(curField.isBomb()) {
+                GameLogic.getInstance().setFieldAsBombOrigin(touchX, touchY);
                 gameOver();
             } else {
                 GameLogic.getInstance().expandNearbyEmpty(touchX, touchY);
-                GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.DISCOVERED);
+                GameLogic.getInstance().setFieldAsDiscovered(touchX, touchY);
             }
         }
     }
@@ -233,11 +269,12 @@ public class GridView extends View {
      * @param touchY y coordinate of the touch
      */
     public void performFlagActions(int touchX, int touchY) {
-        if (GameLogic.getInstance().getHiddenModelField(touchX, touchY) != GameLogic.BOMB) {
+        Field curField = GameLogic.getInstance().getFieldAt(touchX, touchY);
+        if (!curField.isBomb() && !curField.isDiscovered()) {
             gameOver(); // if not bomb and placed flag, game over
         }
-        if(GameLogic.getInstance().getModelField(touchX, touchY) == GameLogic.UNDISCOVERED) {
-            GameLogic.getInstance().setModelField(touchX, touchY, GameLogic.FLAG);
+        if(!curField.isDiscovered()) {
+            GameLogic.getInstance().setFieldAsFlag(touchX, touchY);
         }
     }
 
@@ -247,10 +284,14 @@ public class GridView extends View {
      * @param touchY y coordinate of the touch
      */
     public void performTouchableActions(int touchX, int touchY) {
-        if( ((MainActivity) getContext()).getChoice() == MainActivity.EXPLORE ) { // if true, then we are exploring
-            performExploreActions(touchX, touchY);
-        } else if ( ((MainActivity) getContext()).getChoice() == MainActivity.FLAG ){ // then we are placing the flag
-            performFlagActions(touchX, touchY);
+        if(GameLogic.getInstance().getFieldAt(touchX, touchY).isDiscovered()) {
+            Snackbar.make(((MainActivity) getContext()).layoutRoot, R.string.msg_explored_tile, Snackbar.LENGTH_SHORT).show();
+        } else {
+            if( ((MainActivity) getContext()).getChoice() == MainActivity.EXPLORE ) { // if true, then we are exploring
+                performExploreActions(touchX, touchY);
+            } else if ( ((MainActivity) getContext()).getChoice() == MainActivity.FLAG ){ // then we are placing the flag
+                performFlagActions(touchX, touchY);
+            }
         }
         invalidate();
         MainActivity.choice = 0; // reset choice
