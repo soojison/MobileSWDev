@@ -10,5 +10,5 @@
     <string name="choose_tile_explore">Choose a tile to explore</string>
     <string name="choose_tile_flag">Choose a tile to place the flag</string>
     <string name="game_over">GAME OVER</string>
-    <string name="you_win">You\'ve cleared the mine in %1$f seconds!</string>
+    <string name="you_win">You\'ve cleared the mine in %1$.0f seconds!</string>
 </resources>
