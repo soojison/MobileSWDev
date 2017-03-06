@@ -14,7 +14,9 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity {
 
     public static final String KEY_RAND = "KEY_RAND";
+    public static final String KEY_GUESSES = "KEY_GUESSES";
     private int random;
+    private int numGuesses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +28,16 @@ public class GameActivity extends AppCompatActivity {
         // so you use onSaveInstanceState(Bundle outState) to save the generated number
         if(savedInstanceState != null && savedInstanceState.containsKey(KEY_RAND)) {
             random = savedInstanceState.getInt(KEY_RAND);
+            numGuesses = savedInstanceState.getInt(KEY_GUESSES);
         } else {
             generateNewRandom();
+            numGuesses = 0;
         }
 
         final EditText etGuess = (EditText) findViewById(R.id.etGuess);
         Button btnGuess = (Button) findViewById(R.id.btnGuess);
         final TextView tvStatus = (TextView) findViewById(R.id.tvStatus);
+        final TextView tvNumGuesses = (TextView) findViewById(R.id.tvNumGuesses);
 
         btnGuess.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,10 +45,11 @@ public class GameActivity extends AppCompatActivity {
                 if(!etGuess.getText().toString().equals("")) {
                     try { // if you put #s other than ints, the app will crash. so have a try catch block to alert the user
                         int myNumber = Integer.parseInt(etGuess.getText().toString());
+                        numGuesses++;
+                        tvNumGuesses.setText("Number of guesses: " + String.valueOf(numGuesses));
                         if(random == myNumber) {
                             // pekler: is it you have won or you've won? how can I learn english if it's both?
                             tvStatus.setText("You have won!");
-
                             startActivity(new Intent(GameActivity.this, ResultActivity.class));
 
                         } else if(random < myNumber) {
@@ -66,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private void generateNewRandom() {
+    private void generateNewRandom() { // since this is the start of the game
         random = new Random(System.currentTimeMillis()).nextInt(99);
     }
 
@@ -75,5 +81,6 @@ public class GameActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         // this will save the number in the activity
         outState.putInt(KEY_RAND, random);
+        outState.putInt(KEY_GUESSES, numGuesses);
     }
 }
