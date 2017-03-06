@@ -2,7 +2,6 @@
     <string name="app_name">Minesweeper</string>
     <string name="flag">FLAG</string>
     <string name="explore">EXPLORE</string>
-    <string name="reset">RESET</string>
     <string name="touch_a_tile_to_start">Touch a tile to start</string>
     <string name="smiley_face">Smiley Face</string>
     <string name="choose_action_below">Choose an action from below</string>
@@ -11,4 +10,5 @@
     <string name="choose_tile_flag">Choose a tile to place the flag</string>
     <string name="game_over">GAME OVER</string>
     <string name="you_win">You\'ve cleared the mine in %1$.0f seconds!</string>
+    <string name="msg_explored_tile">You\'ve already explored that tile.</string>
 </resources>
