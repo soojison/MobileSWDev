@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             tvMark.setText(getTime());
 
 
-            Button btnDel = (Button) viewMark.findViewById(R.id.btnDelete);
+            ImageButton btnDel = (ImageButton) viewMark.findViewById(R.id.btnDelete);
             btnDel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

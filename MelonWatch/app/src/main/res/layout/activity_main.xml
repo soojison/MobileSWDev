@@ -19,10 +19,11 @@
         android:id="@+id/tvTime"
         android:textColor="@color/colorPrimaryText"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="112sp"
+        android:fontFamily="sans-serif-thin"
         android:padding="16dp"
         android:text="00:00:00"
-        android:textStyle="bold"/>
+        android:textStyle="normal"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:text="START"
             android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/btnStart"/>
 
         <Button
@@ -43,6 +45,7 @@
             android:layout_height="wrap_content"
             android:text="STOP"
             android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/btnStop"/>
 
     </LinearLayout>
@@ -60,6 +63,7 @@
             android:layout_height="wrap_content"
             android:text="MARK"
             android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/btnMark"/>
 
         <Button
@@ -67,6 +71,7 @@
             android:layout_height="wrap_content"
             android:text="RESET"
             android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/btnReset"/>
 
     </LinearLayout>
