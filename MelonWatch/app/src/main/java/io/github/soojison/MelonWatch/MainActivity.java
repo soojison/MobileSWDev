@@ -1,12 +1,15 @@
 package io.github.soojison.MelonWatch;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -40,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
     private Timer myTimer = null;
     private long startTime = 0;
+    private boolean isReset = false;
+    private boolean isStopped = false;
+
+    Animation anim = new AlphaAnimation(0.0f, 1.0f);
 
     private class myShowTimerTask extends TimerTask {
         @Override
@@ -53,6 +60,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //http://stackoverflow.com/questions/9294112/
+    private void blink(){
+        final Handler handler = new Handler();
+        if(isStopped) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int timeToBlink = 500;
+                    try { Thread.sleep(timeToBlink); } catch (Exception e) {}
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (tvTime.getVisibility() == View.VISIBLE) {
+                                tvTime.setVisibility(View.INVISIBLE);
+                            } else {
+                                tvTime.setVisibility(View.VISIBLE);
+                            }
+                            blink();
+                        }
+                    });
+                }
+            }).start();
+        } else {
+            tvTime.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +94,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+
+        anim.setDuration(100);
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.RESTART);
+        anim.setRepeatCount(Animation.INFINITE);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     myTimer.schedule(new myShowTimerTask(), 0, 1);
                     tvTime.setTextColor(getResources().getColor(R.color.colorPrimaryText));
                     layoutMarkContent.removeAllViews();
+                    isReset = false;
                 }
             }
         });
@@ -81,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
                     myTimer.cancel();
                     myTimer = null;
                     tvTime.setTextColor(getResources().getColor(R.color.colorAccent));
+                    isStopped = true;
+                    blink();
+                    //tvTime.startAnimation(anim);
                 }
             }
         });
@@ -90,12 +133,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 layoutMarkContent.removeAllViews();
                 tvTime.setTextColor(getResources().getColor(R.color.colorPrimaryText));
-                tvTime.setText("00:00:00");
                 if(myTimer != null) {
                     myTimer.cancel();
                     myTimer = null;
                 }
-
+                isReset = true;
+                isStopped = false;
+                tvTime.setText("00:00:00");
+                tvTime.clearAnimation();
             }
         });
 
@@ -152,6 +197,10 @@ public class MainActivity extends AppCompatActivity {
 
     private String getTime() {
         long millis = System.currentTimeMillis() - startTime;
-        return new SimpleDateFormat("mm:ss:SS").format(new Date(millis));
+        if(isReset) {
+            return "00:00:00";
+        } else {
+            return new SimpleDateFormat("mm:ss:SS").format(new Date(millis));
+        }
     }
 }
