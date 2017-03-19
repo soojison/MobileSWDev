@@ -28,12 +28,14 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btnStop)
     Button btnStop;
 
+    @BindView(R.id.btnReset)
+    Button btnReset;
+
     @BindView(R.id.tvTime)
     TextView tvTime;
 
     private Timer myTimer = null;
-    private boolean enabled = false;
-    long startTime = 0;
+    private long startTime = 0;
 
     private class myShowTimerTask extends TimerTask {
         @Override
@@ -41,11 +43,7 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    long millis = System.currentTimeMillis() - startTime;
-                    String time = new SimpleDateFormat("mm:ss:SS").format(new Date(millis));
-
-                    tvTime.setText(time);
-
+                    tvTime.setText(getTime());
                 }
             });
         }
@@ -79,6 +77,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(myTimer != null) {
+                    myTimer.cancel();
+                    myTimer = null;
+                }
+                tvTime.setText("00:00:00");
+                layoutMarkContent.removeAllViews();
+            }
+        });
+
     }
 
     @OnClick(R.id.btnMark)
@@ -86,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         final View viewMark =
                 getLayoutInflater().inflate(R.layout.layout_mark, null);
         TextView tvMark = (TextView) viewMark.findViewById(R.id.tvMark);
-        tvMark.setText("Mark");
+        tvMark.setText(getTime());
 
         Button btnDel = (Button) viewMark.findViewById(R.id.btnDelete);
         btnDel.setOnClickListener(new View.OnClickListener() {
@@ -106,5 +117,10 @@ public class MainActivity extends AppCompatActivity {
             myTimer.cancel();
             myTimer = null;
         }
+    }
+
+    private String getTime() {
+        long millis = System.currentTimeMillis() - startTime;
+        return new SimpleDateFormat("mm:ss:SS").format(new Date(millis));
     }
 }
