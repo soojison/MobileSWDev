@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //http://stackoverflow.com/questions/9294112/
+    /*
     private void blink(){
         final Handler handler = new Handler();
         if(isStopped) {
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             tvTime.setVisibility(View.VISIBLE);
         }
     }
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
-        anim.setDuration(100);
+        anim.setDuration(300);
         anim.setStartOffset(20);
-        anim.setRepeatMode(Animation.RESTART);
+        anim.setRepeatMode(Animation.REVERSE);
         anim.setRepeatCount(Animation.INFINITE);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     tvTime.setTextColor(getResources().getColor(R.color.colorPrimaryText));
                     layoutMarkContent.removeAllViews();
                     isReset = false;
+                    tvTime.clearAnimation();
                 }
             }
         });
@@ -121,9 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     myTimer.cancel();
                     myTimer = null;
                     tvTime.setTextColor(getResources().getColor(R.color.colorAccent));
-                    isStopped = true;
-                    blink();
-                    //tvTime.startAnimation(anim);
+                    tvTime.startAnimation(anim);
                 }
             }
         });
@@ -138,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
                     myTimer = null;
                 }
                 isReset = true;
-                isStopped = false;
                 tvTime.setText("00:00:00");
                 tvTime.clearAnimation();
             }
