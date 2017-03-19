@@ -16,25 +16,40 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/tvTime"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:padding="16sp"
         android:text="Time"/>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="START"
-        android:id="@+id/btnStart"/>
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MARK"
-        android:id="@+id/btnMark"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="START"
+            android:layout_weight="1"
+            android:id="@+id/btnStart"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="STOP"
-        android:id="@+id/btnStop"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MARK"
+            android:layout_weight="1"
+            android:id="@+id/btnMark"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STOP"
+            android:layout_weight="1"
+            android:id="@+id/btnStop"/>
+
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
