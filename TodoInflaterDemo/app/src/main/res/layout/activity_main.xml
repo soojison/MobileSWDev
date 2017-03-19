@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layoutContent"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="hu.ait.todoinflaterdemo.MainActivity">
+    android:padding="10dp">
 
     <EditText
         android:id="@+id/etTodo"
@@ -18,9 +14,27 @@
         android:text="Something important" />
 
     <Button
-        android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"/>
+    android:id="@+id/btnSave"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Save"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"> <!-- overScrollMode="always" lets you have the animation -->
+        <!-- peekler: I'm not teaching you cheating, I'm teaching you how to do life -->
+
+        <LinearLayout
+            android:id="@+id/layoutContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:orientation="vertical"
+            tools:context="hu.ait.todoinflaterdemo.MainActivity">
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
