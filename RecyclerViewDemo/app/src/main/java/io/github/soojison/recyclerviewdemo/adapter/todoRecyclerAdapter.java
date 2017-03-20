@@ -32,9 +32,7 @@ public class TodoRecyclerAdapter
     public TodoRecyclerAdapter(Context context) {
         this.context = context;
         todoList = new ArrayList<Todo>();
-        for (int i = 0; i < 20; i++) {
-            todoList.add(new Todo("Todo " + i, false));
-        }
+
     }
 
     @Override
@@ -81,6 +79,12 @@ public class TodoRecyclerAdapter
         todoList.remove(fromPosition);
 
         notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public void addTodo(Todo todo) {
+        todoList.add(0, todo);
+        notifyItemInserted(0);
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
