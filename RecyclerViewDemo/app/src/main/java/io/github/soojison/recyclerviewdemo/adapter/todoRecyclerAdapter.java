@@ -53,10 +53,18 @@ public class TodoRecyclerAdapter
     @Override
     // called for each line in the recyclerView
     // won't call 200 times in the beginning --> lazy load as you scroll
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.tvTodo.setText(todoList.get(position).getTodoText());
         holder.cbDone.setChecked(todoList.get(position).isDone());
+
+        holder.cbDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                todoList.get(holder.getAdapterPosition()).setDone(holder.cbDone.isChecked());
+            }
+        });
     }
+
 
     @Override
     // don't forget to override this method or else the view won't show anything
@@ -75,6 +83,7 @@ public class TodoRecyclerAdapter
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
+        // this won't let you swap and scroll
         todoList.add(toPosition, todoList.get(fromPosition));
         todoList.remove(fromPosition);
 
