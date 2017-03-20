@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import io.github.soojison.recyclerviewdemo.adapter.TodoRecyclerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +33,16 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        RecyclerView recyclerTodo = (RecyclerView) findViewById(R.id.recyclerTodo);
+        recyclerTodo.setHasFixedSize(true); // make sure to use the whole area
+        // recycler view can render items in all the list... but also you can do a grid
+        // so we need to tell the view that we need a list
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerTodo.setLayoutManager(layoutManager); // now knows it should behave like a linear layout
+
+        TodoRecyclerAdapter todoRecyclerAdapter = new TodoRecyclerAdapter(this);
+        recyclerTodo.setAdapter(todoRecyclerAdapter);
     }
 
     @Override
