@@ -2,14 +2,22 @@ package io.github.soojison.MelonWatch;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AboutActivity extends AppCompatActivity {
+
+    private List<Info> infoList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private InfoAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +36,32 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<String> aboutArray = new ArrayList<>();
-        aboutArray.add("Icon Design by Sooji Son");
-        aboutArray.add("Features include: Toolbar, Multiple activities, TimerTask, Drawable import");
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.layout_listview, aboutArray);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        mAdapter = new InfoAdapter(infoList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+        prepareInfoData();
 
-        ListView listAbout = (ListView) findViewById(R.id.listAbout);
-        listAbout.setAdapter(adapter);
+    }
 
+    private void prepareInfoData() {
+        Info info = new Info("Icon Design", "Sooji Son");
+        infoList.add(info);
+        info = new Info("Feature 1", "Toolbar");
+        infoList.add(info);
+        info = new Info("Feature 2", "Multiple Activities");
+        infoList.add(info);
+        info = new Info("Feature 3", "TimerTask");
+        infoList.add(info);
+        info = new Info("Feature 4", "Drawable Import");
+        infoList.add(info);
+        info = new Info("Feature 5", "RecyclerView");
+        infoList.add(info);
+        info = new Info("Feature 6", "ButterKnife");
+        infoList.add(info);
+
+        mAdapter.notifyDataSetChanged();
     }
 }

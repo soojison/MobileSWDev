@@ -17,8 +17,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listAbout">
-
     </ListView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
 
 
 </LinearLayout>
