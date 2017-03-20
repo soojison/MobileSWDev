@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import io.github.soojison.recyclerviewdemo.adapter.TodoRecyclerAdapter;
+import io.github.soojison.recyclerviewdemo.touch.TodoItemTouchHelperCallback;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
         TodoRecyclerAdapter todoRecyclerAdapter = new TodoRecyclerAdapter(this);
         recyclerTodo.setAdapter(todoRecyclerAdapter);
+
+        // tell the view to use the touch gestures
+        ItemTouchHelper.Callback callback = new TodoItemTouchHelperCallback(todoRecyclerAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerTodo);
     }
 
     @Override

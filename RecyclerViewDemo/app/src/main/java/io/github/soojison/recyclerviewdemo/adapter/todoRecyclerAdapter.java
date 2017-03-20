@@ -13,6 +13,7 @@ import java.util.List;
 
 import io.github.soojison.recyclerviewdemo.R;
 import io.github.soojison.recyclerviewdemo.data.Todo;
+import io.github.soojison.recyclerviewdemo.touch.TodoTouchHelperAdapter;
 
 /**
  * The most important class in our code.
@@ -20,7 +21,8 @@ import io.github.soojison.recyclerviewdemo.data.Todo;
  */
 
 public class TodoRecyclerAdapter
-        extends RecyclerView.Adapter<TodoRecyclerAdapter.ViewHolder> {
+        extends RecyclerView.Adapter<TodoRecyclerAdapter.ViewHolder>
+        implements TodoTouchHelperAdapter {
     // Adapter template of the type TodoRecyclerAdapter.ViewHolder
 
     // You have to make sure you initialize the list! don't let it be null
@@ -62,6 +64,23 @@ public class TodoRecyclerAdapter
     // don't forget to override this method or else the view won't show anything
     public int getItemCount() {
         return todoList.size();
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        todoList.remove(position);
+        // we have to tell the recyclerview that data set has changed
+        // notifyDataSetChanged(); refreshes the whole list, inefficient
+        // so use this, which is more efficient, just refreshes that position
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        todoList.add(toPosition, todoList.get(fromPosition));
+        todoList.remove(fromPosition);
+
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
