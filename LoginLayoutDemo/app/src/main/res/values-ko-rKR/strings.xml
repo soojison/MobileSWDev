@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">LoginLayoutDemo</string>
+    <string name="welcome">환영합니다</string>
+    <string name="username">아이디</string>
+    <string name="password">비밀번호</string>
+    <string name="login">로그인</string>
+    <string name="register">회원가입</string>
+    <string name="about">대하여</string>
+    <string name="ait_2017_mobile_team">AIT 2017 모바일 팀</string>
+</resources>
