@@ -5,7 +5,8 @@
     <item
         android:title="Info"
         app:showAsAction="always"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@android:drawable/ic_menu_search"
+        android:tint="#ffffff"
         android:id="@+id/action_search"/> <!-- you can use icon as the button
                                              if you wanna have text too you have to do
                                              showAsAction="always | withText" -->
