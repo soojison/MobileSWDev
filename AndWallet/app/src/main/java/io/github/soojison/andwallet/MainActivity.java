@@ -1,5 +1,6 @@
 package io.github.soojison.andwallet;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,8 +16,8 @@ import android.widget.ToggleButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import io.github.soojison.andwallet.data.Summary;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,14 +27,18 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btnSave)
     Button btnSave;
 
-    @BindView(R.id.etExpenses)
-    EditText etExpenses;
+    @BindView(R.id.etAmount)
+    EditText etAmount;
 
     @BindView(R.id.etCategory)
     EditText etCategory;
 
     @BindView(R.id.toggleInOut)
     ToggleButton toggleInOut;
+
+    @BindView(R.id.tvBalance)
+    TextView tvBalance;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        displayBalance();
     }
 
     @Override
@@ -56,11 +62,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menuDelete:
                 layoutListContent.removeAllViews();
                 etCategory.getText().clear();
-                etExpenses.getText().clear();
+                etAmount.getText().clear();
                 etCategory.clearFocus();
-                etExpenses.clearFocus();
+                etAmount.clearFocus();
+                Summary.getInstance().reset();
+                displayBalance();
                 break;
             case R.id.menuSummary:
+                Intent summaryActivityIntent = new Intent();
                 // open a new activity
                 break;
             default:
@@ -73,12 +82,12 @@ public class MainActivity extends AppCompatActivity {
     public void pressButton(Button btn) {
 
         boolean etCategoryEmpty = etCategory.getText().toString().equals("");
-        boolean etExpensesEmpty = etExpenses.getText().toString().equals("");
+        boolean etExpensesEmpty = etAmount.getText().toString().equals("");
 
         if(etCategoryEmpty) {
             etCategory.setError("Your category must not be empty");
         } else if(etExpensesEmpty) {
-            etExpenses.setError("Your amount must not be empty");
+            etAmount.setError("Your amount must not be empty");
         } if(!etCategoryEmpty && !etExpensesEmpty) {
             final View viewEntry =
                     getLayoutInflater().inflate(R.layout.list_entry_row, null);
@@ -88,16 +97,24 @@ public class MainActivity extends AppCompatActivity {
 
             if(toggleInOut.isChecked()) { // then it's income
                 imageView.setImageResource(R.drawable.income);
+                Summary.getInstance().addIncome(Double.parseDouble(String.valueOf(etAmount.getText())));
             } else {
                 imageView.setImageResource(R.drawable.expense);
+                Summary.getInstance().addExpenses(Double.parseDouble(String.valueOf(etAmount.getText())));
             }
 
             tvCategory.setText(etCategory.getText().toString());
-            tvExpenses.setText(etExpenses.getText().toString());
+            tvExpenses.setText(String.format("$%s", etAmount.getText().toString()));
 
             layoutListContent.addView(viewEntry);
+            displayBalance();
         }
 
+
+    }
+
+    private void displayBalance() {
+        tvBalance.setText(String.format("Current balance: $%s", Summary.getInstance().getbalance()));
     }
 
 }

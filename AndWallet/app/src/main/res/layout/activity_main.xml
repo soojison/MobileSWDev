@@ -40,9 +40,9 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:id="@+id/etExpenses"
+                android:id="@+id/etAmount"
                 android:hint="Amount"
-                android:inputType="text"/>
+                android:inputType="numberDecimal"/>
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
@@ -67,22 +67,42 @@
         android:layout_marginRight="16dp"
         android:id="@+id/btnSave"/>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnSave"
-        android:padding="16dp"
-        android:id="@+id/scrollView">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btnSave"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <LinearLayout
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:id="@+id/scrollView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/layoutListContent">
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/layoutListContent">
+            android:layout_weight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="20sp"
+            android:id="@+id/tvBalance"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
-    </ScrollView>
 
 
 </RelativeLayout>
