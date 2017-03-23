@@ -54,7 +54,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuDelete:
-                //delete everything
+                layoutListContent.removeAllViews();
+                etCategory.getText().clear();
+                etExpenses.getText().clear();
+                etCategory.clearFocus();
+                etExpenses.clearFocus();
                 break;
             case R.id.menuSummary:
                 // open a new activity
