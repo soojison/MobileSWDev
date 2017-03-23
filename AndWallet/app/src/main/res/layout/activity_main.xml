@@ -4,15 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context="io.github.soojison.andwallet.MainActivity">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar">
+    </include>
+
     <LinearLayout
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
+        android:padding="16dp"
         android:id="@+id/linearLayout">
 
         <android.support.design.widget.TextInputLayout
@@ -50,6 +55,7 @@
         android:layout_below="@+id/linearLayout"
         android:textOn="@string/income"
         android:textOff="@string/expense"
+        android:layout_marginLeft="16dp"
         android:id="@+id/toggleInOut"/>
 
     <Button
@@ -58,13 +64,14 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/linearLayout"
         android:text="@string/save"
+        android:layout_marginRight="16dp"
         android:id="@+id/btnSave"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnSave"
-        android:paddingTop="16dp"
+        android:padding="16dp"
         android:id="@+id/scrollView">
 
         <LinearLayout
