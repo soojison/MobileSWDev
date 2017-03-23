@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tvBalance)
     TextView tvBalance;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +69,9 @@ public class MainActivity extends AppCompatActivity {
                 displayBalance();
                 break;
             case R.id.menuSummary:
-                Intent summaryActivityIntent = new Intent();
-                // open a new activity
+                Intent intentStartSummaryActivity = new Intent();
+                intentStartSummaryActivity.setClass(MainActivity.this, SummaryActivity.class);
+                startActivity(intentStartSummaryActivity);
                 break;
             default:
                 break;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btnSave)
-    public void pressButton(Button btn) {
+    public void pressButton() {
 
         boolean etCategoryEmpty = etCategory.getText().toString().equals("");
         boolean etExpensesEmpty = etAmount.getText().toString().equals("");
@@ -88,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
             etCategory.setError("Your category must not be empty");
         } else if(etExpensesEmpty) {
             etAmount.setError("Your amount must not be empty");
-        } if(!etCategoryEmpty && !etExpensesEmpty) {
+        } else if(longerThanTwo(etAmount.getText().toString())) {
+            etAmount.setError("Please round your values to two decimal digits");
+        } else {
             final View viewEntry =
                     getLayoutInflater().inflate(R.layout.list_entry_row, null);
             TextView tvCategory = (TextView) viewEntry.findViewById(R.id.tvCategory);
@@ -104,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             tvCategory.setText(etCategory.getText().toString());
-            tvExpenses.setText(String.format("$%s", etAmount.getText().toString()));
+            //parseDouble to avoid cases like 99.
+            tvExpenses.setText(String.format("$%s", Double.parseDouble(etAmount.getText().toString())));
 
             layoutListContent.addView(viewEntry);
             displayBalance();
@@ -114,7 +118,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayBalance() {
-        tvBalance.setText(String.format("Current balance: $%s", Summary.getInstance().getbalance()));
+        tvBalance.setText(String.format("Current balance: $%s", Summary.getInstance().getBalance()));
     }
 
+    private boolean longerThanTwo(String value) {
+        Log.i("DECIMAL", value);
+        String[] decimal = value.split("\\.");
+        return decimal.length != 1 && decimal[1].length() > 2;
+    }
 }

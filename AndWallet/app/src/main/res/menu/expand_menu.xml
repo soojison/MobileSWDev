@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menuDelete"
-        android:title="Delete"
+        android:title="@string/delete"
         app:showAsAction="always"
         android:icon="@drawable/ic_delete_forever"/>
 
     <item android:id="@+id/menuSummary"
-        android:title="Account Summary" />
+        android:title="@string/account_summary" />
 </menu>

@@ -3,4 +3,13 @@
     <string name="income">INCOME</string>
     <string name="expense">EXPENSE</string>
     <string name="save">SAVE</string>
+    <string name="wallet_icon">Wallet Icon</string>
+    <string name="category">Category</string>
+    <string name="amount">Amount</string>
+    <string name="hello_there">Hello there!</string>
+    <string name="here_you_can_view_your_current_balance_based_on_your_income_and_expenditures">Here, you can view your current balance based on your income and expenditures.</string>
+    <string name="plus_sign">+</string>
+    <string name="delete">Delete</string>
+    <string name="account_summary">Account Summary</string>
+    <string name="type_icon">Type Icon</string>
 </resources>
