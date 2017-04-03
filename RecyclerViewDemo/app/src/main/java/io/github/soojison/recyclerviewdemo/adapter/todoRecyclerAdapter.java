@@ -14,6 +14,7 @@ import java.util.List;
 import io.github.soojison.recyclerviewdemo.R;
 import io.github.soojison.recyclerviewdemo.data.Todo;
 import io.github.soojison.recyclerviewdemo.touch.TodoTouchHelperAdapter;
+import io.realm.Realm;
 
 /**
  * The most important class in our code.
@@ -29,10 +30,15 @@ public class TodoRecyclerAdapter
     private List<Todo> todoList;
     private Context context; // kind of the activity reference
 
+    // another field for realm db
+    private Realm realmTodo;
+
     public TodoRecyclerAdapter(Context context) {
         this.context = context;
         todoList = new ArrayList<Todo>();
 
+        // init realm
+        realmTodo = Realm.getDefaultInstance();
     }
 
     @Override

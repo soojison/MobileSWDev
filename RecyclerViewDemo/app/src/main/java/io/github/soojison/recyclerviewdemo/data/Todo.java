@@ -1,10 +1,12 @@
 package io.github.soojison.recyclerviewdemo.data;
 
+import io.realm.RealmObject;
+
 /**
  * Contains info about the to-do item
  */
 
-public class Todo {
+public class Todo extends RealmObject {
 
     private String todoText;
     private boolean done;
