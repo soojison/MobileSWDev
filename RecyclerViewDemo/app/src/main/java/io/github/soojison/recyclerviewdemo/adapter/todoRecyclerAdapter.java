@@ -90,7 +90,15 @@ public class TodoRecyclerAdapter
 
     @Override
     public void onItemDismiss(int position) {
+
+        // remove it from the database before removing it from the list
+        realmTodo.beginTransaction();
+        todoList.get(position).deleteFromRealm();
+        realmTodo.commitTransaction();
+
+        // delete from the list
         todoList.remove(position);
+
         // we have to tell the recyclerview that data set has changed
         // notifyDataSetChanged(); refreshes the whole list, inefficient
         // so use this, which is more efficient, just refreshes that position
