@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- TODO: import icons for this -->
+    <item android:id="@+id/menuAdd"
+        android:title="Add"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/menuDeleteAll"
+        android:title="Delete All"/>
+</menu>
