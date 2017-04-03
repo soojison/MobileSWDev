@@ -147,4 +147,8 @@ public class TodoRecyclerAdapter
         }
     }
 
+    public void closeRealm() {
+        realmTodo.close();
+    }
+
 }

@@ -100,4 +100,11 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        // close the db!
+        super.onDestroy();
+        todoRecyclerAdapter.closeRealm();
+    }
 }
