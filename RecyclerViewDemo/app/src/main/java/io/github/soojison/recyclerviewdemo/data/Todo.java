@@ -17,6 +17,10 @@ public class Todo extends RealmObject {
         this.done = done;
     }
 
+    public Todo() {
+        // technical thing ... that's good to have....
+    }
+
     public String getTodoText() {
         return todoText;
     }
