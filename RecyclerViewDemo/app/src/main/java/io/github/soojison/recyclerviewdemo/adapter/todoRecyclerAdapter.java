@@ -76,7 +76,9 @@ public class TodoRecyclerAdapter
         holder.cbDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                realmTodo.beginTransaction();
                 todoList.get(holder.getAdapterPosition()).setDone(holder.cbDone.isChecked());
+                realmTodo.commitTransaction();
             }
         });
     }
