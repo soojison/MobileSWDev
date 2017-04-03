@@ -106,8 +106,20 @@ public class TodoRecyclerAdapter
         notifyItemMoved(fromPosition, toPosition);
     }
 
-    public void addTodo(Todo todo) {
-        todoList.add(0, todo);
+    public void addTodo(String todoTitle) {
+        // save to realm before adding to db
+        //start transaction
+        realmTodo.beginTransaction();
+        // create object from class
+        Todo newTodo = realmTodo.createObject(Todo.class);
+        // set fields
+        newTodo.setTodoText(todoTitle);
+        newTodo.setDone(false);
+        // close transaction
+        realmTodo.commitTransaction();
+
+        // add object
+        todoList.add(0, newTodo);
         notifyItemInserted(0);
 
     }

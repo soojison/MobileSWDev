@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                todoRecyclerAdapter.addTodo(new Todo(etTodoText.getText().toString(), false));
+                todoRecyclerAdapter.addTodo(etTodoText.getText().toString());
                 recyclerTodo.scrollToPosition(0);
             }
         });
