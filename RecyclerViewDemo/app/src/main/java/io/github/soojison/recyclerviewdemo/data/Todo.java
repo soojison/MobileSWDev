@@ -6,6 +6,7 @@ import io.realm.RealmObject;
  * Contains info about the to-do item
  */
 
+// system will know to create db from this class
 public class Todo extends RealmObject {
 
     private String todoText;

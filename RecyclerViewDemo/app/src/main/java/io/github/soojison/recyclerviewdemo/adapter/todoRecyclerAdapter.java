@@ -15,6 +15,7 @@ import io.github.soojison.recyclerviewdemo.R;
 import io.github.soojison.recyclerviewdemo.data.Todo;
 import io.github.soojison.recyclerviewdemo.touch.TodoTouchHelperAdapter;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * The most important class in our code.
@@ -35,10 +36,19 @@ public class TodoRecyclerAdapter
 
     public TodoRecyclerAdapter(Context context) {
         this.context = context;
-        todoList = new ArrayList<Todo>();
 
         // init realm
         realmTodo = Realm.getDefaultInstance();
+
+        // get all the data from the database
+        RealmResults<Todo> todoResult = realmTodo.where(Todo.class).findAll();
+
+        todoList = new ArrayList<Todo>();
+
+        // load objects from the fetched data
+        for (int i = 0; i < todoResult.size(); i++) {
+            todoList.add(todoResult.get(i));
+        }
     }
 
     @Override
