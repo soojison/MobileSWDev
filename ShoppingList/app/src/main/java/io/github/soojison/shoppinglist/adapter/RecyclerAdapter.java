@@ -29,11 +29,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         itemList = new ArrayList<Item>();
         realmItem = Realm.getDefaultInstance();
 
-        for (int i = 0; i < 3; i++) {
-            short num = 1;
-            Item item = new Item("name", "desc", i, false, num);
-            itemList.add(item);
-        }
+        itemList.add(new Item("Chicken", "sum mad proteins", 3.99, false, Category.FOOD));
+        itemList.add(new Item("Toilet Paper", "my ass needs to be wiped", 5.99, false, Category.TOILETRIES));
+        itemList.add(new Item("Notebook", "gotta educate my brain", 1.99, false, Category.EDUCATION));
+        itemList.add(new Item("Dark Souls 3", "because I hate myself", 69.99, true, Category.ENTERTAINMENT));
+        itemList.add(new Item("Car Battery", "My car died", 199.99, true, Category.MISC));
         itemList.add(new Item("boo", context.getString(R.string.lorem_ipsum), 99.99, true, Category.APPAREL));
     }
 
@@ -53,24 +53,30 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.tvName.setText(itemList.get(position).getName());
         holder.tvDescription.setText(itemList.get(position).getDescription());
         holder.tvPrice.setText("$" + String.valueOf(itemList.get(position).getPrice()));
-        holder.imgCategory.setImageResource(R.drawable.ic_done);
+        holder.imgCategory.setImageResource(getCategory(itemList.get(position).getCategory()));
         holder.cbDone.setChecked(itemList.get(position).isDone());
     }
 
-    public String getCategory(short category) {
-        String ret = "";
+    public int getCategory(short category) {
+        int ret = -1;
         switch (category) {
             case Category.FOOD:
+                ret = R.drawable.food;
                 break;
             case Category.TOILETRIES:
+                ret = R.drawable.toiletries;
                 break;
             case Category.EDUCATION:
+                ret = R.drawable.education;
                 break;
             case Category.APPAREL:
+                ret = R.drawable.apparel;
                 break;
             case Category.ENTERTAINMENT:
+                ret = R.drawable.entertainment;
                 break;
             case Category.MISC:
+                ret = R.drawable.misc;
                 break;
             default:
                 break;
