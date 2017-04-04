@@ -57,7 +57,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.cbDone.setChecked(itemList.get(position).isDone());
     }
 
-    public int getCategory(short category) {
+    public int getCategory(int category) {
         int ret = -1;
         switch (category) {
             case Category.FOOD:
@@ -92,6 +92,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void addItem(Item item) {
         itemList.add(0, item);
         notifyItemInserted(0);
+    }
+
+    public void deleteAll() {
+        itemList.clear();
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

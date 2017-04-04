@@ -3,15 +3,16 @@ package io.github.soojison.shoppinglist;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
+import io.github.soojison.shoppinglist.data.Item;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         initializeToolBar();
 
-        recyclerItem = (RecyclerView) findViewById(R.id.recyclerItem);
+        recyclerItem = (RecyclerView) findViewById(R.id.recyclerItemView);
         recyclerItem.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerItem.setLayoutManager(layoutManager);
@@ -55,14 +56,27 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menuAdd:
-                startActivity(new Intent().setClass(MainActivity.this, AddActivity.class));
+                Intent intent = new Intent(this, AddActivity.class);
+                startActivityForResult(intent, 420);
+
                 break;
             case R.id.menuDeleteAll:
-                Toast.makeText(this, "Deleteall", Toast.LENGTH_SHORT).show();
+                recyclerAdapter.deleteAll();
                 break;
             default:
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 420 && resultCode == RESULT_OK) {
+            Log.i("TAG_INTENT", "a thing passed");
+            Item recievedItem = (Item) data.getExtras().get("passed_item");
+            Log.i("TAG_INTENT", recievedItem.getName() + recievedItem.getDescription());
+            //recyclerAdapter.addItem(passedItem);
+        }
     }
 }

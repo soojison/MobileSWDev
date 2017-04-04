@@ -33,4 +33,7 @@ dependencies {
 
     // Expandable Layout
     compile 'com.github.traex.expandablelayout:library:1.2.2'
+
+    // Butterknife
+    compile 'com.jakewharton:butterknife:8.5.1'
 }

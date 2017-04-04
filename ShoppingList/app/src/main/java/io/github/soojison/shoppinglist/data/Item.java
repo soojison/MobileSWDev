@@ -1,24 +1,37 @@
 package io.github.soojison.shoppinglist.data;
 
-public class Item {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Item implements Parcelable {
 
     public String name;
     public String description;
     public double price;
     public boolean done;
-    public short category;
+    public int category;
 
     public Item() {
 
     }
 
-    public Item(String name, String description, double price, boolean done, short category) {
+    public Item(String name, String description, double price, boolean done, int category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.done = done;
         this.category = category;
     }
+
+    protected Item(Parcel in) {
+        name = in.readString();
+        description = in.readString();
+        price = in.readDouble();
+        done = in.readByte() != 0;
+        category = in.readInt();
+    }
+
+
 
     public String getName() {
         return name;
@@ -52,11 +65,37 @@ public class Item {
         this.done = done;
     }
 
-    public short getCategory() {
+    public int getCategory() {
         return category;
     }
 
     public void setCategory(short category) {
         this.category = category;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeDouble(price);
+        dest.writeByte((byte) (done ? 1 : 0));
+        dest.writeInt(category);
+    }
+
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 }
