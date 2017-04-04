@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="choices_array">
+        <item>Food</item>
+        <item>Toiletries</item>
+        <item>Education</item>
+        <item>Apparel</item>
+        <item>Entertainment</item>
+        <item>Misc</item>
+    </string-array>
+</resources>

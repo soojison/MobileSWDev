@@ -7,6 +7,103 @@
     android:orientation="vertical"
     tools:context="io.github.soojison.shoppinglist.AddActivity">
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Name"
+            android:textColor="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Item name"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_marginTop="16dp"
+            android:text="Description"
+            android:textColor="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Item description"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="2000"
+            android:maxLines="4"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+        <LinearLayout
+            android:id="@+id/layoutPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="Price"
+                android:textColor="@color/colorAccent" />
+
+            <EditText
+                android:id="@+id/etPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Item price"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="3dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="Category"
+                android:textColor="@color/colorAccent" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                style="@style/Widget.AppCompat.Spinner.Underlined"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+    </LinearLayout>
+
 
 </LinearLayout>

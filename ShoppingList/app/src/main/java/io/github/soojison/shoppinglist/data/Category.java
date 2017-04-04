@@ -6,4 +6,5 @@ public class Category {
     public static final short EDUCATION = 3;
     public static final short APPAREL = 4;
     public static final short ENTERTAINMENT = 5;
+    public static final short MISC = 6;
 }

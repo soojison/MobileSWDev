@@ -15,8 +15,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initializeToolBar();
+    }
+
+    public void initializeToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("All");
+        }
     }
 
     @Override
