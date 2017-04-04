@@ -3,12 +3,20 @@ package io.github.soojison.shoppinglist;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
+
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerAdapter recyclerAdapter;
+    private RecyclerView recyclerItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +24,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initializeToolBar();
+
+        recyclerItem = (RecyclerView) findViewById(R.id.recyclerItem);
+        recyclerItem.setHasFixedSize(true);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerItem.setLayoutManager(layoutManager);
+
+        recyclerAdapter = new RecyclerAdapter(this);
+        recyclerItem.setAdapter(recyclerAdapter);
     }
 
     public void initializeToolBar() {

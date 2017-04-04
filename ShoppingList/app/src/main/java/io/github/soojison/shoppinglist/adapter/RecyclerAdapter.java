@@ -25,6 +25,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         this.context = context;
         itemList = new ArrayList<Item>();
         realmItem = Realm.getDefaultInstance();
+
+        for (int i = 0; i < 3; i++) {
+            short num = 1;
+            Item item = new Item("name", "desc", i, false, num);
+            itemList.add(item);
+        }
     }
 
     @Override
@@ -41,8 +47,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvName.setText(itemList.get(position).getName());
         holder.tvDescription.setText(itemList.get(position).getDescription());
-        holder.tvPrice.setText("" + itemList.get(position).getPrice());
-        holder.tvCategory.setText(itemList.get(position).getCategory());
+        holder.tvPrice.setText(String.valueOf(itemList.get(position).getPrice()));
+        holder.tvCategory.setText(String.valueOf(itemList.get(position).getCategory()));
     }
 
     @Override
