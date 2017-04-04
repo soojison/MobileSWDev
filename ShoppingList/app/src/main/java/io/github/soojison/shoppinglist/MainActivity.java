@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerItem;
 
+    //TODO: multiple quantities, indicate how much u wanna buy sth?
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -5,12 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.github.soojison.shoppinglist.R;
+import io.github.soojison.shoppinglist.data.Category;
 import io.github.soojison.shoppinglist.data.Item;
 import io.realm.Realm;
 
@@ -31,6 +34,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             Item item = new Item("name", "desc", i, false, num);
             itemList.add(item);
         }
+        itemList.add(new Item("boo", context.getString(R.string.lorem_ipsum), 99.99, true, Category.APPAREL));
     }
 
     @Override
@@ -43,12 +47,35 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return new ViewHolder(rowView);
     }
 
+    // TODO: Customize the currency
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvName.setText(itemList.get(position).getName());
         holder.tvDescription.setText(itemList.get(position).getDescription());
-        holder.tvPrice.setText(String.valueOf(itemList.get(position).getPrice()));
-        holder.tvCategory.setText(String.valueOf(itemList.get(position).getCategory()));
+        holder.tvPrice.setText("$" + String.valueOf(itemList.get(position).getPrice()));
+        holder.imgCategory.setImageResource(R.drawable.ic_done);
+        holder.cbDone.setChecked(itemList.get(position).isDone());
+    }
+
+    public String getCategory(short category) {
+        String ret = "";
+        switch (category) {
+            case Category.FOOD:
+                break;
+            case Category.TOILETRIES:
+                break;
+            case Category.EDUCATION:
+                break;
+            case Category.APPAREL:
+                break;
+            case Category.ENTERTAINMENT:
+                break;
+            case Category.MISC:
+                break;
+            default:
+                break;
+        }
+        return ret;
     }
 
     @Override
@@ -66,14 +93,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         private TextView tvName;
         private TextView tvDescription;
         private TextView tvPrice;
-        private TextView tvCategory;
+        private CheckBox cbDone;
+        private ImageView imgCategory;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvName = (TextView) itemView.findViewById(R.id.tvName);
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             tvPrice = (TextView) itemView.findViewById(R.id.tvPrice);
-            tvCategory = (TextView) itemView.findViewById(R.id.tvCategory);
+            cbDone = (CheckBox) itemView.findViewById(R.id.cbDone);
+            imgCategory = (ImageView) itemView.findViewById(R.id.imgCategory);
         }
     }
 }

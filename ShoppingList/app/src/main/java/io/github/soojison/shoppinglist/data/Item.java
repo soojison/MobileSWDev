@@ -5,18 +5,18 @@ public class Item {
     public String name;
     public String description;
     public double price;
-    public boolean boughtStatus;
+    public boolean done;
     public short category;
 
     public Item() {
 
     }
 
-    public Item(String name, String description, double price, boolean boughtStatus, short category) {
+    public Item(String name, String description, double price, boolean done, short category) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.boughtStatus = boughtStatus;
+        this.done = done;
         this.category = category;
     }
 
@@ -44,12 +44,12 @@ public class Item {
         this.price = price;
     }
 
-    public boolean isBoughtStatus() {
-        return boughtStatus;
+    public boolean isDone() {
+        return done;
     }
 
-    public void setBoughtStatus(boolean boughtStatus) {
-        this.boughtStatus = boughtStatus;
+    public void setDone(boolean done) {
+        this.done = done;
     }
 
     public short getCategory() {

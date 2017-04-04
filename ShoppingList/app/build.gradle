@@ -30,4 +30,7 @@ dependencies {
 
     // TextInputLayout
     compile 'com.android.support:design:25.3.0'
+
+    // Expandable Layout
+    compile 'com.github.traex.expandablelayout:library:1.2.2'
 }
