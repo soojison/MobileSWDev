@@ -5,16 +5,14 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import io.github.soojison.shoppinglist.data.Category;
 import io.github.soojison.shoppinglist.data.Item;
 
 public class AddActivity extends AppCompatActivity {
@@ -26,6 +24,8 @@ public class AddActivity extends AppCompatActivity {
     private EditText etPrice;
 
     private Item resultItem;
+
+    private int category;
 
     // TODO: make sure the ET thing is not empty
 
@@ -42,7 +42,7 @@ public class AddActivity extends AppCompatActivity {
         etDescription = (EditText) findViewById(R.id.etDescription);
         etPrice = (EditText) findViewById(R.id.etPrice);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
         // adapter
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.choices_array, android.R.layout.simple_spinner_item);
@@ -50,6 +50,18 @@ public class AddActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to spinner
         spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category = spinner.getSelectedItemPosition() + 1; // +1 to compensate for category class numbering system
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void initializeToolBar() {
@@ -98,7 +110,7 @@ public class AddActivity extends AppCompatActivity {
                 Toast.makeText(this, "Done Pressed", Toast.LENGTH_SHORT).show();
                 if(!isEmpty()) {
                     resultItem = new Item(etName.getText().toString(), etDescription.getText().toString(),
-                            33, false, Category.ENTERTAINMENT); //TODO: handle categories
+                            33, false, category);
                     finish();
                 }
                 break;

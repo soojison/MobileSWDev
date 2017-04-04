@@ -19,6 +19,7 @@ import io.realm.Realm;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
+    //TODO: swipe actions and swap actions support
     private List<Item> itemList;
     private Context context;
 

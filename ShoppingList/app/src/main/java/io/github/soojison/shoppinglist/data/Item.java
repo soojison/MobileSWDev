@@ -5,11 +5,11 @@ import android.os.Parcelable;
 
 public class Item implements Parcelable {
 
-    public String name;
-    public String description;
-    public double price;
-    public boolean done;
-    public int category;
+    private String name;
+    private String description;
+    private double price;
+    private boolean done;
+    private int category;
 
     public Item() {
 
@@ -69,7 +69,7 @@ public class Item implements Parcelable {
         return category;
     }
 
-    public void setCategory(short category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerItem.setLayoutManager(layoutManager);
 
+        // TODO: if the list is empty say that the list is empty in the view
         recyclerAdapter = new RecyclerAdapter(this);
         recyclerItem.setAdapter(recyclerAdapter);
     }
@@ -74,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 420 && resultCode == RESULT_OK) {
             Log.i("TAG_INTENT", "a thing passed");
-            Item recievedItem = (Item) data.getExtras().get("passed_item");
-            Log.i("TAG_INTENT", recievedItem.getName() + recievedItem.getDescription());
-            //recyclerAdapter.addItem(passedItem);
+            Item passedItem = (Item) data.getExtras().get("passed_item");
+            Log.i("TAG_INTENT", passedItem.getName() + passedItem.getDescription());
+            recyclerAdapter.addItem(passedItem);
         }
     }
 }
