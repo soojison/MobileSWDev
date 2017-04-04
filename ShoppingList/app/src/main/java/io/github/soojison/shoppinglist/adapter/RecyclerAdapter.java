@@ -16,10 +16,12 @@ import io.github.soojison.shoppinglist.R;
 import io.github.soojison.shoppinglist.data.Category;
 import io.github.soojison.shoppinglist.data.Item;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     //TODO: swipe actions and swap actions support
+    // TODO: Persistent database stuff
     private List<Item> itemList;
     private Context context;
 
@@ -30,12 +32,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         itemList = new ArrayList<Item>();
         realmItem = Realm.getDefaultInstance();
 
-        itemList.add(new Item("Chicken", "sum mad proteins", 3.99, false, Category.FOOD));
-        itemList.add(new Item("Toilet Paper", "my ass needs to be wiped", 5.99, false, Category.TOILETRIES));
-        itemList.add(new Item("Notebook", "gotta educate my brain", 1.99, false, Category.EDUCATION));
-        itemList.add(new Item("Dark Souls 3", "because I hate myself", 69.99, true, Category.ENTERTAINMENT));
-        itemList.add(new Item("Car Battery", "My car died", 199.99, true, Category.MISC));
-        itemList.add(new Item("boo", context.getString(R.string.lorem_ipsum), 99.99, true, Category.APPAREL));
+        RealmResults<Item> itemRealmResults = realmItem.where(Item.class).findAll();
+
+        for (int i = 0; i < itemRealmResults.size(); i++) {
+            itemList.add(itemRealmResults.get(i));
+        }
     }
 
     @Override
@@ -90,12 +91,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return itemList.size();
     }
 
-    public void addItem(Item item) {
-        itemList.add(0, item);
+    public void addItem(String itemName, String itemDescription,
+                        double itemPrice, int itemCategory) {
+        realmItem.beginTransaction();
+        Item newItem = realmItem.createObject(Item.class);
+        newItem.setName(itemName);
+        newItem.setDescription(itemDescription);
+        newItem.setPrice(itemPrice);
+        newItem.setDone(false);
+        newItem.setCategory(itemCategory);
+        realmItem.commitTransaction();
+        itemList.add(0, newItem);
         notifyItemInserted(0);
     }
 
     public void deleteAll() {
+        realmItem.beginTransaction();
+        realmItem.deleteAll();
+        realmItem.commitTransaction();
         itemList.clear();
         notifyDataSetChanged();
     }
@@ -116,5 +129,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             cbDone = (CheckBox) itemView.findViewById(R.id.cbDone);
             imgCategory = (ImageView) itemView.findViewById(R.id.imgCategory);
         }
+    }
+
+    public void closeRealm() {
+        realmItem.close();
     }
 }

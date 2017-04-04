@@ -18,18 +18,14 @@ import io.github.soojison.shoppinglist.data.Item;
 public class AddActivity extends AppCompatActivity {
 
     private EditText etName;
-
     private EditText etDescription;
-
     private EditText etPrice;
-
     private Item resultItem;
-
     private int category;
 
-    // TODO: make sure the ET thing is not empty
-
     //TODO: make sure the prices are only two digits
+
+    //TODO: some animation??
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +39,13 @@ public class AddActivity extends AppCompatActivity {
         etPrice = (EditText) findViewById(R.id.etPrice);
 
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        // adapter
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.choices_array, android.R.layout.simple_spinner_item);
-        // specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to spinner
-        spinner.setAdapter(adapter);
+        initSpinner(spinner);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                category = spinner.getSelectedItemPosition() + 1; // +1 to compensate for category class numbering system
+                category = spinner.getSelectedItemPosition() + 1;
+                // +1 to compensate for category class numbering system
             }
 
             @Override
@@ -64,7 +55,17 @@ public class AddActivity extends AppCompatActivity {
         });
     }
 
-    public void initializeToolBar() {
+    private void initSpinner(Spinner spinner) {
+        // adapter
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.choices_array, android.R.layout.simple_spinner_item);
+        // specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to spinner
+        spinner.setAdapter(adapter);
+    }
+
+    private void initializeToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -87,7 +88,7 @@ public class AddActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean isEmpty() {
+    public boolean etIsEmpty() {
         if(etName.getText().toString().trim().equalsIgnoreCase("")) {
             etName.setError("The name cannot be empty");
             etName.requestFocus();
@@ -108,9 +109,9 @@ public class AddActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.menuDone:
                 Toast.makeText(this, "Done Pressed", Toast.LENGTH_SHORT).show();
-                if(!isEmpty()) {
+                if(!etIsEmpty()) {
                     resultItem = new Item(etName.getText().toString(), etDescription.getText().toString(),
-                            33, false, category);
+                            Double.parseDouble(etPrice.getText().toString()), false, category);
                     finish();
                 }
                 break;

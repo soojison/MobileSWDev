@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerItem;
+    //TODO: icon source https://www.iconfinder.com/iconsets/flat-icons-19
+    //TODO: layout inspo: http://materialdesignblog.com/expandable-list-view-with-material-design/
 
     //TODO: multiple quantities, indicate how much u wanna buy sth?
 
@@ -77,7 +79,14 @@ public class MainActivity extends AppCompatActivity {
             Log.i("TAG_INTENT", "a thing passed");
             Item passedItem = (Item) data.getExtras().get("passed_item");
             Log.i("TAG_INTENT", passedItem.getName() + passedItem.getDescription());
-            recyclerAdapter.addItem(passedItem);
+            recyclerAdapter.addItem(passedItem.getName(), passedItem.getDescription(),
+                    passedItem.getPrice(), passedItem.getCategory());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        recyclerAdapter.closeRealm();
     }
 }

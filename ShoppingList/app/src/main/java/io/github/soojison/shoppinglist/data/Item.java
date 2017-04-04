@@ -3,7 +3,9 @@ package io.github.soojison.shoppinglist.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Item implements Parcelable {
+import io.realm.RealmObject;
+
+public class Item extends RealmObject implements Parcelable {
 
     private String name;
     private String description;
