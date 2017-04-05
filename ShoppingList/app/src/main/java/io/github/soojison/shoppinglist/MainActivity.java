@@ -10,6 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
@@ -18,11 +19,11 @@ import io.github.soojison.shoppinglist.touch.ItemTouchHelperCallback;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerAdapter recyclerAdapter;
-    private RecyclerView recyclerItem;
+    public static RecyclerAdapter recyclerAdapter;
+    public static RecyclerView recyclerItem;
     //TODO: icon source https://www.iconfinder.com/iconsets/flat-icons-19
     //TODO: layout inspo: http://materialdesignblog.com/expandable-list-view-with-material-design/
-
+    //TODO: swipe dismiss undo
     //TODO: multiple quantities, indicate how much u wanna buy sth?
 
     @Override
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(recyclerAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerItem);
+
     }
 
     public void initializeToolBar() {

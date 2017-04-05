@@ -109,7 +109,6 @@ public class AddActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menuDone:
-                Toast.makeText(this, "Done Pressed", Toast.LENGTH_SHORT).show();
                 if(!etIsEmpty()) {
                     resultItem = new Item(etName.getText().toString(), etDescription.getText().toString(),
                             Double.parseDouble(etPrice.getText().toString()), false, category);

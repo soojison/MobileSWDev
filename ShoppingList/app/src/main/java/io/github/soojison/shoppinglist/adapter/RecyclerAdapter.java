@@ -1,6 +1,7 @@
 package io.github.soojison.shoppinglist.adapter;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,6 @@ public class RecyclerAdapter
         implements TouchHelperAdapter {
 
     // TODO: change categories? / edit items after once you've made
-    // TODO: swipe actions and swap actions support
     private List<Item> itemList;
     private Context context;
 
@@ -109,6 +110,20 @@ public class RecyclerAdapter
         notifyItemInserted(itemList.size());
     }
 
+    public void addItem(String itemName, String itemDescription,
+                        double itemPrice, int itemCategory, int pos) {
+        realmItem.beginTransaction();
+        Item newItem = realmItem.createObject(Item.class);
+        newItem.setName(itemName);
+        newItem.setDescription(itemDescription);
+        newItem.setPrice(itemPrice);
+        newItem.setDone(false);
+        newItem.setCategory(itemCategory);
+        realmItem.commitTransaction();
+        itemList.add(pos, newItem);
+        notifyItemInserted(pos);
+    }
+
     public void deleteAll() {
         realmItem.beginTransaction();
         realmItem.deleteAll();
@@ -153,5 +168,34 @@ public class RecyclerAdapter
 
     public void closeRealm() {
         realmItem.close();
+    }
+
+    // TODO: item is not in the right place when you exit the app
+    public void onItemRemove(final RecyclerView.ViewHolder viewHolder,
+                                    final RecyclerView recyclerView) {
+
+        final int adapterPosition = viewHolder.getAdapterPosition();
+        Item mItem = itemList.get(adapterPosition);
+        final int deletedPos = adapterPosition;
+        final Item deletedItem = new Item(mItem.getName(), mItem.getDescription(), mItem.getPrice(), false, mItem.getCategory());
+
+        realmItem.beginTransaction();
+        itemList.get(adapterPosition).deleteFromRealm();
+        itemList.remove(adapterPosition);
+        notifyItemRemoved(adapterPosition);
+        realmItem.commitTransaction();
+
+        Snackbar snackbar = Snackbar.make(recyclerView, deletedItem.getName() + " REMOVED", Snackbar.LENGTH_LONG)
+                .setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context, deletedItem.getName() + " Added Back", Toast.LENGTH_SHORT).show();
+                        addItem(deletedItem.getName(), deletedItem.getDescription(), deletedItem.getPrice(), deletedItem.getCategory(), deletedPos);
+                        recyclerView.scrollToPosition(adapterPosition);
+                    }
+                });
+        snackbar.show();
+
+
     }
 }
