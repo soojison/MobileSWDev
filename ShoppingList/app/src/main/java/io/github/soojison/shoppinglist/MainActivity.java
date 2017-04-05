@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.menuAdd:
                 Intent intent = new Intent(this, AddActivity.class);
+                //TODO: fix this number
                 startActivityForResult(intent, 420);
 
                 break;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //TODO: do something abt this number
         if(requestCode == 420 && resultCode == RESULT_OK) {
             Log.i("TAG_INTENT", "a thing passed");
             Item passedItem = (Item) data.getExtras().get("passed_item");

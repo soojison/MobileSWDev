@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.github.soojison.shoppinglist.R;
@@ -36,7 +37,7 @@ public class RecyclerAdapter
         itemList = new ArrayList<Item>();
         realmItem = Realm.getDefaultInstance();
 
-        RealmResults<Item> itemRealmResults = realmItem.where(Item.class).findAll();
+        RealmResults<Item> itemRealmResults = realmItem.where(Item.class).findAll().sort(Item.INDEX);
 
         for (int i = 0; i < itemRealmResults.size(); i++) {
             itemList.add(itemRealmResults.get(i));
@@ -55,12 +56,21 @@ public class RecyclerAdapter
 
     // TODO: Customize the currency
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.tvName.setText(itemList.get(position).getName());
         holder.tvDescription.setText(itemList.get(position).getDescription());
-        holder.tvPrice.setText(String.format("$%s", String.valueOf(itemList.get(position).getPrice())));
+        holder.tvPrice.setText(String.format("$%s, index = %d", String.valueOf(itemList.get(position).getPrice()),
+                itemList.get(position).getIndex()));
         holder.imgCategory.setImageResource(getCategory(itemList.get(position).getCategory()));
         holder.cbDone.setChecked(itemList.get(position).isDone());
+        holder.cbDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                realmItem.beginTransaction();
+                itemList.get(holder.getAdapterPosition()).setDone(holder.cbDone.isChecked());
+                realmItem.commitTransaction();
+            }
+        });
     }
 
     public int getCategory(int category) {
@@ -105,20 +115,22 @@ public class RecyclerAdapter
         newItem.setPrice(itemPrice);
         newItem.setDone(false);
         newItem.setCategory(itemCategory);
+        newItem.setIndex(itemList.size());
         realmItem.commitTransaction();
         itemList.add(newItem);
         notifyItemInserted(itemList.size());
     }
 
     public void addItem(String itemName, String itemDescription,
-                        double itemPrice, int itemCategory, int pos) {
+                        double itemPrice, boolean itemDone, int itemCategory, int pos) {
         realmItem.beginTransaction();
         Item newItem = realmItem.createObject(Item.class);
         newItem.setName(itemName);
         newItem.setDescription(itemDescription);
         newItem.setPrice(itemPrice);
-        newItem.setDone(false);
+        newItem.setDone(itemDone);
         newItem.setCategory(itemCategory);
+        newItem.setIndex(pos);
         realmItem.commitTransaction();
         itemList.add(pos, newItem);
         notifyItemInserted(pos);
@@ -143,9 +155,41 @@ public class RecyclerAdapter
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        itemList.add(toPosition, itemList.get(fromPosition));
-        itemList.remove(fromPosition);
-        notifyItemMoved(fromPosition, toPosition);
+        // TODO: get this working... Inconsistency detected. Invalid view holder adapter positionViewHolder
+        Item itemToMove = itemList.get(fromPosition);
+        moveItem(itemToMove, fromPosition, toPosition);
+        //notifyDataSetChanged();
+        notifyItemMoved(fromPosition,toPosition);
+    }
+
+
+    private void moveItem(Item item, final int fromPosition, final int toPosition) {
+        final int index = item.getIndex();
+        realmItem.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Item item = realm.where(Item.class).equalTo(Item.INDEX, index).findFirst();
+                if(fromPosition < toPosition) {
+                    RealmResults<Item> results = realm.where(Item.class)
+                                                        .greaterThan(Item.INDEX, fromPosition)
+                                                        .lessThan(Item.INDEX, toPosition)
+                                                        .findAll();
+                    for (int i = 0; i < results.size(); i++) {
+                        results.get(i).setIndex(results.get(i).getIndex() - 1);
+                    }
+                } else {
+                    RealmResults<Item> results = realm.where(Item.class)
+                                                        .greaterThanOrEqualTo(Item.INDEX, toPosition)
+                                                        .lessThan(Item.INDEX, fromPosition)
+                                                        .findAll();
+                    for (int i = 0; i < results.size(); i++) {
+                        results.get(i).setIndex(results.get(i).getIndex() + 1);
+                    }
+                }
+                item.setIndex(toPosition);
+            }
+        });
+        realmItem.setAutoRefresh(true);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -177,7 +221,8 @@ public class RecyclerAdapter
         final int adapterPosition = viewHolder.getAdapterPosition();
         Item mItem = itemList.get(adapterPosition);
         final int deletedPos = adapterPosition;
-        final Item deletedItem = new Item(mItem.getName(), mItem.getDescription(), mItem.getPrice(), false, mItem.getCategory());
+        final Item deletedItem = new Item(mItem.getName(), mItem.getDescription(), mItem.getPrice(),
+                mItem.isDone(), mItem.getCategory(), mItem.getIndex());
 
         realmItem.beginTransaction();
         itemList.get(adapterPosition).deleteFromRealm();
@@ -190,12 +235,11 @@ public class RecyclerAdapter
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(context, deletedItem.getName() + " Added Back", Toast.LENGTH_SHORT).show();
-                        addItem(deletedItem.getName(), deletedItem.getDescription(), deletedItem.getPrice(), deletedItem.getCategory(), deletedPos);
+                        addItem(deletedItem.getName(), deletedItem.getDescription(), deletedItem.getPrice(),
+                                deletedItem.isDone(), deletedItem.getCategory(), deletedPos);
                         recyclerView.scrollToPosition(adapterPosition);
                     }
                 });
         snackbar.show();
-
-
     }
 }
