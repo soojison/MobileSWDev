@@ -15,13 +15,16 @@ import java.util.List;
 import io.github.soojison.shoppinglist.R;
 import io.github.soojison.shoppinglist.data.Category;
 import io.github.soojison.shoppinglist.data.Item;
+import io.github.soojison.shoppinglist.touch.TouchHelperAdapter;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class RecyclerAdapter
+        extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
+        implements TouchHelperAdapter {
 
-    //TODO: swipe actions and swap actions support
-    // TODO: Persistent database stuff
+    // TODO: change categories? / edit items after once you've made
+    // TODO: swipe actions and swap actions support
     private List<Item> itemList;
     private Context context;
 
@@ -54,7 +57,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvName.setText(itemList.get(position).getName());
         holder.tvDescription.setText(itemList.get(position).getDescription());
-        holder.tvPrice.setText("$" + String.valueOf(itemList.get(position).getPrice()));
+        holder.tvPrice.setText(String.format("$%s", String.valueOf(itemList.get(position).getPrice())));
         holder.imgCategory.setImageResource(getCategory(itemList.get(position).getCategory()));
         holder.cbDone.setChecked(itemList.get(position).isDone());
     }
@@ -91,6 +94,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return itemList.size();
     }
 
+
     public void addItem(String itemName, String itemDescription,
                         double itemPrice, int itemCategory) {
         realmItem.beginTransaction();
@@ -101,8 +105,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         newItem.setDone(false);
         newItem.setCategory(itemCategory);
         realmItem.commitTransaction();
-        itemList.add(0, newItem);
-        notifyItemInserted(0);
+        itemList.add(newItem);
+        notifyItemInserted(itemList.size());
     }
 
     public void deleteAll() {
@@ -111,6 +115,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         realmItem.commitTransaction();
         itemList.clear();
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        realmItem.beginTransaction();
+        itemList.get(position).deleteFromRealm();
+        realmItem.commitTransaction();
+        itemList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        itemList.add(toPosition, itemList.get(fromPosition));
+        itemList.remove(fromPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

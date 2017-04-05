@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
 import io.github.soojison.shoppinglist.data.Item;
+import io.github.soojison.shoppinglist.touch.ItemTouchHelperCallback;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         // TODO: if the list is empty say that the list is empty in the view
         recyclerAdapter = new RecyclerAdapter(this);
         recyclerItem.setAdapter(recyclerAdapter);
+
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(recyclerAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerItem);
     }
 
     public void initializeToolBar() {
@@ -89,4 +95,5 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         recyclerAdapter.closeRealm();
     }
+
 }

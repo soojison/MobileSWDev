@@ -23,8 +23,6 @@ public class AddActivity extends AppCompatActivity {
     private Item resultItem;
     private int category;
 
-    //TODO: make sure the prices are only two digits
-
     //TODO: some animation??
 
     @Override
@@ -98,6 +96,9 @@ public class AddActivity extends AppCompatActivity {
         } else if(etPrice.getText().toString().trim().equalsIgnoreCase("")) {
             etPrice.setError("The price cannot be empty");
             etPrice.requestFocus();
+        } else if(longerThanTwo(etPrice.getText().toString().trim())) {
+            etPrice.setError("Please round your values to two decimal digits");
+            etPrice.requestFocus();
         } else {
             return false;
         }
@@ -112,6 +113,7 @@ public class AddActivity extends AppCompatActivity {
                 if(!etIsEmpty()) {
                     resultItem = new Item(etName.getText().toString(), etDescription.getText().toString(),
                             Double.parseDouble(etPrice.getText().toString()), false, category);
+                    passIntent();
                     finish();
                 }
                 break;
@@ -121,11 +123,15 @@ public class AddActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void finish() {
+    public void passIntent() {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("passed_item", (Parcelable) resultItem);
         setResult(RESULT_OK, returnIntent);
-        super.finish();
     }
+
+    private boolean longerThanTwo(String value) {
+        String[] decimal = value.split("\\.");
+        return decimal.length != 1 && decimal[1].length() > 2;
+    }
+
 }
