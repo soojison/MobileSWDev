@@ -12,10 +12,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 import io.github.soojison.shoppinglist.data.Item;
 
 public class AddActivity extends AppCompatActivity {
+
 
     private EditText etName;
     private EditText etDescription;
@@ -29,7 +30,6 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-
         initializeToolBar();
 
         etName = (EditText) findViewById(R.id.etName);
@@ -37,8 +37,7 @@ public class AddActivity extends AppCompatActivity {
         etPrice = (EditText) findViewById(R.id.etPrice);
 
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        initSpinner(spinner);
-
+        initializeSpinner(spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -53,22 +52,13 @@ public class AddActivity extends AppCompatActivity {
         });
     }
 
-    private void initSpinner(Spinner spinner) {
-        // adapter
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.choices_array, android.R.layout.simple_spinner_item);
-        // specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to spinner
-        spinner.setAdapter(adapter);
-    }
 
     private void initializeToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Add New Item");
+            getSupportActionBar().setTitle(R.string.add_activity_title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -80,6 +70,17 @@ public class AddActivity extends AppCompatActivity {
         });
     }
 
+    private void initializeSpinner(Spinner spinner) {
+        // adapter
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.choices_array, android.R.layout.simple_spinner_item);
+        // specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to spinner
+        spinner.setAdapter(adapter);
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add, menu);
@@ -88,16 +89,16 @@ public class AddActivity extends AppCompatActivity {
 
     public boolean etIsEmpty() {
         if(etName.getText().toString().trim().equalsIgnoreCase("")) {
-            etName.setError("The name cannot be empty");
+            etName.setError(getString(R.string.et_name_empty_error));
             etName.requestFocus();
         } else if(etDescription.getText().toString().trim().equalsIgnoreCase("")) {
-            etDescription.setError("The description cannot be empty");
+            etDescription.setError(getString(R.string.et_desc_empty_error));
             etDescription.requestFocus();
         } else if(etPrice.getText().toString().trim().equalsIgnoreCase("")) {
-            etPrice.setError("The price cannot be empty");
+            etPrice.setError(getString(R.string.et_price_empty_error));
             etPrice.requestFocus();
         } else if(longerThanTwo(etPrice.getText().toString().trim())) {
-            etPrice.setError("Please round your values to two decimal digits");
+            etPrice.setError(getString(R.string.et_price_decimal_error));
             etPrice.requestFocus();
         } else {
             return false;
@@ -105,13 +106,22 @@ public class AddActivity extends AppCompatActivity {
         return true;
     }
 
+    private boolean longerThanTwo(String value) {
+        String[] decimal = value.split("\\.");
+        return decimal.length != 1 && decimal[1].length() > 2;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menuDone:
                 if(!etIsEmpty()) {
-                    resultItem = new Item(etName.getText().toString(), etDescription.getText().toString(),
-                            Double.parseDouble(etPrice.getText().toString()), false, category);
+                    resultItem = new Item(
+                            etName.getText().toString(),
+                            etDescription.getText().toString(),
+                            Double.parseDouble(etPrice.getText().toString()),
+                            false,
+                            category);
                     passIntent();
                     finish();
                 }
@@ -124,13 +134,8 @@ public class AddActivity extends AppCompatActivity {
 
     public void passIntent() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("passed_item", (Parcelable) resultItem);
+        returnIntent.putExtra(MainActivity.PASSED_ITEM, (Parcelable) resultItem);
         setResult(RESULT_OK, returnIntent);
-    }
-
-    private boolean longerThanTwo(String value) {
-        String[] decimal = value.split("\\.");
-        return decimal.length != 1 && decimal[1].length() > 2;
     }
 
 }

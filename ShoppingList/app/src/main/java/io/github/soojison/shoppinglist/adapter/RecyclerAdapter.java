@@ -14,7 +14,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.soojison.shoppinglist.MainActivity;
 import io.github.soojison.shoppinglist.R;
 import io.github.soojison.shoppinglist.data.Category;
 import io.github.soojison.shoppinglist.data.Item;
@@ -27,6 +26,7 @@ public class RecyclerAdapter
         implements TouchHelperAdapter {
 
     // TODO: change categories? / edit items after once you've made
+    // TODO: Add total $$?
     private List<Item> itemList;
     private Context context;
 
@@ -43,7 +43,6 @@ public class RecyclerAdapter
             itemList.add(itemRealmResults.get(i));
         }
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -73,7 +72,7 @@ public class RecyclerAdapter
         });
     }
 
-    public int getCategory(int category) {
+    private int getCategory(int category) {
         int ret = -1;
         switch (category) {
             case Category.FOOD:
@@ -118,7 +117,8 @@ public class RecyclerAdapter
         realmItem.commitTransaction();
         itemList.add(newItem);
         notifyItemInserted(itemList.size());
-        MainActivity.toggleEmptyView();
+
+        //MainActivity.toggleEmptyView();
     }
 
     public void addItem(String itemName, String itemDescription,
@@ -132,7 +132,7 @@ public class RecyclerAdapter
         newItem.setCategory(itemCategory);
         realmItem.commitTransaction();
         itemList.add(pos, newItem);
-        MainActivity.toggleEmptyView();
+        //MainActivity.toggleEmptyView();
         notifyItemInserted(pos);
     }
 
@@ -141,17 +141,41 @@ public class RecyclerAdapter
         realmItem.deleteAll();
         realmItem.commitTransaction();
         itemList.clear();
-        MainActivity.toggleEmptyView();
+        //MainActivity.toggleEmptyAdapterView();
         notifyDataSetChanged();
     }
 
     @Override
-    public void onItemDismiss(int position) {
+    public void onItemRemove(final RecyclerView.ViewHolder viewHolder, final RecyclerView recyclerView) {
+
+        final int adapterPosition = viewHolder.getAdapterPosition();
+        Item mItem = itemList.get(adapterPosition);
+        final Item deletedItem = new Item(mItem.getName(), mItem.getDescription(), mItem.getPrice(),
+                mItem.isDone(), mItem.getCategory());
+
         realmItem.beginTransaction();
-        itemList.get(position).deleteFromRealm();
+        itemList.get(adapterPosition).deleteFromRealm();
+        itemList.remove(adapterPosition);
+        notifyItemRemoved(adapterPosition);
         realmItem.commitTransaction();
-        itemList.remove(position);
-        notifyItemRemoved(position);
+
+        //toggleEmptyView();
+
+        Snackbar snackbar = Snackbar.make(recyclerView,
+                context.getResources().getString(R.string.snackbar_notify_removed, deletedItem.getName()),
+                Snackbar.LENGTH_LONG)
+                .setAction(R.string.snackbar_undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context,
+                                context.getResources().getString(R.string.restored_item, deletedItem.getName()),
+                                Toast.LENGTH_SHORT).show();
+                        addItem(deletedItem.getName(), deletedItem.getDescription(), deletedItem.getPrice(),
+                                deletedItem.isDone(), deletedItem.getCategory(), adapterPosition);
+                        recyclerView.scrollToPosition(adapterPosition);
+                    }
+                });
+        snackbar.show();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -174,36 +198,5 @@ public class RecyclerAdapter
 
     public void closeRealm() {
         realmItem.close();
-    }
-
-    public void onItemRemove(final RecyclerView.ViewHolder viewHolder,
-                                    final RecyclerView recyclerView) {
-
-        final int adapterPosition = viewHolder.getAdapterPosition();
-        Item mItem = itemList.get(adapterPosition);
-        final int deletedPos = adapterPosition;
-        final Item deletedItem = new Item(mItem.getName(), mItem.getDescription(), mItem.getPrice(),
-                mItem.isDone(), mItem.getCategory());
-
-        realmItem.beginTransaction();
-        itemList.get(adapterPosition).deleteFromRealm();
-        itemList.remove(adapterPosition);
-        notifyItemRemoved(adapterPosition);
-        realmItem.commitTransaction();
-
-        MainActivity.toggleEmptyView();
-
-
-        Snackbar snackbar = Snackbar.make(recyclerView, deletedItem.getName() + " REMOVED", Snackbar.LENGTH_LONG)
-                .setAction("UNDO", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, deletedItem.getName() + " Added Back", Toast.LENGTH_SHORT).show();
-                        addItem(deletedItem.getName(), deletedItem.getDescription(), deletedItem.getPrice(),
-                                deletedItem.isDone(), deletedItem.getCategory(), deletedPos);
-                        recyclerView.scrollToPosition(adapterPosition);
-                    }
-                });
-        snackbar.show();
     }
 }

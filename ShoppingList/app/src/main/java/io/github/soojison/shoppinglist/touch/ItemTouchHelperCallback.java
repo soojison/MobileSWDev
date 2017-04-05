@@ -4,14 +4,14 @@ package io.github.soojison.shoppinglist.touch;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import io.github.soojison.shoppinglist.MainActivity;
-
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private TouchHelperAdapter touchHelperAdapter;
+    private final RecyclerView rv;
 
-    public ItemTouchHelperCallback(TouchHelperAdapter touchHelperAdapter) {
+    public ItemTouchHelperCallback(TouchHelperAdapter touchHelperAdapter, RecyclerView rv) {
         this.touchHelperAdapter = touchHelperAdapter;
+        this.rv = rv;
     }
 
     @Override
@@ -36,12 +36,9 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         return false;
     }
 
-
-
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        //touchHelperAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-        MainActivity.recyclerAdapter.onItemRemove(viewHolder, MainActivity.recyclerItemView);
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int position) {
+        touchHelperAdapter.onItemRemove(viewHolder, rv);
     }
 
 }
