@@ -1,17 +1,10 @@
 package io.github.soojison.shoppinglist.touch;
 
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import io.github.soojison.shoppinglist.MainActivity;
-import io.github.soojison.shoppinglist.R;
-import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
-import io.github.soojison.shoppinglist.data.Item;
 
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
@@ -23,7 +16,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return true;
+        return false;
     }
 
     @Override
@@ -40,16 +33,15 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        touchHelperAdapter.onItemMove(viewHolder.getAdapterPosition(),
-                target.getAdapterPosition());
-        return true;
+        return false;
     }
+
+
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        //final int adapterPos = viewHolder.getAdapterPosition();
-        //touchHelperAdapter.onItemDismiss(adapterPos);
-        MainActivity.recyclerAdapter.onItemRemove(viewHolder, MainActivity.recyclerItem);
+        //touchHelperAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        MainActivity.recyclerAdapter.onItemRemove(viewHolder, MainActivity.recyclerItemView);
     }
 
 }

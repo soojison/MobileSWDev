@@ -111,7 +111,7 @@ public class AddActivity extends AppCompatActivity {
             case R.id.menuDone:
                 if(!etIsEmpty()) {
                     resultItem = new Item(etName.getText().toString(), etDescription.getText().toString(),
-                            Double.parseDouble(etPrice.getText().toString()), false, category, -1);
+                            Double.parseDouble(etPrice.getText().toString()), false, category);
                     passIntent();
                     finish();
                 }

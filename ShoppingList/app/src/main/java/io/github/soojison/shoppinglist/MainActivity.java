@@ -10,8 +10,10 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
 import io.github.soojison.shoppinglist.data.Item;
@@ -19,11 +21,12 @@ import io.github.soojison.shoppinglist.touch.ItemTouchHelperCallback;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int NEW_ITEM_REQUEST_CODE = 1;
     public static RecyclerAdapter recyclerAdapter;
-    public static RecyclerView recyclerItem;
+    public static RecyclerView recyclerItemView;
+    private static TextView tvRecyclerEmpty;
+
     //TODO: icon source https://www.iconfinder.com/iconsets/flat-icons-19
-    //TODO: layout inspo: http://materialdesignblog.com/expandable-list-view-with-material-design/
-    //TODO: swipe dismiss undo
     //TODO: multiple quantities, indicate how much u wanna buy sth?
 
     @Override
@@ -33,19 +36,31 @@ public class MainActivity extends AppCompatActivity {
 
         initializeToolBar();
 
-        recyclerItem = (RecyclerView) findViewById(R.id.recyclerItemView);
-        recyclerItem.setHasFixedSize(true);
+        recyclerItemView = (RecyclerView) findViewById(R.id.recyclerItemView);
+        tvRecyclerEmpty = (TextView) findViewById(R.id.tvRecyclerEmpty);
+        recyclerItemView.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerItem.setLayoutManager(layoutManager);
+        recyclerItemView.setLayoutManager(layoutManager);
 
-        // TODO: if the list is empty say that the list is empty in the view
         recyclerAdapter = new RecyclerAdapter(this);
-        recyclerItem.setAdapter(recyclerAdapter);
+        recyclerItemView.setAdapter(recyclerAdapter);
 
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(recyclerAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(recyclerItem);
+        touchHelper.attachToRecyclerView(recyclerItemView);
 
+        toggleEmptyView();
+
+    }
+
+    public static void toggleEmptyView() {
+        if (recyclerAdapter.getItemCount() == 0) {
+            recyclerItemView.setVisibility(View.GONE);
+            tvRecyclerEmpty.setVisibility(View.VISIBLE);
+        } else {
+            recyclerItemView.setVisibility(View.VISIBLE);
+            tvRecyclerEmpty.setVisibility(View.GONE);
+        }
     }
 
     public void initializeToolBar() {
@@ -53,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("All");
+            getSupportActionBar().setTitle("All Items");
         }
     }
 
@@ -67,13 +82,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menuAdd:
-                Intent intent = new Intent(this, AddActivity.class);
-                //TODO: fix this number
-                startActivityForResult(intent, 420);
-
+                Intent addIntent = new Intent(this, AddActivity.class);
+                startActivityForResult(addIntent, NEW_ITEM_REQUEST_CODE);
                 break;
             case R.id.menuDeleteAll:
                 recyclerAdapter.deleteAll();
+                break;
+            case R.id.menuSettings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivityForResult(settingsIntent, CURRENTY_REQUEST_CODE);
                 break;
             default:
                 break;
@@ -84,11 +101,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //TODO: do something abt this number
-        if(requestCode == 420 && resultCode == RESULT_OK) {
-            Log.i("TAG_INTENT", "a thing passed");
+        if(requestCode == NEW_ITEM_REQUEST_CODE && resultCode == RESULT_OK) {
             Item passedItem = (Item) data.getExtras().get("passed_item");
-            Log.i("TAG_INTENT", passedItem.getName() + passedItem.getDescription());
             recyclerAdapter.addItem(passedItem.getName(), passedItem.getDescription(),
                     passedItem.getPrice(), passedItem.getCategory());
         }

@@ -24,4 +24,11 @@
         android:scrollbars="vertical"
         android:id="@+id/recyclerItemView"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="You have no items in your list! Start by adding some"
+        android:id="@+id/tvRecyclerEmpty"/>
+
 </LinearLayout>

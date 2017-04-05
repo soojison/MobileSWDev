@@ -4,29 +4,25 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import io.realm.RealmObject;
-import io.realm.annotations.Index;
 
 public class Item extends RealmObject implements Parcelable {
 
-    public static final String INDEX = "index";
     private String name;
     private String description;
     private double price;
     private boolean done;
     private int category;
-    private int index;
 
     public Item() {
 
     }
 
-    public Item(String name, String description, double price, boolean done, int category, int index) {
+    public Item(String name, String description, double price, boolean done, int category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.done = done;
         this.category = category;
-        this.index = index;
     }
 
     protected Item(Parcel in) {
@@ -35,16 +31,6 @@ public class Item extends RealmObject implements Parcelable {
         price = in.readDouble();
         done = in.readByte() != 0;
         category = in.readInt();
-        index = in.readInt();
-    }
-
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public String getName() {
