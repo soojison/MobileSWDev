@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import io.github.soojison.shoppinglist.MainActivity;
@@ -45,6 +44,7 @@ public class RecyclerAdapter
         }
     }
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowView = LayoutInflater.from(parent.getContext()).inflate(
@@ -55,12 +55,12 @@ public class RecyclerAdapter
         return new ViewHolder(rowView);
     }
 
-    // TODO: Customize the currency
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.tvName.setText(itemList.get(position).getName());
         holder.tvDescription.setText(itemList.get(position).getDescription());
-        holder.tvPrice.setText(String.format("$%s", String.valueOf(itemList.get(position).getPrice())));
+        String currency = "$";
+        holder.tvPrice.setText(String.format("%s%s", currency, String.valueOf(itemList.get(position).getPrice())));
         holder.imgCategory.setImageResource(getCategory(itemList.get(position).getCategory()));
         holder.cbDone.setChecked(itemList.get(position).isDone());
         holder.cbDone.setOnClickListener(new View.OnClickListener() {

@@ -7,13 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
 import io.github.soojison.shoppinglist.data.Item;
@@ -22,9 +21,10 @@ import io.github.soojison.shoppinglist.touch.ItemTouchHelperCallback;
 public class MainActivity extends AppCompatActivity {
 
     public static final int NEW_ITEM_REQUEST_CODE = 1;
+    private static final int CURRENCY_REQUEST_CODE = 2;
     public static RecyclerAdapter recyclerAdapter;
     public static RecyclerView recyclerItemView;
-    private static TextView tvRecyclerEmpty;
+    private static RelativeLayout viewRecyclerEmpty;
 
     //TODO: icon source https://www.iconfinder.com/iconsets/flat-icons-19
     //TODO: multiple quantities, indicate how much u wanna buy sth?
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         initializeToolBar();
 
         recyclerItemView = (RecyclerView) findViewById(R.id.recyclerItemView);
-        tvRecyclerEmpty = (TextView) findViewById(R.id.tvRecyclerEmpty);
+        viewRecyclerEmpty = (RelativeLayout) findViewById(R.id.viewRecyclerEmpty);
         recyclerItemView.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerItemView.setLayoutManager(layoutManager);
@@ -56,20 +56,16 @@ public class MainActivity extends AppCompatActivity {
     public static void toggleEmptyView() {
         if (recyclerAdapter.getItemCount() == 0) {
             recyclerItemView.setVisibility(View.GONE);
-            tvRecyclerEmpty.setVisibility(View.VISIBLE);
+            viewRecyclerEmpty.setVisibility(View.VISIBLE);
         } else {
             recyclerItemView.setVisibility(View.VISIBLE);
-            tvRecyclerEmpty.setVisibility(View.GONE);
+            viewRecyclerEmpty.setVisibility(View.GONE);
         }
     }
 
-    public void initializeToolBar() {
+    private void initializeToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("All Items");
-        }
     }
 
     @Override
@@ -87,10 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menuDeleteAll:
                 recyclerAdapter.deleteAll();
-                break;
-            case R.id.menuSettings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivityForResult(settingsIntent, CURRENTY_REQUEST_CODE);
                 break;
             default:
                 break;
