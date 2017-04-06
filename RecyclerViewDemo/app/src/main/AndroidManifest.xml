@@ -3,13 +3,13 @@
     package="io.github.soojison.recyclerviewdemo">
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".MainApplication"> <!-- make sure it calls the app class before everything -->
+        android:theme="@style/AppTheme"> <!-- make sure it calls the app class before everything -->
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".EditActivity"></activity>
     </application>
 
 </manifest>

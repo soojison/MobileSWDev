@@ -10,6 +10,7 @@ import io.realm.annotations.PrimaryKey;
 // system will know to create db from this class
 public class Todo extends RealmObject {
 
+    public static String COL_TODO_ID = "todoID";
     // this will help realm that this is the primary key in the table
     // the key should be unique
     // GUID = globally unique identifier

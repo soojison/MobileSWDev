@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import io.github.soojison.recyclerviewdemo.MainActivity;
 import io.github.soojison.recyclerviewdemo.R;
 import io.github.soojison.recyclerviewdemo.data.Todo;
 import io.github.soojison.recyclerviewdemo.touch.TodoTouchHelperAdapter;
@@ -72,7 +73,7 @@ public class TodoRecyclerAdapter
     @Override
     // called for each line in the recyclerView
     // won't call 200 times in the beginning --> lazy load as you scroll
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.tvTodo.setText(todoList.get(position).getTodoText());
         holder.cbDone.setChecked(todoList.get(position).isDone());
 
@@ -82,6 +83,20 @@ public class TodoRecyclerAdapter
                 realmTodo.beginTransaction();
                 todoList.get(holder.getAdapterPosition()).setDone(holder.cbDone.isChecked());
                 realmTodo.commitTransaction();
+            }
+        });
+
+        // whole view of the item = card view in our case
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // you can't open the activity here,
+                // you have to ask the mainactivity to open a new activity
+                // position param = visual position,
+                // relative position in the recyclerview which doesn't show all the items
+                // getAdapterPosition = global position
+                ((MainActivity) context).showEdit(holder.getAdapterPosition(),
+                        todoList.get(holder.getAdapterPosition()).getTodoID());
             }
         });
     }
@@ -135,6 +150,14 @@ public class TodoRecyclerAdapter
         todoList.add(0, newTodo);
         notifyItemInserted(0);
 
+    }
+
+    public void updateTodo(String todoID, int positionToEdit) {
+        Todo todo = realmTodo.where(Todo.class)
+                .equalTo(Todo.COL_TODO_ID, todoID)
+                .findFirst();
+        todoList.set(positionToEdit, todo);
+        notifyItemChanged(positionToEdit);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
