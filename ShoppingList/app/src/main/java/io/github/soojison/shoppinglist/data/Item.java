@@ -4,9 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Item extends RealmObject implements Parcelable {
 
+    public static String COL_ITEM_ID = "itemID";
+    @PrimaryKey
+    private String itemID;
     private String name;
     private String description;
     private double price;
@@ -36,6 +40,10 @@ public class Item extends RealmObject implements Parcelable {
     public String getName() {
 
         return name;
+    }
+
+    public String getItemID() {
+        return itemID;
     }
 
     public void setName(String name) {

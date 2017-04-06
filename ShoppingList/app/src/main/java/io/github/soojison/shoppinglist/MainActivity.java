@@ -9,12 +9,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
 import io.github.soojison.shoppinglist.data.Item;
@@ -25,12 +23,14 @@ public class MainActivity extends AppCompatActivity {
     public static final int NEW_ITEM_REQUEST_CODE = 1;
     public static final int EDIT_ITEM_REQUEST_CODE = 2;
     public static final String PASSED_ITEM = "passed item";
+    public static final String KEY_ITEM_ID = "KEY_ITEM_ID";
     private RecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerItemView;
     private RelativeLayout viewRecyclerEmpty;
-
+    private int positionToEdit = -1;
 
     //TODO: multiple quantities, indicate how much u wanna buy sth?
+    // TODO: currency edits, sort by done, change order by touch event
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +38,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initializeToolBar();
 
+        ((MainApplication) getApplication()).openRealm();
+
         recyclerItemView = (RecyclerView) findViewById(R.id.recyclerItemView);
         viewRecyclerEmpty = (RelativeLayout) findViewById(R.id.viewRecyclerEmpty);
 
-        recyclerItemView.setHasFixedSize(true);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerItemView.setLayoutManager(layoutManager);
-        recyclerAdapter = new RecyclerAdapter(this, recyclerItemView, viewRecyclerEmpty);
-        recyclerItemView.setAdapter(recyclerAdapter);
+        setUpRecycler();
+        setUpTouchHelper();
+        toggleEmptyRecycler();
+    }
 
+    private void setUpTouchHelper() {
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(recyclerAdapter, recyclerItemView);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerItemView);
+    }
 
-        toggleEmptyRecycler();
+    private void setUpRecycler() {
+        recyclerItemView.setHasFixedSize(true);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerItemView.setLayoutManager(layoutManager);
+        recyclerAdapter = new RecyclerAdapter(this,
+                recyclerItemView, viewRecyclerEmpty,
+                ((MainApplication) getApplication()).getRealm());
+        recyclerItemView.setAdapter(recyclerAdapter);
     }
 
     private void initializeToolBar() {
@@ -108,13 +118,24 @@ public class MainActivity extends AppCompatActivity {
             Item passedItem = (Item) data.getExtras().get(PASSED_ITEM);
             recyclerAdapter.addItem(passedItem.getName(), passedItem.getDescription(),
                     passedItem.getPrice(), passedItem.getCategory());
+        } else if(requestCode == EDIT_ITEM_REQUEST_CODE && resultCode == RESULT_OK) {
+            String itemID = data.getStringExtra(EditActivity.KEY_ITEM);
+            Log.i("RECIEVED_ITEM", itemID);
+            recyclerAdapter.updateItem(itemID, positionToEdit);
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        recyclerAdapter.closeRealm();
+        ((MainApplication) getApplication()).closeRealm();
     }
 
+    public void showEdit(int adapterPosition, String itemID) {
+        positionToEdit = adapterPosition;
+        Intent intent = new Intent(this, EditActivity.class);
+        Log.i("EDIT_ACTIVITY", itemID);
+        intent.putExtra(KEY_ITEM_ID, itemID);
+        startActivityForResult(intent, EDIT_ITEM_REQUEST_CODE);
+    }
 }

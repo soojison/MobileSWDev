@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,14 +16,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import io.github.soojison.shoppinglist.data.Item;
+import io.realm.Realm;
 
 public class EditActivity extends AppCompatActivity {
 
+    public static final String KEY_ITEM = "KEY_ITEM";
     private EditText etName;
     private EditText etDescription;
     private EditText etPrice;
     private Item resultItem;
     private int category;
+    private boolean done;
+    
+    private Item itemToEdit = null;
 
 
     @Override
@@ -30,6 +36,14 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         initializeToolBar();
+
+        if(getIntent().hasExtra(MainActivity.KEY_ITEM_ID)) {
+            String itemID =
+                    getIntent().getStringExtra(MainActivity.KEY_ITEM_ID);
+            itemToEdit = getRealm().where(Item.class)
+                    .equalTo("itemID", itemID)
+                    .findFirst();
+        }
 
         etName = (EditText) findViewById(R.id.etName);
         etDescription = (EditText) findViewById(R.id.etDescription);
@@ -50,18 +64,13 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-        String itemName = intent.getStringExtra("name");
-        String itemDesc = intent.getStringExtra("desc");
-        int itemCategory = intent.getIntExtra("category", -1);
-        double itemPrice = intent.getDoubleExtra("price", -1);
-        boolean itemDone = intent.getBooleanExtra("done", false);
+        if(itemToEdit != null) {
+            etName.setText(itemToEdit.getName());
+            etDescription.setText(itemToEdit.getDescription());
+            etPrice.setText(String.valueOf(itemToEdit.getPrice()));
+            spinner.setSelection(itemToEdit.getCategory()-1);
+        }
 
-        etName.setText(itemName);
-        etDescription.setText(itemDesc);
-        spinner.setSelection(itemCategory-1);
-        // TODO: category?
-        etPrice.setText(String.valueOf(itemPrice));
     }
 
 
@@ -127,16 +136,7 @@ public class EditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menuDone:
-                if(!etIsEmpty()) {
-                    resultItem = new Item(
-                            etName.getText().toString(),
-                            etDescription.getText().toString(),
-                            Double.parseDouble(etPrice.getText().toString()),
-                            false,
-                            category);
-                    passIntent();
-                    finish();
-                }
+                saveItem();
                 break;
             default:
                 break;
@@ -144,9 +144,25 @@ public class EditActivity extends AppCompatActivity {
         return true;
     }
 
-    public void passIntent() {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(MainActivity.PASSED_ITEM, (Parcelable) resultItem);
-        setResult(RESULT_OK, returnIntent);
+    private void saveItem() {
+        if(!etIsEmpty()) {
+            Intent intentResult = new Intent();
+
+            getRealm().beginTransaction();
+            itemToEdit.setName(etName.getText().toString());
+            itemToEdit.setDescription(etDescription.getText().toString());
+            itemToEdit.setPrice(Double.parseDouble(etPrice.getText().toString()));
+            itemToEdit.setCategory(category);
+            getRealm().commitTransaction();
+
+            Log.i("EDITING_ITEM", itemToEdit.getItemID());
+            intentResult.putExtra(KEY_ITEM, itemToEdit.getItemID());
+            setResult(RESULT_OK, intentResult);
+            finish();
+        }
+    }
+
+    public Realm getRealm() {
+        return ((MainApplication) getApplication()).getRealm();
     }
 }

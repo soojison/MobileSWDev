@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.github.soojison.shoppinglist.EditActivity;
 import io.github.soojison.shoppinglist.MainActivity;
@@ -25,6 +27,7 @@ import io.github.soojison.shoppinglist.data.Item;
 import io.github.soojison.shoppinglist.touch.TouchHelperAdapter;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class RecyclerAdapter
         extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
@@ -40,10 +43,10 @@ public class RecyclerAdapter
     private RecyclerView rv;
     private RelativeLayout rl;
 
-    public RecyclerAdapter(Context context, RecyclerView rv, RelativeLayout rl) {
+    public RecyclerAdapter(Context context, RecyclerView rv, RelativeLayout rl, Realm realm) {
         this.context = context;
         itemList = new ArrayList<Item>();
-        realmItem = Realm.getDefaultInstance();
+        realmItem = realm;
 
         RealmResults<Item> itemRealmResults = realmItem.where(Item.class).findAll();
 
@@ -84,16 +87,9 @@ public class RecyclerAdapter
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                Item itemToEdit = itemList.get(position);
-                intent.putExtra("name", itemToEdit.getName());
-                intent.putExtra("desc", itemToEdit.getDescription());
-                intent.putExtra("category", itemToEdit.getCategory());
-                intent.putExtra("price", itemToEdit.getPrice());
-                intent.putExtra("done", itemToEdit.isDone());
-                intent.setClass(context, EditActivity.class);
-                context.startActivity(intent);
-                // TODO: edit items
+                ((MainActivity) context).showEdit(holder.getAdapterPosition(),
+                itemList.get(holder.getAdapterPosition()).getItemID());
+                Log.i("EDIT_BUTTON_PRESSED", itemList.get(holder.getAdapterPosition()).getItemID());
             }
         });
     }
@@ -144,7 +140,7 @@ public class RecyclerAdapter
     public void addItem(String itemName, String itemDescription,
                         double itemPrice, int itemCategory) {
         realmItem.beginTransaction();
-        Item newItem = realmItem.createObject(Item.class);
+        Item newItem = realmItem.createObject(Item.class, UUID.randomUUID().toString());
         newItem.setName(itemName);
         newItem.setDescription(itemDescription);
         newItem.setPrice(itemPrice);
@@ -209,12 +205,21 @@ public class RecyclerAdapter
                         Toast.makeText(context,
                                 context.getResources().getString(R.string.restored_item, deletedItem.getName()),
                                 Toast.LENGTH_SHORT).show();
+
                         addItem(deletedItem.getName(), deletedItem.getDescription(), deletedItem.getPrice(),
                                 deletedItem.isDone(), deletedItem.getCategory(), adapterPosition);
                         recyclerView.scrollToPosition(adapterPosition);
                     }
                 });
         snackbar.show();
+    }
+
+    public void updateItem(String itemID, int positionToEdit) {
+        Item item = realmItem.where(Item.class)
+                .equalTo(Item.COL_ITEM_ID, itemID)
+                .findFirst();
+        itemList.set(positionToEdit, item);
+        notifyItemChanged(positionToEdit);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -237,7 +242,5 @@ public class RecyclerAdapter
         }
     }
 
-    public void closeRealm() {
-        realmItem.close();
-    }
+
 }
