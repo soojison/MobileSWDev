@@ -1,6 +1,7 @@
 package io.github.soojison.recyclerviewdemo.data;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Contains info about the to-do item
@@ -9,6 +10,12 @@ import io.realm.RealmObject;
 // system will know to create db from this class
 public class Todo extends RealmObject {
 
+    // this will help realm that this is the primary key in the table
+    // the key should be unique
+    // GUID = globally unique identifier
+    // in Java, UUID = universally unique identifier
+    @PrimaryKey
+    private String todoID;
     private String todoText;
     private boolean done;
 
@@ -19,6 +26,10 @@ public class Todo extends RealmObject {
 
     public Todo() {
         // technical thing ... that's good to have....
+    }
+
+    public String getTodoID() {
+        return todoID;
     }
 
     public String getTodoText() {

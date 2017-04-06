@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.github.soojison.recyclerviewdemo.R;
 import io.github.soojison.recyclerviewdemo.data.Todo;
 import io.github.soojison.recyclerviewdemo.touch.TodoTouchHelperAdapter;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * The most important class in our code.
@@ -41,7 +43,8 @@ public class TodoRecyclerAdapter
         realmTodo = realm;
 
         // get all the data from the database
-        RealmResults<Todo> todoResult = realmTodo.where(Todo.class).findAll();
+        RealmResults<Todo> todoResult = realmTodo.where(Todo.class).findAll()
+                .sort("todoText", Sort.ASCENDING);
 
         todoList = new ArrayList<Todo>();
 
@@ -121,7 +124,7 @@ public class TodoRecyclerAdapter
         //start transaction
         realmTodo.beginTransaction();
         // create object from class
-        Todo newTodo = realmTodo.createObject(Todo.class);
+        Todo newTodo = realmTodo.createObject(Todo.class, UUID.randomUUID().toString());
         // set fields
         newTodo.setTodoText(todoTitle);
         newTodo.setDone(false);
@@ -147,7 +150,4 @@ public class TodoRecyclerAdapter
         }
     }
 
-    public void closeRealm() {
-        realmTodo.close();
-    }
 }

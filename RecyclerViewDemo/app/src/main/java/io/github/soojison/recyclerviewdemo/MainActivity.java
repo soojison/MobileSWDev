@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ((MainApplication) getApplication()).openRealm();
+
         // init the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        setUpRecycler();
+
+        // tell the view to use the touch gestures
+        ItemTouchHelper.Callback callback = new TodoItemTouchHelperCallback(todoRecyclerAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerTodo);
+    }
+
+    private void setUpRecycler() {
         recyclerTodo = (RecyclerView) findViewById(R.id.recyclerTodo);
         recyclerTodo.setHasFixedSize(true); // make sure to use the whole area
         // recycler view can render items in all the list... but also you can do a grid
@@ -49,13 +60,9 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerTodo.setLayoutManager(layoutManager); // now knows it should behave like a linear layout
 
-        todoRecyclerAdapter = new TodoRecyclerAdapter(this);
+        todoRecyclerAdapter = new TodoRecyclerAdapter(this,
+                ((MainApplication) getApplication()).getRealm());
         recyclerTodo.setAdapter(todoRecyclerAdapter);
-
-        // tell the view to use the touch gestures
-        ItemTouchHelper.Callback callback = new TodoItemTouchHelperCallback(todoRecyclerAdapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(recyclerTodo);
     }
 
     public void showAddTodoDialogue() {
@@ -105,6 +112,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         // close the db!
         super.onDestroy();
-        todoRecyclerAdapter.closeRealm();
+        ((MainApplication) getApplication()).closeRealm();
     }
 }
