@@ -34,11 +34,11 @@ public class TodoRecyclerAdapter
     // another field for realm db
     private Realm realmTodo;
 
-    public TodoRecyclerAdapter(Context context) {
+    public TodoRecyclerAdapter(Context context, Realm realm) {
         this.context = context;
 
         // init realm
-        realmTodo = Realm.getDefaultInstance();
+        realmTodo = realm;
 
         // get all the data from the database
         RealmResults<Todo> todoResult = realmTodo.where(Todo.class).findAll();
@@ -150,5 +150,4 @@ public class TodoRecyclerAdapter
     public void closeRealm() {
         realmTodo.close();
     }
-
 }
