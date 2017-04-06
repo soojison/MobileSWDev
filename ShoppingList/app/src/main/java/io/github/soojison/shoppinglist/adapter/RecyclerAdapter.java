@@ -1,19 +1,24 @@
 package io.github.soojison.shoppinglist.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.soojison.shoppinglist.EditActivity;
+import io.github.soojison.shoppinglist.MainActivity;
 import io.github.soojison.shoppinglist.R;
 import io.github.soojison.shoppinglist.data.Category;
 import io.github.soojison.shoppinglist.data.Item;
@@ -32,7 +37,10 @@ public class RecyclerAdapter
 
     private Realm realmItem;
 
-    public RecyclerAdapter(Context context) {
+    private RecyclerView rv;
+    private RelativeLayout rl;
+
+    public RecyclerAdapter(Context context, RecyclerView rv, RelativeLayout rl) {
         this.context = context;
         itemList = new ArrayList<Item>();
         realmItem = Realm.getDefaultInstance();
@@ -42,6 +50,9 @@ public class RecyclerAdapter
         for (int i = 0; i < itemRealmResults.size(); i++) {
             itemList.add(itemRealmResults.get(i));
         }
+
+        this.rv = rv;
+        this.rl = rl;
     }
 
     @Override
@@ -55,7 +66,7 @@ public class RecyclerAdapter
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.tvName.setText(itemList.get(position).getName());
         holder.tvDescription.setText(itemList.get(position).getDescription());
         String currency = "$";
@@ -70,9 +81,25 @@ public class RecyclerAdapter
                 realmItem.commitTransaction();
             }
         });
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                Item itemToEdit = itemList.get(position);
+                intent.putExtra("name", itemToEdit.getName());
+                intent.putExtra("desc", itemToEdit.getDescription());
+                intent.putExtra("category", itemToEdit.getCategory());
+                intent.putExtra("price", itemToEdit.getPrice());
+                intent.putExtra("done", itemToEdit.isDone());
+                intent.setClass(context, EditActivity.class);
+                context.startActivity(intent);
+                // TODO: edit items
+            }
+        });
     }
 
     private int getCategory(int category) {
+        // icon source https://www.iconfinder.com/iconsets/flat-icons-19
         int ret = -1;
         switch (category) {
             case Category.FOOD:
@@ -104,6 +131,15 @@ public class RecyclerAdapter
         return itemList.size();
     }
 
+    public void toggleEmptyRecycler() {
+        if (getItemCount() == 0) {
+            rv.setVisibility(View.GONE);
+            rl.setVisibility(View.VISIBLE);
+        } else {
+            rv.setVisibility(View.VISIBLE);
+            rl.setVisibility(View.GONE);
+        }
+    }
 
     public void addItem(String itemName, String itemDescription,
                         double itemPrice, int itemCategory) {
@@ -118,7 +154,7 @@ public class RecyclerAdapter
         itemList.add(newItem);
         notifyItemInserted(itemList.size());
 
-        //MainActivity.toggleEmptyView();
+        toggleEmptyRecycler();
     }
 
     public void addItem(String itemName, String itemDescription,
@@ -132,7 +168,7 @@ public class RecyclerAdapter
         newItem.setCategory(itemCategory);
         realmItem.commitTransaction();
         itemList.add(pos, newItem);
-        //MainActivity.toggleEmptyView();
+        toggleEmptyRecycler();
         notifyItemInserted(pos);
     }
 
@@ -141,7 +177,10 @@ public class RecyclerAdapter
         realmItem.deleteAll();
         realmItem.commitTransaction();
         itemList.clear();
-        //MainActivity.toggleEmptyAdapterView();
+        if(itemList.size() == 0) {
+
+        }
+        toggleEmptyRecycler();
         notifyDataSetChanged();
     }
 
@@ -159,7 +198,7 @@ public class RecyclerAdapter
         notifyItemRemoved(adapterPosition);
         realmItem.commitTransaction();
 
-        //toggleEmptyView();
+        toggleEmptyRecycler();
 
         Snackbar snackbar = Snackbar.make(recyclerView,
                 context.getResources().getString(R.string.snackbar_notify_removed, deletedItem.getName()),
@@ -185,6 +224,7 @@ public class RecyclerAdapter
         private TextView tvPrice;
         private CheckBox cbDone;
         private ImageView imgCategory;
+        private Button btnEdit;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -193,6 +233,7 @@ public class RecyclerAdapter
             tvPrice = (TextView) itemView.findViewById(R.id.tvPrice);
             cbDone = (CheckBox) itemView.findViewById(R.id.cbDone);
             imgCategory = (ImageView) itemView.findViewById(R.id.imgCategory);
+            btnEdit = (Button) itemView.findViewById(R.id.btnEdit);
         }
     }
 

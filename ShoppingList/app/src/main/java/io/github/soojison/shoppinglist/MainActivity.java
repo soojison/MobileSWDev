@@ -23,14 +23,14 @@ import io.github.soojison.shoppinglist.touch.ItemTouchHelperCallback;
 public class MainActivity extends AppCompatActivity {
 
     public static final int NEW_ITEM_REQUEST_CODE = 1;
+    public static final int EDIT_ITEM_REQUEST_CODE = 2;
     public static final String PASSED_ITEM = "passed item";
     private RecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerItemView;
     private RelativeLayout viewRecyclerEmpty;
 
-    //TODO: icon source https://www.iconfinder.com/iconsets/flat-icons-19
+
     //TODO: multiple quantities, indicate how much u wanna buy sth?
-    // TODO: Undo data binding in gradle
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerItemView.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerItemView.setLayoutManager(layoutManager);
-        recyclerAdapter = new RecyclerAdapter(this);
+        recyclerAdapter = new RecyclerAdapter(this, recyclerItemView, viewRecyclerEmpty);
         recyclerItemView.setAdapter(recyclerAdapter);
 
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(recyclerAdapter, recyclerItemView);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerItemView);
 
-        toggleEmptyAdapterView();
+        toggleEmptyRecycler();
     }
 
     private void initializeToolBar() {
@@ -59,14 +59,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    public void toggleEmptyAdapterView() {
-        if (recyclerAdapter.getItemCount() == 0) {
-            recyclerItemView.setVisibility(View.GONE);
-            viewRecyclerEmpty.setVisibility(View.VISIBLE);
-        } else {
-            recyclerItemView.setVisibility(View.VISIBLE);
-            viewRecyclerEmpty.setVisibility(View.GONE);
-        }
+    public void toggleEmptyRecycler() {
+        recyclerAdapter.toggleEmptyRecycler();
     }
 
     @Override

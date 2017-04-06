@@ -20,4 +20,7 @@
     <string name="et_price_empty_error">The price cannot be empty</string>
     <string name="et_price_decimal_error">Please round your values to two decimal digits</string>
 
+
+    <string name="edit_activity_title">Edit Item</string>
+
 </resources>

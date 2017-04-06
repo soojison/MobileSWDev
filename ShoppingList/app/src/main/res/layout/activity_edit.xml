@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="io.github.soojison.shoppinglist.AddActivity">
+    tools:context="io.github.soojison.shoppinglist.EditActivity">
 
     <include layout="@layout/toolbar" />
 
     <include layout="@layout/item_enter_form"/>
-
 
 </LinearLayout>
