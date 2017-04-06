@@ -46,6 +46,10 @@ public class Item extends RealmObject implements Parcelable {
         return itemID;
     }
 
+    public void setItemID(String id) {
+        itemID = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

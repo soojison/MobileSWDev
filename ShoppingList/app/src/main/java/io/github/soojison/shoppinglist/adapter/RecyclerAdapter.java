@@ -33,7 +33,6 @@ public class RecyclerAdapter
         extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
         implements TouchHelperAdapter {
 
-    // TODO: change categories? / edit items after once you've made
     // TODO: Add total $$?
     private List<Item> itemList;
     private Context context;
@@ -153,10 +152,11 @@ public class RecyclerAdapter
         toggleEmptyRecycler();
     }
 
-    public void addItem(String itemName, String itemDescription,
-                        double itemPrice, boolean itemDone, int itemCategory, int pos) {
+    public void reAddItem(String itemName, String itemDescription,
+                        double itemPrice, boolean itemDone, int itemCategory, int pos,
+                        String uuid) {
         realmItem.beginTransaction();
-        Item newItem = realmItem.createObject(Item.class);
+        Item newItem = realmItem.createObject(Item.class, uuid);
         newItem.setName(itemName);
         newItem.setDescription(itemDescription);
         newItem.setPrice(itemPrice);
@@ -187,6 +187,7 @@ public class RecyclerAdapter
         Item mItem = itemList.get(adapterPosition);
         final Item deletedItem = new Item(mItem.getName(), mItem.getDescription(), mItem.getPrice(),
                 mItem.isDone(), mItem.getCategory());
+        deletedItem.setItemID(mItem.getItemID());
 
         realmItem.beginTransaction();
         itemList.get(adapterPosition).deleteFromRealm();
@@ -206,8 +207,8 @@ public class RecyclerAdapter
                                 context.getResources().getString(R.string.restored_item, deletedItem.getName()),
                                 Toast.LENGTH_SHORT).show();
 
-                        addItem(deletedItem.getName(), deletedItem.getDescription(), deletedItem.getPrice(),
-                                deletedItem.isDone(), deletedItem.getCategory(), adapterPosition);
+                        reAddItem(deletedItem.getName(), deletedItem.getDescription(), deletedItem.getPrice(),
+                                deletedItem.isDone(), deletedItem.getCategory(), adapterPosition, deletedItem.getItemID());
                         recyclerView.scrollToPosition(adapterPosition);
                     }
                 });
