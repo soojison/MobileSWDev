@@ -24,7 +24,7 @@ public class AddActivity extends AppCompatActivity {
     private Item resultItem;
     private int category;
 
-    //TODO: some animation??
+    // TODO: some animation??
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

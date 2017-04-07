@@ -23,7 +23,9 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".AddActivity" />
-        <activity android:name=".EditActivity"></activity>
+        <activity android:name=".EditActivity" />
+        <activity android:name=".SettingsActivity"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
     </application>
 
 </manifest>

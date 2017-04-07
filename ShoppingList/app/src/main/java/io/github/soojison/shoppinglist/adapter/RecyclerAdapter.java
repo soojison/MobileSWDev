@@ -2,6 +2,7 @@ package io.github.soojison.shoppinglist.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +24,7 @@ import io.github.soojison.shoppinglist.EditActivity;
 import io.github.soojison.shoppinglist.MainActivity;
 import io.github.soojison.shoppinglist.R;
 import io.github.soojison.shoppinglist.data.Category;
+import io.github.soojison.shoppinglist.data.Currency;
 import io.github.soojison.shoppinglist.data.Item;
 import io.github.soojison.shoppinglist.touch.TouchHelperAdapter;
 import io.realm.Realm;
@@ -33,7 +35,7 @@ public class RecyclerAdapter
         extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
         implements TouchHelperAdapter {
 
-    // TODO: Add total $$?
+    // TODO: how to persist currency?
     private List<Item> itemList;
     private Context context;
 
@@ -70,10 +72,9 @@ public class RecyclerAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.tvName.setText(itemList.get(position).getName() + itemList.get(position).getIndex());
+        holder.tvName.setText(itemList.get(position).getName());
         holder.tvDescription.setText(itemList.get(position).getDescription());
-        String currency = "$";
-        holder.tvPrice.setText(String.format("%s%s", currency, String.valueOf(itemList.get(position).getPrice())));
+        holder.tvPrice.setText(String.format("%s %s", Currency.getInstance().getCurrency(), String.valueOf(itemList.get(position).getPrice())));
         holder.imgCategory.setImageResource(getCategory(itemList.get(position).getCategory()));
         holder.cbDone.setChecked(itemList.get(position).isDone());
         holder.cbDone.setOnClickListener(new View.OnClickListener() {
@@ -149,21 +150,20 @@ public class RecyclerAdapter
         realmItem.commitTransaction();
         itemList.add(newItem);
         notifyItemInserted(itemList.size());
-
         toggleEmptyRecycler();
     }
 
-    public void reAddItem(Item item, int pos) {
+    private void reAddItem(Item item, int pos) {
         realmItem.beginTransaction();
-        Item newItem = realmItem.createObject(Item.class, item.getItemID());
-        newItem.setName(item.getName());
-        newItem.setDescription(item.getDescription());
-        newItem.setPrice(item.getPrice());
-        newItem.setDone(item.isDone());
-        newItem.setCategory(item.getCategory());
-        newItem.setIndex(pos);
+        Item reAddItem = realmItem.createObject(Item.class, item.getItemID());
+        reAddItem.setName(item.getName());
+        reAddItem.setDescription(item.getDescription());
+        reAddItem.setPrice(item.getPrice());
+        reAddItem.setDone(item.isDone());
+        reAddItem.setCategory(item.getCategory());
+        reAddItem.setIndex(pos);
         realmItem.commitTransaction();
-        itemList.add(pos, newItem);
+        itemList.add(pos, reAddItem);
         toggleEmptyRecycler();
         notifyItemInserted(pos);
     }

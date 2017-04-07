@@ -2,6 +2,8 @@ package io.github.soojison.shoppinglist;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,23 +15,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
+import io.github.soojison.shoppinglist.data.Currency;
 import io.github.soojison.shoppinglist.data.Item;
 import io.github.soojison.shoppinglist.touch.ItemTouchHelperCallback;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int NEW_ITEM_REQUEST_CODE = 1;
-    public static final int EDIT_ITEM_REQUEST_CODE = 2;
-    public static final String PASSED_ITEM = "passed item";
+    public static final int NEW_ITEM_REQUEST_CODE = 101;
+    public static final int EDIT_ITEM_REQUEST_CODE = 202;
+    private static final int CURRENCY_EDIT_REQUEST_CODE = 303;
+    public static final String PASSED_ITEM = "PASSED_ITEM";
     public static final String KEY_ITEM_ID = "KEY_ITEM_ID";
     private RecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerItemView;
     private RelativeLayout viewRecyclerEmpty;
     private int positionToEdit = -1;
-
-    // TODO: customize currency?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
                         .setIcon(R.drawable.ic_report_problem)
                         .show();
                 break;
+            case R.id.menuSettings:
+                showCurrencyEdit();
             default:
                 break;
         }
@@ -119,8 +124,9 @@ public class MainActivity extends AppCompatActivity {
                     passedItem.getPrice(), passedItem.getCategory());
         } else if(requestCode == EDIT_ITEM_REQUEST_CODE && resultCode == RESULT_OK) {
             String itemID = data.getStringExtra(EditActivity.KEY_ITEM);
-            Log.i("RECEIVED_ITEM", itemID);
             recyclerAdapter.updateItem(itemID, positionToEdit);
+        } else if(requestCode == CURRENCY_EDIT_REQUEST_CODE && resultCode == RESULT_OK) {
+            recyclerAdapter.notifyDataSetChanged();
         }
     }
 
@@ -135,5 +141,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtra(KEY_ITEM_ID, itemID);
         startActivityForResult(intent, EDIT_ITEM_REQUEST_CODE);
+    }
+
+    public void showCurrencyEdit() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent, CURRENCY_EDIT_REQUEST_CODE);
     }
 }
