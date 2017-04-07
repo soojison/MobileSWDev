@@ -9,6 +9,7 @@ import io.realm.annotations.PrimaryKey;
 public class Item extends RealmObject implements Parcelable {
 
     public static String COL_ITEM_ID = "itemID";
+    public static String COL_INDEX = "index";
     @PrimaryKey
     private String itemID;
     private String name;
@@ -16,9 +17,18 @@ public class Item extends RealmObject implements Parcelable {
     private double price;
     private boolean done;
     private int category;
+    private int index;
 
     public Item() {
 
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public Item(String name, String description, double price, boolean done, int category) {

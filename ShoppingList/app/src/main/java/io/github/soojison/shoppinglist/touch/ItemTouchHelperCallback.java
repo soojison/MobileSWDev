@@ -16,7 +16,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return false;
+        return true;
     }
 
     @Override
@@ -33,7 +33,9 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        return false;
+        touchHelperAdapter.onItemMove(viewHolder.getAdapterPosition(),
+                target.getAdapterPosition());
+        return true;
     }
 
     @Override

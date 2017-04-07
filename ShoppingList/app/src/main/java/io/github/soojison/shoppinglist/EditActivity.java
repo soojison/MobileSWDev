@@ -54,8 +54,7 @@ public class EditActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                category = spinner.getSelectedItemPosition() + 1;
-                // +1 to compensate for category class numbering system
+                category = spinner.getSelectedItemPosition();
             }
 
             @Override
@@ -68,7 +67,7 @@ public class EditActivity extends AppCompatActivity {
             etName.setText(itemToEdit.getName());
             etDescription.setText(itemToEdit.getDescription());
             etPrice.setText(String.valueOf(itemToEdit.getPrice()));
-            spinner.setSelection(itemToEdit.getCategory()-1);
+            spinner.setSelection(itemToEdit.getCategory());
         }
 
     }

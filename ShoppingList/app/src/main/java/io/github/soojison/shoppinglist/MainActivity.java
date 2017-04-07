@@ -29,8 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout viewRecyclerEmpty;
     private int positionToEdit = -1;
 
-    //TODO: multiple quantities, indicate how much u wanna buy sth?
-    // TODO: currency edits, sort by done, change order by touch event
+    // TODO: customize currency?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     passedItem.getPrice(), passedItem.getCategory());
         } else if(requestCode == EDIT_ITEM_REQUEST_CODE && resultCode == RESULT_OK) {
             String itemID = data.getStringExtra(EditActivity.KEY_ITEM);
-            Log.i("RECIEVED_ITEM", itemID);
+            Log.i("RECEIVED_ITEM", itemID);
             recyclerAdapter.updateItem(itemID, positionToEdit);
         }
     }
@@ -134,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
     public void showEdit(int adapterPosition, String itemID) {
         positionToEdit = adapterPosition;
         Intent intent = new Intent(this, EditActivity.class);
-        Log.i("EDIT_ACTIVITY", itemID);
         intent.putExtra(KEY_ITEM_ID, itemID);
         startActivityForResult(intent, EDIT_ITEM_REQUEST_CODE);
     }

@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Item name"
-        android:inputType="text" />
+        android:inputType="textCapSentences" />
 
     <TextView
         android:layout_width="match_parent"
@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
+        android:baselineAligned="false"
         android:weightSum="2">
 
         <LinearLayout
