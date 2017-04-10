@@ -1,5 +1,6 @@
 package io.github.soojison.animationdemo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 // Here, you can start a new activity or do whatever!
                 // WAY simpler than using Timers and thinking about UI Thread
                 Toast.makeText(MainActivity.this, "Animation ended", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, SendActivity.class);
+                startActivity(intent);
             }
 
             @Override
