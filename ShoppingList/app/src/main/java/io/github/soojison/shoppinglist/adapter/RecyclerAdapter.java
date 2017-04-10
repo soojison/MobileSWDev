@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +33,6 @@ public class RecyclerAdapter
         extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
         implements TouchHelperAdapter {
 
-    // TODO: https://android-arsenal.com/details/1/2956 --> Twitter like bang animation
-    // TODO: how to persist currency?
     private List<Item> itemList;
     private Context context;
 
@@ -48,7 +45,7 @@ public class RecyclerAdapter
 
     public RecyclerAdapter(Context context, RecyclerView rv, RelativeLayout rl, Realm realm) {
         this.context = context;
-        itemList = new ArrayList<Item>();
+        itemList = new ArrayList<>();
         realmItem = realm;
 
         RealmResults<Item> itemRealmResults = realmItem.where(Item.class).findAll()
@@ -58,6 +55,7 @@ public class RecyclerAdapter
             itemList.add(itemRealmResults.get(i));
         }
 
+        // for triggering Snackbar
         this.rv = rv;
         this.rl = rl;
     }
@@ -77,9 +75,10 @@ public class RecyclerAdapter
         sp = PreferenceManager.getDefaultSharedPreferences(context);
 
         holder.tvName.setText(itemList.get(position).getName());
-        holder.tvDescription.setText(itemList.get(position).getDescription() + itemList.get(position).getIndex());
+        holder.tvDescription.setText(itemList.get(position).getDescription());
         holder.tvPrice.setText(String.format("%s %s",
-                sp.getString(SettingsActivity.PREF_KEY_CURRENCY, "$"),
+                sp.getString(SettingsActivity.PREF_KEY_CURRENCY,
+                        context.getResources().getString(R.string.dollar_sign)),
                 String.valueOf(itemList.get(position).getPrice())));
         holder.imgCategory.setImageResource(getCategory(itemList.get(position).getCategory()));
         holder.cbDone.setChecked(itemList.get(position).isDone());
@@ -237,8 +236,6 @@ public class RecyclerAdapter
                 });
         snackbar.show();
     }
-
-
 
     @Override
     public void onItemMove(final int fromPosition, final int toPosition) {

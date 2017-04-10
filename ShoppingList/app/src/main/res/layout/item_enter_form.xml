@@ -8,29 +8,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
-        android:text="Name"
+        android:paddingRight="5dp"
+        android:text="@string/form_title_name"
         android:textColor="@color/colorAccent" />
 
     <EditText
         android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Item name"
+        android:hint="@string/form_hint_name"
         android:inputType="textCapSentences" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:layout_marginTop="16dp"
-        android:text="Description"
+        android:text="@string/form_title_description"
         android:textColor="@color/colorAccent" />
 
     <EditText
         android:id="@+id/etDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Item description"
+        android:hint="@string/form_hint_description"
         android:inputType="textCapSentences|textMultiLine"
         android:maxLength="2000"
         android:maxLines="4"/>
@@ -55,14 +57,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
-                android:text="Price"
+                android:paddingRight="5dp"
+                android:text="@string/form_title_price"
                 android:textColor="@color/colorAccent" />
 
             <EditText
                 android:id="@+id/etPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Item price"
+                android:hint="@string/form_hint_price"
                 android:inputType="numberDecimal"
                 android:layout_marginTop="3dp"/>
 
@@ -79,7 +82,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
-                android:text="Category"
+                android:paddingRight="5dp"
+                android:text="@string/form_title_categtory"
                 android:textColor="@color/colorAccent" />
 
             <Spinner

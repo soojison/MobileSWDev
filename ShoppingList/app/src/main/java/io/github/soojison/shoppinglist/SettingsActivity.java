@@ -3,8 +3,10 @@ package io.github.soojison.shoppinglist;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +19,9 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        setTitle("Edit currency");
+        setTitle(getResources().getString(R.string.setting_activity_title));
 
+        setupDialogSize();
 
         final EditText etCurrency = (EditText) findViewById(R.id.etCurrency);
         etCurrency.setText(getCurrency());
@@ -27,7 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(etCurrency.getText().toString().trim().equals("")) {
-                    etCurrency.setError("The currency must not be empty");
+                    etCurrency.setError(getResources().getString(R.string.et_currency_empty_error));
                 } else {
                     Intent intentResult = new Intent(SettingsActivity.this, MainActivity.class);
                     intentResult.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -37,6 +40,14 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    private void setupDialogSize() {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int screenWidth = (int) (metrics.widthPixels * 0.80);
+        setContentView(R.layout.activity_settings);
+        getWindow().setLayout(screenWidth, ActionBar.LayoutParams.WRAP_CONTENT);
     }
 
     @Override
@@ -44,17 +55,18 @@ public class SettingsActivity extends AppCompatActivity {
         Intent showMain = new Intent(this, MainActivity.class);
         showMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         setResult(RESULT_CANCELED, showMain);
+        finish();
     }
 
     private void saveCurrency(String currency) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(PREF_KEY_CURRENCY, currency);
-        editor.commit();
+        editor.apply();
     }
 
     public String getCurrency() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        return sp.getString(PREF_KEY_CURRENCY, "$");
+        return sp.getString(PREF_KEY_CURRENCY, getResources().getString(R.string.dollar_sign));
     }
 }

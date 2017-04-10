@@ -1,7 +1,6 @@
 package io.github.soojison.shoppinglist;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -86,7 +85,7 @@ public class AddActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean etIsEmpty() {
+    private boolean etIsEmpty() {
         if(etName.getText().toString().trim().equalsIgnoreCase("")) {
             etName.setError(getString(R.string.et_name_empty_error));
             etName.requestFocus();
@@ -131,9 +130,9 @@ public class AddActivity extends AppCompatActivity {
         return true;
     }
 
-    public void passIntent() {
+    private void passIntent() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(MainActivity.PASSED_ITEM, (Parcelable) resultItem);
+        returnIntent.putExtra(MainActivity.PASSED_ITEM, resultItem);
         setResult(RESULT_OK, returnIntent);
     }
 

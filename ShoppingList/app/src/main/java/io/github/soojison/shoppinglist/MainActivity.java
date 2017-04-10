@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
@@ -20,8 +19,8 @@ import io.github.soojison.shoppinglist.touch.ItemTouchHelperCallback;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int NEW_ITEM_REQUEST_CODE = 101;
-    public static final int EDIT_ITEM_REQUEST_CODE = 202;
+    private static final int NEW_ITEM_REQUEST_CODE = 101;
+    private static final int EDIT_ITEM_REQUEST_CODE = 202;
     private static final int CURRENCY_EDIT_REQUEST_CODE = 303;
     public static final String PASSED_ITEM = "PASSED_ITEM";
     public static final String KEY_ITEM_ID = "KEY_ITEM_ID";
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    public void toggleEmptyRecycler() {
+    private void toggleEmptyRecycler() {
         recyclerAdapter.toggleEmptyRecycler();
     }
 
@@ -140,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, EDIT_ITEM_REQUEST_CODE);
     }
 
-    public void showCurrencyEdit() {
+    private void showCurrencyEdit() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivityForResult(intent, CURRENCY_EDIT_REQUEST_CODE);
     }

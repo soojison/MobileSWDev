@@ -1,7 +1,6 @@
 package io.github.soojison.shoppinglist;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -24,9 +22,7 @@ public class EditActivity extends AppCompatActivity {
     private EditText etName;
     private EditText etDescription;
     private EditText etPrice;
-    private Item resultItem;
     private int category;
-    private boolean done;
     
     private Item itemToEdit = null;
 
@@ -107,7 +103,7 @@ public class EditActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean etIsEmpty() {
+    private boolean etIsEmpty() {
         if(etName.getText().toString().trim().equalsIgnoreCase("")) {
             etName.setError(getString(R.string.et_name_empty_error));
             etName.requestFocus();
@@ -161,7 +157,7 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
-    public Realm getRealm() {
+    private Realm getRealm() {
         return ((MainApplication) getApplication()).getRealm();
     }
 }

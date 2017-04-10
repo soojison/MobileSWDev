@@ -13,6 +13,6 @@
         android:icon="@drawable/ic_delete_forever"/>
 
     <item android:id="@+id/menuSettings"
-        android:title="@string/menu_settings"/>
+        android:title="@string/edit_activity_title"/>
 
 </menu>

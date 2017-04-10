@@ -8,6 +8,7 @@
         android:id="@+id/imgCategory"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:contentDescription="@string/accessibility_category_image"
         android:layout_marginRight="16dp"/>
 
     <LinearLayout

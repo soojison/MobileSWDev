@@ -8,8 +8,8 @@ import io.realm.annotations.PrimaryKey;
 
 public class Item extends RealmObject implements Parcelable {
 
-    public static String COL_ITEM_ID = "itemID";
-    public static String COL_INDEX = "index";
+    public static final String COL_ITEM_ID = "itemID";
+    public static final String COL_INDEX = "index";
     @PrimaryKey
     private String itemID;
     private String name;

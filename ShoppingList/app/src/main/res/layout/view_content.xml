@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <!--- seemingly dumb nested layout required to make the view look nice -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,6 +13,7 @@
         android:layout_marginTop="5dp"
         android:weightSum="1">
 
+        <!-- without the scrollview longer texts get cut off -->
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +34,7 @@
         android:id="@+id/btnEdit"
         android:layout_weight="1"
         android:layout_marginBottom="0dp"
-        android:text="Edit Item"/>
+        android:text="@string/btn_edit_item"/>
     </LinearLayout>
 
 </RelativeLayout>
