@@ -82,6 +82,7 @@ public class RecyclerAdapter
             public void onClick(View v) {
                 realmItem.beginTransaction();
                 itemList.get(holder.getAdapterPosition()).setDone(holder.cbDone.isChecked());
+                realmItem.commitTransaction();
                 notifyDataSetChanged();
             }
         });
