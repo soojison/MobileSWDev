@@ -2,8 +2,6 @@ package io.github.soojison.shoppinglist;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
-import io.github.soojison.shoppinglist.data.Currency;
 import io.github.soojison.shoppinglist.data.Item;
 import io.github.soojison.shoppinglist.touch.ItemTouchHelperCallback;
 

@@ -1,8 +1,8 @@
 package io.github.soojison.shoppinglist.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,11 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import io.github.soojison.shoppinglist.EditActivity;
 import io.github.soojison.shoppinglist.MainActivity;
 import io.github.soojison.shoppinglist.R;
+import io.github.soojison.shoppinglist.SettingsActivity;
 import io.github.soojison.shoppinglist.data.Category;
-import io.github.soojison.shoppinglist.data.Currency;
 import io.github.soojison.shoppinglist.data.Item;
 import io.github.soojison.shoppinglist.touch.TouchHelperAdapter;
 import io.realm.Realm;
@@ -46,6 +45,8 @@ public class RecyclerAdapter
 
     private RecyclerView rv;
     private RelativeLayout rl;
+
+    private SharedPreferences sp;
 
     public RecyclerAdapter(Context context, RecyclerView rv, RelativeLayout rl, Realm realm) {
         this.context = context;
@@ -75,9 +76,13 @@ public class RecyclerAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        sp = PreferenceManager.getDefaultSharedPreferences(context);
+
         holder.tvName.setText(itemList.get(position).getName());
         holder.tvDescription.setText(itemList.get(position).getDescription());
-        holder.tvPrice.setText(String.format("%s %s", Currency.getInstance().getCurrency(), String.valueOf(itemList.get(position).getPrice())));
+        holder.tvPrice.setText(String.format("%s %s",
+                sp.getString(SettingsActivity.PREF_KEY_CURRENCY, "$"),
+                String.valueOf(itemList.get(position).getPrice())));
         holder.imgCategory.setImageResource(getCategory(itemList.get(position).getCategory()));
         holder.cbDone.setChecked(itemList.get(position).isDone());
         holder.cbDone.setOnClickListener(new View.OnClickListener() {
