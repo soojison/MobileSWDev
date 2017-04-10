@@ -69,7 +69,6 @@ public class EditActivity extends AppCompatActivity {
     }
 
 
-
     private void initializeToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

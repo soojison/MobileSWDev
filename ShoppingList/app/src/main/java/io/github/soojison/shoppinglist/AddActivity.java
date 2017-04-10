@@ -23,8 +23,6 @@ public class AddActivity extends AppCompatActivity {
     private Item resultItem;
     private int category;
 
-    // TODO: some animation??
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +76,6 @@ public class AddActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add, menu);
@@ -119,7 +116,7 @@ public class AddActivity extends AppCompatActivity {
                             etDescription.getText().toString(),
                             Double.parseDouble(etPrice.getText().toString()),
                             false,
-                            category);
+                            category); // technically this is just one line ;p
                     passIntent();
                     finish();
                 }
