@@ -104,7 +104,8 @@ public class MyActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
+        } finally { // exists because you have to close no matter whether u have 
+          // a try or catch
             if (os != null) {
                 try {
                     os.close();
