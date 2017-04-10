@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String KEY_ITEM_ID = "KEY_ITEM_ID";
     private RecyclerAdapter recyclerAdapter;
     private RecyclerView recyclerItemView;
+    private LinearLayout viewRecyclerPopulated;
     private RelativeLayout viewRecyclerEmpty;
     private int positionToEdit = -1;
 
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         ((MainApplication) getApplication()).openRealm();
 
         recyclerItemView = (RecyclerView) findViewById(R.id.recyclerItemView);
+        viewRecyclerPopulated = (LinearLayout) findViewById(R.id.viewRecyclerPopulated);
         viewRecyclerEmpty = (RelativeLayout) findViewById(R.id.viewRecyclerEmpty);
 
         setUpRecycler();
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerItemView.setLayoutManager(layoutManager);
         recyclerAdapter = new RecyclerAdapter(this,
-                recyclerItemView, viewRecyclerEmpty,
+                viewRecyclerPopulated, viewRecyclerEmpty,
                 ((MainApplication) getApplication()).getRealm());
         recyclerItemView.setAdapter(recyclerAdapter);
     }

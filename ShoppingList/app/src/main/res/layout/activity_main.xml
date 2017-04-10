@@ -9,6 +9,12 @@
 
         <include layout="@layout/toolbar" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/viewRecyclerPopulated">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +29,9 @@
             android:layout_height="match_parent"
             android:scrollbars="vertical"/>
 
+    </LinearLayout>
+
+
         <RelativeLayout
             android:id="@+id/viewRecyclerEmpty"
             android:layout_width="match_parent"
@@ -32,21 +41,30 @@
                 android:id="@+id/imgEmpty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/icon_empty"
+                android:layout_marginTop="-100dp"
+                android:paddingBottom="70dp"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:paddingBottom="50dp"
-                android:src="@drawable/icon_empty" />
+                android:layout_centerVertical="true"/>
 
             <TextView
                 android:id="@+id/tvEmpty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imgEmpty"
-                android:padding="16dp"
+                android:padding="24dp"
                 android:text="@string/no_items_textview"
                 android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_alignBottom="@+id/imgEmpty"/>
 
-                android:textSize="16sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tvEmpty"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:text="@string/load_up_your_list_with_some_cool_items"/>
 
         </RelativeLayout>
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,12 +39,12 @@ public class RecyclerAdapter
 
     private Realm realmItem;
 
-    private RecyclerView rv;
-    private RelativeLayout rl;
+    private LinearLayout linearLayout;
+    private RelativeLayout relativeLayout;
 
     private SharedPreferences sp;
 
-    public RecyclerAdapter(Context context, RecyclerView rv, RelativeLayout rl, Realm realm) {
+    public RecyclerAdapter(Context context, LinearLayout ll, RelativeLayout rl, Realm realm) {
         this.context = context;
         itemList = new ArrayList<>();
         realmItem = realm;
@@ -55,9 +56,9 @@ public class RecyclerAdapter
             itemList.add(itemRealmResults.get(i));
         }
 
-        // for triggering Snackbar
-        this.rv = rv;
-        this.rl = rl;
+        // for toggling the views
+        this.linearLayout = ll;
+        this.relativeLayout = rl;
     }
 
     @Override
@@ -135,11 +136,11 @@ public class RecyclerAdapter
 
     public void toggleEmptyRecycler() {
         if (getItemCount() == 0) {
-            rv.setVisibility(View.GONE);
-            rl.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.GONE);
+            relativeLayout.setVisibility(View.VISIBLE);
         } else {
-            rv.setVisibility(View.VISIBLE);
-            rl.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.VISIBLE);
+            relativeLayout.setVisibility(View.GONE);
         }
     }
 
