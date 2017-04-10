@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import io.github.soojison.shoppinglist.adapter.RecyclerAdapter;
 import io.github.soojison.shoppinglist.data.Item;
@@ -62,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 ((MainApplication) getApplication()).getRealm());
         recyclerItemView.setAdapter(recyclerAdapter);
     }
+
 
     private void initializeToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

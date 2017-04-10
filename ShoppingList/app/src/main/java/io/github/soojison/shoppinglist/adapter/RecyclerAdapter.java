@@ -34,8 +34,6 @@ public class RecyclerAdapter
         extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
         implements TouchHelperAdapter {
 
-    // TODO: https://android-arsenal.com/details/1/1327 --> RecyclerView Animation
-    // TODO: https://android-arsenal.com/details/1/3873 --> Pulsing View for images
     // TODO: https://android-arsenal.com/details/1/2956 --> Twitter like bang animation
     // TODO: how to persist currency?
     private List<Item> itemList;
@@ -79,7 +77,7 @@ public class RecyclerAdapter
         sp = PreferenceManager.getDefaultSharedPreferences(context);
 
         holder.tvName.setText(itemList.get(position).getName());
-        holder.tvDescription.setText(itemList.get(position).getDescription());
+        holder.tvDescription.setText(itemList.get(position).getDescription() + itemList.get(position).getIndex());
         holder.tvPrice.setText(String.format("%s %s",
                 sp.getString(SettingsActivity.PREF_KEY_CURRENCY, "$"),
                 String.valueOf(itemList.get(position).getPrice())));
@@ -164,6 +162,14 @@ public class RecyclerAdapter
 
     private void reAddItem(Item item, int pos) {
         realmItem.beginTransaction();
+        // increment the indices of items after the deleted item as a preparation
+        RealmResults<Item> results = realmItem.where(Item.class)
+                .greaterThanOrEqualTo(Item.COL_INDEX, pos)
+                .findAll();
+        for (int i = 0; i < results.size(); i++) {
+            results.get(i).setIndex(results.get(i).getIndex() + 1);
+        }
+        // add the item
         Item reAddItem = realmItem.createObject(Item.class, item.getItemID());
         reAddItem.setName(item.getName());
         reAddItem.setDescription(item.getDescription());
@@ -173,8 +179,27 @@ public class RecyclerAdapter
         reAddItem.setIndex(pos);
         realmItem.commitTransaction();
         itemList.add(pos, reAddItem);
+        // not just notifyItemAdded since all the data has changed indices
+        // a "dirty" workaround to get the indices to update asap to avoid
+        // Invalid view holder adapter position error which seems to be a RecyclerView bug
+        // More on: https://code.google.com/p/android/issues/detail?id=77846#c10
+        notifyDataSetChanged();
         toggleEmptyRecycler();
-        notifyItemInserted(pos);
+    }
+
+    private void deleteItem(int adapterPosition) {
+        realmItem.beginTransaction();
+        itemList.get(adapterPosition).deleteFromRealm();
+        itemList.remove(adapterPosition);
+        RealmResults<Item> results = realmItem.where(Item.class)
+                .greaterThan(Item.COL_INDEX, adapterPosition)
+                .findAll();
+        for (int i = 0; i < results.size(); i++) {
+            results.get(i).setIndex(results.get(i).getIndex() - 1);
+        }
+        notifyDataSetChanged();
+        realmItem.commitTransaction();
+        toggleEmptyRecycler();
     }
 
     public void deleteAll() {
@@ -191,23 +216,11 @@ public class RecyclerAdapter
 
         final int adapterPosition = viewHolder.getAdapterPosition();
         Item mItem = itemList.get(adapterPosition);
+        // have to create a new item here since once you delete mItem from the list it disappears...
         final Item deletedItem = new Item(mItem.getName(), mItem.getDescription(), mItem.getPrice(),
                 mItem.isDone(), mItem.getCategory());
         deletedItem.setItemID(mItem.getItemID());
-
-        realmItem.beginTransaction();
-        itemList.get(adapterPosition).deleteFromRealm();
-        itemList.remove(adapterPosition);
-        notifyItemRemoved(adapterPosition);
-        RealmResults<Item> results = realmItem.where(Item.class)
-                .greaterThanOrEqualTo(Item.COL_INDEX, adapterPosition)
-                .findAll();
-        for (int i = 0; i < results.size(); i++) {
-            results.get(i).setIndex(results.get(i).getIndex() - 1);
-        }
-        realmItem.commitTransaction();
-
-        toggleEmptyRecycler();
+        deleteItem(adapterPosition);
 
         Snackbar snackbar = Snackbar.make(recyclerView,
                 context.getResources().getString(R.string.snackbar_notify_removed, deletedItem.getName()),
@@ -218,15 +231,6 @@ public class RecyclerAdapter
                         Toast.makeText(context,
                                 context.getResources().getString(R.string.restored_item, deletedItem.getName()),
                                 Toast.LENGTH_SHORT).show();
-
-                        realmItem.beginTransaction();
-                        RealmResults<Item> results = realmItem.where(Item.class)
-                                .greaterThanOrEqualTo(Item.COL_INDEX, adapterPosition)
-                                .findAll();
-                        for (int i = 0; i < results.size(); i++) {
-                            results.get(i).setIndex(results.get(i).getIndex() + 1);
-                        }
-                        realmItem.commitTransaction();
                         reAddItem(deletedItem, adapterPosition);
                         recyclerView.scrollToPosition(adapterPosition);
                     }
@@ -234,13 +238,15 @@ public class RecyclerAdapter
         snackbar.show();
     }
 
+
+
     @Override
     public void onItemMove(final int fromPosition, final int toPosition) {
         realmItem.beginTransaction();
         Item itemfromPosition = realmItem.where(Item.class).equalTo(Item.COL_INDEX, fromPosition).findFirst();
         Item itemToPosition = realmItem.where(Item.class).equalTo(Item.COL_INDEX, toPosition).findFirst();
-        itemfromPosition.setIndex(toPosition);
         itemToPosition.setIndex(fromPosition);
+        itemfromPosition.setIndex(toPosition);
         notifyItemMoved(fromPosition, toPosition);
         realmItem.commitTransaction();
     }
@@ -253,7 +259,7 @@ public class RecyclerAdapter
         notifyItemChanged(positionToEdit);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvName;
         private TextView tvDescription;
