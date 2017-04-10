@@ -35,6 +35,9 @@ public class RecyclerAdapter
         extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>
         implements TouchHelperAdapter {
 
+    // TODO: https://android-arsenal.com/details/1/1327 --> RecyclerView Animation
+    // TODO: https://android-arsenal.com/details/1/3873 --> Pulsing View for images
+    // TODO: https://android-arsenal.com/details/1/2956 --> Twitter like bang animation
     // TODO: how to persist currency?
     private List<Item> itemList;
     private Context context;

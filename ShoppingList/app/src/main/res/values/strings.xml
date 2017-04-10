@@ -8,7 +8,7 @@
     <string name="alert_dialog_positive">Yes</string>
     <string name="alert_dialog_negative">No</string>
     <string name="list_view_title">My List</string>
-    <string name="no_items_textview">You have no items on your list!</string>
+    <string name="no_items_textview">Your list is empty!</string>
 
     <string name="snackbar_notify_removed">%1$s removed</string>
     <string name="snackbar_undo">undo</string>
