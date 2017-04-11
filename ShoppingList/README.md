@@ -4,7 +4,8 @@ Assignment #2 for AIT-Budapest Spring 2017 Mobile Development course
 
 ## Features
 * (Google style) splash screen with a custom logo (and AIT text)
-* Empty list shows you a sad picture of an empty shopping bag
+* Empty list shows you a sad picture of an empty shopping bag (toggle
+    animation)
 * Persistent Storage using Realm
 * User can add to the list items that has
     * category: food, toiletries, education, apparel, entertainment, misc
@@ -12,6 +13,7 @@ Assignment #2 for AIT-Budapest Spring 2017 Mobile Development course
     * description
     * estimated price
     * bought status
+* Adding new item scrolls you to the position where it was added
 * ViewHolder displays icons based on the category
 * Displays item description and edit item button when clicked on list item
 * Add new items in a new activity
