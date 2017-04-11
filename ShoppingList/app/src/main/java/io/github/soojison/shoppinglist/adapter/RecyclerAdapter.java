@@ -136,10 +136,14 @@ public class RecyclerAdapter
 
     public void toggleEmptyRecycler() {
         if (getItemCount() == 0) { // empty
+            linearLayout.animate().alpha(0.0f).setDuration(500);
             linearLayout.setVisibility(View.GONE);
+            relativeLayout.animate().alpha(1.0f).setDuration(500);
             relativeLayout.setVisibility(View.VISIBLE);
         } else { // populated
+            linearLayout.animate().alpha(1.0f).setDuration(500);
             linearLayout.setVisibility(View.VISIBLE);
+            relativeLayout.animate().alpha(0.0f).setDuration(500);
             relativeLayout.setVisibility(View.GONE);
         }
     }
