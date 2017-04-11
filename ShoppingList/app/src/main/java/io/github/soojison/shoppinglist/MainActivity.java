@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
             Item passedItem = (Item) data.getExtras().get(PASSED_ITEM);
             recyclerAdapter.addItem(passedItem.getName(), passedItem.getDescription(),
                     passedItem.getPrice(), passedItem.getCategory());
+            recyclerItemView.scrollToPosition(recyclerAdapter.getItemCount()-1);
         } else if(requestCode == EDIT_ITEM_REQUEST_CODE && resultCode == RESULT_OK) {
             String itemID = data.getStringExtra(EditActivity.KEY_ITEM);
             recyclerAdapter.updateItem(itemID, positionToEdit);

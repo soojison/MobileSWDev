@@ -135,10 +135,10 @@ public class RecyclerAdapter
     }
 
     public void toggleEmptyRecycler() {
-        if (getItemCount() == 0) {
+        if (getItemCount() == 0) { // empty
             linearLayout.setVisibility(View.GONE);
             relativeLayout.setVisibility(View.VISIBLE);
-        } else {
+        } else { // populated
             linearLayout.setVisibility(View.VISIBLE);
             relativeLayout.setVisibility(View.GONE);
         }
