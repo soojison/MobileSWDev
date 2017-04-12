@@ -1,0 +1,7 @@
+#Thu Mar 23 09:08:08 CET 2017
+base.0=/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d69809c2ff71f34e93f908cfa515137862ba813d
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_c38306e17445aab270d0f7b91e93d39294505153/classes.dex
+base.1=/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_c38306e17445aab270d0f7b91e93d39294505153
+file.0=/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d69809c2ff71f34e93f908cfa515137862ba813d/classes.dex

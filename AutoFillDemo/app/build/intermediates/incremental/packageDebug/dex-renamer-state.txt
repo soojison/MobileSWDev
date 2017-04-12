@@ -1,0 +1,7 @@
+#Thu Mar 23 09:26:39 CET 2017
+base.0=/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_6cf48d19ac5b9eea61fa75cc106bc6e8203b0eaf
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_a6f89d4081662c1ac32a9a51d0e0dc90d49f5ce0/classes.dex
+base.1=/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_a6f89d4081662c1ac32a9a51d0e0dc90d49f5ce0
+file.0=/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_6cf48d19ac5b9eea61fa75cc106bc6e8203b0eaf/classes.dex

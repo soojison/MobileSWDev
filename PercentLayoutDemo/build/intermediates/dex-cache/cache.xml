@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/6a21951b69028bff36a981211797243672bfea52/output/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c5b7145fb34779b6639147b8f2f8dd77c0db771b">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_ee8759e146bc43638b1756e42bb36a22cca22591/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/059d15bca670a80d392176535139f46009ee3a06/output/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f83b00041ecfba705603fec40363416c7de69719">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_ccbb717273778113f3da16ee136a5c8b52e44908/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/6a21951b69028bff36a981211797243672bfea52/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8721ec29a85f4b7d62a5019dce6de4a32bd20891/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/ab8e175c83d20ff13d8267709062a0adedcc5c92/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bc7e99e8d0fc279a05aa91378530f467ad62d443">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8af3435ba53331c2e6daf03002dbb784e891e109/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/36964ee2ca45f190adcec17d7dd520c8ebb9cea6/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="26c6eef571592c91f29e56fda0bac73321de0c92">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8a3f9666e96f8709c2b29934d671be376f707b1a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/12d462d8cc35277e26a64a17ba5999450589e8ce/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="772bed2d992b67b9d0327f766cc95cd63031dcd3">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_219443ffbef9e06b45411e87001fbca9c98af4a9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/51066a643fb40dba88de6d56bd4d71ff3ccdb898/output/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3af8cc51ef7088e56f132780da8c0bd858b6a6ad">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_3999eebb55b59b98ec344073d403ad97bcefd5dc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/e09f18ca75b4f2d4a6a34f154811d1701150a87f/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b0e10a526509572537612820f2e46b7436f6c188">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_4ede94af381a775fb92fc5eaffc05f65699f1232/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/f6a1e080d45cc970032e67529a60aa8efbcba245/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f7ac4b327fdb9e2ee386f5adc46164927658de4b">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_80a25951d9b6cda289c8cbd9027c47ab54ea7869/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/059d15bca670a80d392176535139f46009ee3a06/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6a1479afe9f1b3645e1cd9a87318976893472818">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_36156754b321731f5196a2bc1ba49cbab86f5c3e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/b218ae457ec594b31d9a04cce12cd04492ed2e07/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_0c4314a6da9fade1444f4011e316b7e038393d30/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/51066a643fb40dba88de6d56bd4d71ff3ccdb898/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="51eba4a4dd73044f90a9d58dd7ca34adbebfcf4e">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_bd526e3a2bda911d310def7cf78142641441e680/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.1/support-annotations-25.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a09194311f8f89c3e6db09d79f50897a889d615e">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.1_b90413813e2fdcd301321bd4c8be0a0d824d1673/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_c38306e17445aab270d0f7b91e93d39294505153/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/c16fe8a3da25baa67a9f8a1234aa601df42e48c5/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b24e1c688744078e1fa833ffadf696794761bbe5">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_cf9a18a113803a6b54ba075413877e9b31d56ae2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/36964ee2ca45f190adcec17d7dd520c8ebb9cea6/output/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c0bd6ffb002a85b5e7cad29f8558d1cc59539679">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_a874a3bd021d1305228e5437b4f0e8cc0da89ac7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="31645c157136cd9a2f3535da90c8ab5380cc2a7d">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d69809c2ff71f34e93f908cfa515137862ba813d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/ab8e175c83d20ff13d8267709062a0adedcc5c92/output/jars/libs/internal_impl-25.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_b5665c535436aac0297e9d18fcea30cd06e8dde4/classes.dex" />
+    </item>
+
+</items>

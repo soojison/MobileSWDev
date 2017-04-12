@@ -1,0 +1,4 @@
+#Thu Mar 23 09:13:04 CET 2017
+base.0=/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_3
+renamed.0=classes.dex
+file.0=/Users/sonsooji/Documents/MobileDev/PercentLayoutDemo/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_3/classes.dex

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/d22ca3e66f019ec3cc97a9b132d9fac115f2049b/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5cc5ef8347a6bafa14556cbd35230aa9b3431bb0">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c9ceac28308f5f2d4d0172c981b69ad12efbe8b2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/61e930eabd7358c3c1b6e2a2762c8c3d5c338392/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="425c7b17887e5c3f8cbdf67ba171bc246f29b42c">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_6dfa0cb40f9d9b0c4fdb69d64a41cd6e404e9860/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/5ae3f245ea70fc46dc0999f0bbd5e42864862c0e/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="93c10d68ab5ea070f15782ae6d3a28d1f1d8f45e">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c6c2c4d68aeea5f613f2010234c3b665e81714ca/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/cda921b2d2613724f3fa9627c63c2f81ce6dc0ef/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4b746ef0fd46acb5aaf3d9ab9a4cec22c28d3211">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_a0a8a543fdfaf95518b1899fd87ca22afa4b80ea/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/f68c7a7f11c812fc68f602667d420ece948cfc78/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_04035299d3b259bf7f69a52f7aee1f5c36d8d584/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/9ec9061fb78e8a79a0b279bcecc2a0ebf2cd25c1/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="518768f3200963fbfec652f498da2c9d39245234">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_02998bba45a8684c22b94dd59033d3f5c1847be2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.0/support-annotations-25.3.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="dd84903d2e1af25a6081ef9038ad863cb14ca3a0">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.3.0_49267b0df1edb47b7cf642fff5ba42303a12388c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_6cf48d19ac5b9eea61fa75cc106bc6e8203b0eaf/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/5cb2023731b658ec726ddfcef2bd14a8152683c8/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="70f23cb87278f89aa51e6f57e8f0fd5266572d95">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b6b5aa072df40aad5c2310604cab74edada9f717/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/1cdff68631b55b01a586c985a19f2bd98fa9b54a/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d6a04527c17597019dad82777c5094a3d60d1c33">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_465afd6aa99a8a5c7e414232b4d15e2595e8bf06/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9b9da08eba4e6b7ab67c9638340ded4140dd3a1b">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_a6f89d4081662c1ac32a9a51d0e0dc90d49f5ce0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/sonsooji/.android/build-cache/f9cde57012156248ec950936ea5d4db9ed0a2bfd/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="93c1199fcb0a34b980e6fff8350daff62e696ec2">
+        <dex dex="/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_9dd7b9f0aac5f7a8283a376d601c70d70e956e19/classes.dex" />
+    </item>
+
+</items>

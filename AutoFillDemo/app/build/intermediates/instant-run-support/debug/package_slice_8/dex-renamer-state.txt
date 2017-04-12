@@ -1,0 +1,4 @@
+#Thu Mar 23 09:27:30 CET 2017
+base.0=/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8
+renamed.0=classes.dex
+file.0=/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_8/classes.dex

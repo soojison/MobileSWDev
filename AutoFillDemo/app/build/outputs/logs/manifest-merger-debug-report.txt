@@ -1,0 +1,87 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:2:1-21:12
+	package
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:3:5-46
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:2:11-69
+	android:versionCode
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+application
+ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:5:5-19:19
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/sonsooji/.android/build-cache/5cb2023731b658ec726ddfcef2bd14a8152683c8/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-v4:25.3.0] /Users/sonsooji/.android/build-cache/f68c7a7f11c812fc68f602667d420ece948cfc78/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/sonsooji/.android/build-cache/f9cde57012156248ec950936ea5d4db9ed0a2bfd/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/sonsooji/.android/build-cache/61e930eabd7358c3c1b6e2a2762c8c3d5c338392/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/sonsooji/.android/build-cache/d22ca3e66f019ec3cc97a9b132d9fac115f2049b/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/sonsooji/.android/build-cache/9ec9061fb78e8a79a0b279bcecc2a0ebf2cd25c1/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/sonsooji/.android/build-cache/cda921b2d2613724f3fa9627c63c2f81ce6dc0ef/output/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/sonsooji/.android/build-cache/1cdff68631b55b01a586c985a19f2bd98fa9b54a/output/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-compat:25.3.0] /Users/sonsooji/.android/build-cache/5ae3f245ea70fc46dc0999f0bbd5e42864862c0e/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.0.1] /Users/sonsooji/.android/build-cache/5c2d18468517b8be65bf6a086fb140c368c67fed/output/AndroidManifest.xml:9:5-20
+	android:label
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:8:9-41
+	android:supportsRtl
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:10:9-35
+	android:roundIcon
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:9:9-54
+	android:allowBackup
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:6:9-35
+	android:icon
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:7:9-43
+	android:theme
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:11:9-40
+activity#io.github.soojison.autofilldemo.MainActivity
+ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:12:9-18:20
+	android:name
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:12:19-47
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:13:13-17:29
+action#android.intent.action.MAIN
+ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:14:17-69
+	android:name
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:14:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:16:17-77
+	android:name
+		ADDED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml:16:27-74
+uses-sdk
+INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:appcompat-v7:25.3.0] /Users/sonsooji/.android/build-cache/5cb2023731b658ec726ddfcef2bd14a8152683c8/output/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:25.3.0] /Users/sonsooji/.android/build-cache/f68c7a7f11c812fc68f602667d420ece948cfc78/output/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/sonsooji/.android/build-cache/f9cde57012156248ec950936ea5d4db9ed0a2bfd/output/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/sonsooji/.android/build-cache/61e930eabd7358c3c1b6e2a2762c8c3d5c338392/output/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/sonsooji/.android/build-cache/d22ca3e66f019ec3cc97a9b132d9fac115f2049b/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/sonsooji/.android/build-cache/9ec9061fb78e8a79a0b279bcecc2a0ebf2cd25c1/output/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/sonsooji/.android/build-cache/cda921b2d2613724f3fa9627c63c2f81ce6dc0ef/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/sonsooji/.android/build-cache/1cdff68631b55b01a586c985a19f2bd98fa9b54a/output/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-compat:25.3.0] /Users/sonsooji/.android/build-cache/5ae3f245ea70fc46dc0999f0bbd5e42864862c0e/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support.constraint:constraint-layout:1.0.1] /Users/sonsooji/.android/build-cache/5c2d18468517b8be65bf6a086fb140c368c67fed/output/AndroidManifest.xml:5:5-7:41
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:25.3.0] /Users/sonsooji/.android/build-cache/5cb2023731b658ec726ddfcef2bd14a8152683c8/output/AndroidManifest.xml:23:9-75
+	android:targetSdkVersion
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/src/main/AndroidManifest.xml
+meta-data#android.support.VERSION
+ADDED from [com.android.support:appcompat-v7:25.3.0] /Users/sonsooji/.android/build-cache/5cb2023731b658ec726ddfcef2bd14a8152683c8/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-v4:25.3.0] /Users/sonsooji/.android/build-cache/f68c7a7f11c812fc68f602667d420ece948cfc78/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-fragment:25.3.0] /Users/sonsooji/.android/build-cache/f9cde57012156248ec950936ea5d4db9ed0a2bfd/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-media-compat:25.3.0] /Users/sonsooji/.android/build-cache/61e930eabd7358c3c1b6e2a2762c8c3d5c338392/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.0] /Users/sonsooji/.android/build-cache/d22ca3e66f019ec3cc97a9b132d9fac115f2049b/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.0] /Users/sonsooji/.android/build-cache/9ec9061fb78e8a79a0b279bcecc2a0ebf2cd25c1/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.0] /Users/sonsooji/.android/build-cache/cda921b2d2613724f3fa9627c63c2f81ce6dc0ef/output/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.0] /Users/sonsooji/.android/build-cache/1cdff68631b55b01a586c985a19f2bd98fa9b54a/output/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-compat:25.3.0] /Users/sonsooji/.android/build-cache/5ae3f245ea70fc46dc0999f0bbd5e42864862c0e/output/AndroidManifest.xml:25:5-27:34
+	android:value
+		ADDED from [com.android.support:appcompat-v7:25.3.0] /Users/sonsooji/.android/build-cache/5cb2023731b658ec726ddfcef2bd14a8152683c8/output/AndroidManifest.xml:27:9-31
+	android:name
+		ADDED from [com.android.support:appcompat-v7:25.3.0] /Users/sonsooji/.android/build-cache/5cb2023731b658ec726ddfcef2bd14a8152683c8/output/AndroidManifest.xml:26:9-47

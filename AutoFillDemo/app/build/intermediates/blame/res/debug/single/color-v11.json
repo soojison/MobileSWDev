@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/Users/sonsooji/.android/build-cache/5cb2023731b658ec726ddfcef2bd14a8152683c8/output/res/color-v11/abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "/Users/sonsooji/Documents/MobileDev/AutoFillDemo/app/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_light.xml",
+        "source": "/Users/sonsooji/.android/build-cache/5cb2023731b658ec726ddfcef2bd14a8152683c8/output/res/color-v11/abc_background_cache_hint_selector_material_light.xml"
+    }
+]
