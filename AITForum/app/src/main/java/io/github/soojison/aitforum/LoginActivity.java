@@ -1,6 +1,7 @@
 package io.github.soojison.aitforum;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -89,6 +90,34 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @OnClick(R.id.btnLogin)
+    public void loginClick() {
+        if(!isFormValid()) {
+            return;
+        }
+        showProgressDialog();
+
+        // then you log in
+        firebaseAuth.signInWithEmailAndPassword(
+                etEmail.getText().toString(),
+                etPassword.getText().toString()
+        ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            // async shit! wait for DB to respond and exec code when it's done
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                hideProgressDialog();
+                if(task.isSuccessful()) {
+                    // oncomplete doesn't mean it's successful, need to check if the request was successful
+                    startActivity(new Intent(LoginActivity.this, PostsActivity.class));
+                } else {
+                    Toast.makeText(LoginActivity.this,
+                            "Failed: " + task.getException().getLocalizedMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     // pekler: I like this laser pointer...
     // chainsaw is the lightsaber of the countryside people,
     // laser pointer is the lightsaber of the teachers
@@ -122,6 +151,8 @@ public class LoginActivity extends AppCompatActivity {
 
         return true;
     }
+
+    // try to avoid big water... : re easter tradition
 
     // helper method: get username from email
     private String userNameFromEmail(String email) {
