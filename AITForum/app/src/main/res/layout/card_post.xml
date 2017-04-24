@@ -10,7 +10,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -36,6 +37,12 @@
                 android:id="@+id/tvBody"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/ivPost"
+                android:visibility="gone"
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
 
         </LinearLayout>
 

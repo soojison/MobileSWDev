@@ -2,13 +2,16 @@ package io.github.soojison.aitforum.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -64,6 +67,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         holder.tvTitle.setText(tempPost.getTitle());
         holder.tvBody.setText(tempPost.getBody());
 
+        if(!TextUtils.isEmpty(tempPost.getImgURL())) {
+            holder.ivPost.setVisibility(View.VISIBLE);
+            Glide.with(context).load(tempPost.getImgURL()).into(holder.ivPost);
+        } else {
+            // since recyclerview is reusing the viewholders, you gotta reset it
+            holder.ivPost.setVisibility(View.GONE);
+        }
+
         // play animation when new item is added! this is the spot to call it
         setAnimation(holder.itemView, position);
     }
@@ -105,6 +116,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         public TextView tvAuthor;
         public TextView tvTitle;
         public TextView tvBody;
+        public ImageView ivPost;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -112,6 +124,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvAuthor = (TextView) itemView.findViewById(R.id.tvAuthor);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
+            ivPost = (ImageView) itemView.findViewById(R.id.ivPost);
         }
     }
 

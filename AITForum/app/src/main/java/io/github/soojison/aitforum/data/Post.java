@@ -6,6 +6,7 @@ public class Post {
     private String author;
     private String title;
     private String body;
+    private String imgURL;
 
     public Post() {
         // necessary for firebase
@@ -48,5 +49,13 @@ public class Post {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 }
