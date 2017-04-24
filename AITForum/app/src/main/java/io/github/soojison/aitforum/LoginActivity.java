@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnLogin)
     public void loginClick() {
+        Toast.makeText(this, "math:" + 6/0, Toast.LENGTH_SHORT).show();
         if(!isFormValid()) {
             return;
         }
