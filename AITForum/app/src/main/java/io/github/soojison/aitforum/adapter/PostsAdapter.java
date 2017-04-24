@@ -21,6 +21,10 @@ import io.github.soojison.aitforum.data.Post;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
+    // adding push notification
+    // tools > Firebase > notifications => that's it!
+    // not a real time service -> not guaranteed that it will arrive immediately
+
     private Context context;
     private List<Post> postList;
     private List<String> postKeys;
