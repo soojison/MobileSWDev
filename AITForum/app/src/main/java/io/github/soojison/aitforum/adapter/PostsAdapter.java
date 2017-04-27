@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -62,7 +65,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // assign values to the views
-        Post tempPost = postList.get(position);
+        final Post tempPost = postList.get(position);
         holder.tvAuthor.setText(tempPost.getAuthor());
         holder.tvTitle.setText(tempPost.getTitle());
         holder.tvBody.setText(tempPost.getBody());
@@ -74,6 +77,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             // since recyclerview is reusing the viewholders, you gotta reset it
             holder.ivPost.setVisibility(View.GONE);
         }
+
+        // if current user id = post uid display delete button
+        if(tempPost.getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            holder.btnDelete.setVisibility(View.VISIBLE);
+            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "HELLOO", Toast.LENGTH_SHORT).show();
+                    //removePostByKey(tempPost.getUid());
+                }
+            });
+        }
+
 
         // play animation when new item is added! this is the spot to call it
         setAnimation(holder.itemView, position);
@@ -117,6 +133,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         public TextView tvTitle;
         public TextView tvBody;
         public ImageView ivPost;
+        public Button btnDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -125,6 +142,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             ivPost = (ImageView) itemView.findViewById(R.id.ivPost);
+            btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
         }
     }
 
