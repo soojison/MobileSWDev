@@ -13,6 +13,9 @@ import android.widget.Toast;
 // also use the one that's coming from the support library
 public class MyFragment extends Fragment {
 
+    // constants for tags
+    public static final String TAG = "MyFragment";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
