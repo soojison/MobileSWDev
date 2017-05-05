@@ -1,11 +1,14 @@
 package io.github.soojison.aitweather;
 
 import android.content.DialogInterface;
+import android.net.LinkAddress;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +45,9 @@ public class MainActivity extends AppCompatActivity
 
     public WeatherApi weatherApi;
 
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+
     // TODO: icons, misc weather stuff
     // TODO: metric / imperial settings in shared preferences
 
@@ -62,6 +68,13 @@ public class MainActivity extends AppCompatActivity
 
         ((MainApplication) getApplication()).openRealm();
 
+        setUpRecycler();
+    }
+
+    private void setUpRecycler() {
+        recyclerView.setHasFixedSize(true);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     private void initializeLayout() {
