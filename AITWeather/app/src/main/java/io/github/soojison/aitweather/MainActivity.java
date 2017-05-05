@@ -1,11 +1,8 @@
 package io.github.soojison.aitweather;
 
 import android.content.DialogInterface;
-import android.net.LinkAddress;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,40 +17,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.github.soojison.aitweather.adapter.WeatherAdapter;
-import io.github.soojison.aitweather.api.WeatherApi;
-import io.github.soojison.aitweather.data.WeatherResult;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String HTTP_API_OPENWEATHERMAP_ORG = "http://api.openweathermap.org";
-
-    public WeatherApi weatherApi;
     public WeatherAdapter weatherAdapter;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    // TODO: icons, misc weather stuff
-    // TODO: metric / imperial settings in shared preferences
-
-    // TODO: REALM inclusion for persistent data storage
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +41,6 @@ public class MainActivity extends AppCompatActivity
 
         ((MainApplication) getApplication()).openRealm();
         setUpRecycler();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(HTTP_API_OPENWEATHERMAP_ORG)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        weatherApi = retrofit.create(WeatherApi.class);
-
-
-
 
     }
 
@@ -125,24 +93,29 @@ public class MainActivity extends AppCompatActivity
         dialogBuilder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO: do something -- add city to recycler
-                if(TextUtils.isEmpty(etCity.getText().toString())) {
-                    // TODO: also graceful error handling when the city query is not a valid city?
-                    etCity.setError(getResources().getString(R.string.error_empty_city_name));
-                } else {
-                    weatherAdapter.addItem(etCity.getText().toString());
-                    Toast.makeText(MainActivity.this, etCity.getText().toString(), Toast.LENGTH_SHORT).show();
-                }
+                // do nothing, overriding later for editText behavior
             }
         });
         dialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //pass
+                // default behavior, do nothing
             }
         });
-        AlertDialog dialog = dialogBuilder.create();
+        final AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(TextUtils.isEmpty(etCity.getText().toString())) {
+                    // TODO: also graceful error handling when the city query is not a valid city?
+                    etCity.setError(getResources().getString(R.string.error_empty_city_name));
+                } else {
+                    weatherAdapter.addItem(etCity.getText().toString());
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,7 @@
 package io.github.soojison.aitweather.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import io.github.soojison.aitweather.DetailsActivity;
+import io.github.soojison.aitweather.MainActivity;
 import io.github.soojison.aitweather.R;
 import io.github.soojison.aitweather.data.WeatherResult;
 import io.github.soojison.aitweather.realm.RealmString;
@@ -58,8 +61,9 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 // TODO: open a new activity where you can see the city weather info
-                Toast.makeText(context, "TODO: new activity to see city " +
-                        holder.tvCityName.getText().toString(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                intent.putExtra(DetailsActivity.KEY_CITY_NAME, holder.tvCityName.getText().toString());
+                context.startActivity(intent);
             }
         });
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
