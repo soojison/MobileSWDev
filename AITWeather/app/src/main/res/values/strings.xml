@@ -5,4 +5,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- city add dialog related strings -->
+    <string name="add_city">Add City</string>
+    <string name="enter_city_name">Enter City Name</string>
+    <string name="error_empty_city_name">The city name must not be empty</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
 </resources>

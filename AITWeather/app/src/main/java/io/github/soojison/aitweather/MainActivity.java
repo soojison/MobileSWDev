@@ -1,8 +1,13 @@
 package io.github.soojison.aitweather;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.LayoutInflaterCompat;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,13 +40,12 @@ public class MainActivity extends AppCompatActivity
 
     public static final String HTTP_API_OPENWEATHERMAP_ORG = "http://api.openweathermap.org";
 
-    @BindView(R.id.tvTest)
-    TextView tvTest;
+    public WeatherApi weatherApi;
 
-    @BindView(R.id.btnGet)
-    Button btnGet;
+    // TODO: icons, misc weather stuff
+    // TODO: metric / imperial settings in shared preferences
 
-    WeatherApi weatherApi;
+    // TODO: REALM inclusion for persistent data storage
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,39 +58,17 @@ public class MainActivity extends AppCompatActivity
                 .baseUrl(HTTP_API_OPENWEATHERMAP_ORG)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         weatherApi = retrofit.create(WeatherApi.class);
 
-    }
+        ((MainApplication) getApplication()).openRealm();
 
-    @OnClick(R.id.btnGet)
-    public void getWeather(Button btn) {
-        Call<WeatherResult> call = weatherApi.getCurrentWeather("Seattle,wa", "metric", "13ecf6e64cda416ef869f94f53a99417");
-        call.enqueue(new Callback<WeatherResult>() {
-            @Override
-            public void onResponse(Call<WeatherResult> call, Response<WeatherResult> response) {
-                tvTest.setText(response.body().getMain().getTemp() + "");
-            }
-
-            @Override
-            public void onFailure(Call<WeatherResult> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void initializeLayout() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        initializeFAB();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -95,6 +78,48 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initializeFAB() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // show alert dialog
+                showAlertDialog();
+            }
+        });
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.add_city_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText etCity = (EditText) dialogView.findViewById(R.id.etCity);
+
+        dialogBuilder.setTitle(R.string.add_city);
+        dialogBuilder.setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO: do something -- add city to recycler
+                if(TextUtils.isEmpty(etCity.getText().toString())) {
+                    // TODO: also graceful error handling when the city query is not a valid city?
+                    etCity.setError(getResources().getString(R.string.error_empty_city_name));
+                } else {
+                    Toast.makeText(MainActivity.this, etCity.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //pass
+            }
+        });
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
     }
 
     @Override
