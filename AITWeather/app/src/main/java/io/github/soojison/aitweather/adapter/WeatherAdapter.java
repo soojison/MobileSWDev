@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,12 +29,13 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
 
     public WeatherAdapter(Context context, Realm realm) {
         this.context = context;
-        cityList = new ArrayList<>();
         this.realm = realm;
 
         RealmResults<RealmString> realmResults = realm.where(RealmString.class).findAll();
 
-        for (int i = 0; i < cityList.size(); i++) {
+        cityList = new ArrayList<>();
+        Toast.makeText(context, "Realm size" + realmResults.size(), Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < realmResults.size(); i++) {
             cityList.add(realmResults.get(i));
         }
 
@@ -76,16 +78,16 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvCityName;
-        public Button btnDelete;
+        public ImageButton btnDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvCityName = (TextView) itemView.findViewById(R.id.tvCityName);
-            btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
+            btnDelete = (ImageButton) itemView.findViewById(R.id.btnDelete);
         }
     }
 
-    private void deleteItem(int adapterPosition) {
+    public void deleteItem(int adapterPosition) {
         realm.beginTransaction();
         cityList.get(adapterPosition).deleteFromRealm();
         realm.commitTransaction();
@@ -94,13 +96,12 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         notifyItemRemoved(adapterPosition);
     }
 
-    private void addItem(String cityName) {
+    public void addItem(String cityName) {
         realm.beginTransaction();
         RealmString newString = realm.createObject(RealmString.class, UUID.randomUUID().toString());
         newString.setCityName(cityName);
         realm.commitTransaction();
-        // TODO: I think this fucks with the ordering when app is closed
-        cityList.add(0, newString);
-        notifyItemInserted(0);
+        cityList.add(newString);
+        notifyItemInserted(cityList.size()-1);
     }
 }

@@ -30,6 +30,7 @@ import org.w3c.dom.Text;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.github.soojison.aitweather.adapter.WeatherAdapter;
 import io.github.soojison.aitweather.api.WeatherApi;
 import io.github.soojison.aitweather.data.WeatherResult;
 import retrofit2.Call;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     public static final String HTTP_API_OPENWEATHERMAP_ORG = "http://api.openweathermap.org";
 
     public WeatherApi weatherApi;
+    public WeatherAdapter weatherAdapter;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -60,21 +62,28 @@ public class MainActivity extends AppCompatActivity
         initializeLayout();
         ButterKnife.bind(this);
 
+        ((MainApplication) getApplication()).openRealm();
+        setUpRecycler();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(HTTP_API_OPENWEATHERMAP_ORG)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         weatherApi = retrofit.create(WeatherApi.class);
 
-        ((MainApplication) getApplication()).openRealm();
 
-        setUpRecycler();
+
+
     }
 
     private void setUpRecycler() {
         recyclerView.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        weatherAdapter = new WeatherAdapter(this,
+                ((MainApplication) getApplication()).getRealm());
+        recyclerView.setAdapter(weatherAdapter);
     }
 
     private void initializeLayout() {
@@ -121,6 +130,7 @@ public class MainActivity extends AppCompatActivity
                     // TODO: also graceful error handling when the city query is not a valid city?
                     etCity.setError(getResources().getString(R.string.error_empty_city_name));
                 } else {
+                    weatherAdapter.addItem(etCity.getText().toString());
                     Toast.makeText(MainActivity.this, etCity.getText().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -190,5 +200,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ((MainApplication) getApplication()).closeRealm();
     }
 }
