@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(etCity.getText().toString())) {
-                    // TODO: also graceful error handling when the city query is not a valid city?
                     etCity.setError(getResources().getString(R.string.error_empty_city_name));
                 } else {
                     weatherAdapter.addItem(etCity.getText().toString());

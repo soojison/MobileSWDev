@@ -64,6 +64,7 @@ public class DetailsActivity extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             weatherApi = retrofit.create(WeatherApi.class);
+
             getWeatherInfo(cityName);
         }
     }
@@ -76,11 +77,18 @@ public class DetailsActivity extends AppCompatActivity {
         call.enqueue(new Callback<WeatherResult>() {
             @Override
             public void onResponse(Call<WeatherResult> call, Response<WeatherResult> response) {
-                populateWeatherData(response.body());
+                if(response.code() == 200) {
+                    populateWeatherData(response.body());
+                } else if(response.code() == 404) {
+
+                    // TODO: CITY NOT FOUND
+                    Toast.makeText(DetailsActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<WeatherResult> call, Throwable t) {
+
                 String errorType;
                 String errorDesc;
                 if(t instanceof IOException) {
@@ -94,11 +102,6 @@ public class DetailsActivity extends AppCompatActivity {
                     errorDesc = String.valueOf(t.getLocalizedMessage());
                 }
                 Toast.makeText(DetailsActivity.this, errorDesc, Toast.LENGTH_LONG).show();
-                if(getSupportActionBar() != null) {
-                    // TODO: some cool display to tell u how wrong u are
-                    getSupportActionBar().setTitle(errorType);
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                }
             }
         });
     }
@@ -128,10 +131,10 @@ public class DetailsActivity extends AppCompatActivity {
         tvCurrentTemp.setText(body.getMain().getTemp() + degrees);
         tvDescription.setText(body.getWeather().get(0).getDescription());
         Glide.with(getApplicationContext()).load(iconURL).into(imgWeatherIcon);
-        tvWind.setText(body.getWind().getSpeed() + speed + " in the direction of "
+        tvWind.setText(body.getWind().getSpeed() + " " + speed + " in the direction of "
                 + getWindDirection(body.getWind().getDeg()));
         tvCloud.setText(getCloudInfo(body.getClouds().getAll()));
-        tvPressure.setText(body.getMain().getPressure() + "hPa");
+        tvPressure.setText(body.getMain().getPressure() + " hPa");
         tvHumidity.setText(body.getMain().getHumidity() + "%");
 
         tvSunrise.setText(getSunTime(body.getSys().getSunrise()));
