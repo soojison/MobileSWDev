@@ -8,7 +8,7 @@ public class Clouds {
     // cloudiness in %
     @SerializedName("all")
     @Expose
-    public Double all;
+    private Double all;
 
     public Double getAll() {
         return all;

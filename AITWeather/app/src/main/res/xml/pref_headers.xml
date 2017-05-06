@@ -1,0 +1,10 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+
+    <header
+        android:fragment="io.github.soojison.aitweather.SettingsActivity$GeneralPreferenceFragment"
+        android:icon="@drawable/temperature_48"
+        android:title="@string/pref_header_units" />
+
+</preference-headers>

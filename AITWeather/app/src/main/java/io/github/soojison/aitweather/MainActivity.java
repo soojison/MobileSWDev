@@ -1,6 +1,7 @@
 package io.github.soojison.aitweather;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.soojison.aitweather.adapter.WeatherAdapter;
+import io.github.soojison.aitweather.data.Main;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -143,8 +145,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            //TODO: settings
-            return true;
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

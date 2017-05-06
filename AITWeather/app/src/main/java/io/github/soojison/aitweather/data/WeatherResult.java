@@ -8,41 +8,41 @@ public class WeatherResult {
 
     @SerializedName("coord")
     @Expose
-    public Coord coord;
+    private Coord coord;
     @SerializedName("weather")
     @Expose
-    public List<Weather> weather = null;
+    private List<Weather> weather = null;
     @SerializedName("base")
     @Expose
-    public String base;
+    private String base;
     @SerializedName("main")
     @Expose
-    public Main main;
+    private Main main;
     @SerializedName("visibility")
     @Expose
-    public Integer visibility;
+    private Integer visibility;
     @SerializedName("wind")
     @Expose
-    public Wind wind;
+    private Wind wind;
     @SerializedName("clouds")
     @Expose
-    public Clouds clouds;
+    private Clouds clouds;
     @SerializedName("dt")
     @Expose
-    public Integer dt;
+    private Integer dt;
     @SerializedName("sys")
     @Expose
-    public Sys sys;
+    private Sys sys;
     // name of city
     @SerializedName("id")
     @Expose
-    public Integer id;
+    private Integer id;
     @SerializedName("name")
     @Expose
-    public String name;
+    private String name;
     @SerializedName("cod")
     @Expose
-    public Integer cod;
+    private Integer cod;
 
     public Coord getCoord() {
         return coord;

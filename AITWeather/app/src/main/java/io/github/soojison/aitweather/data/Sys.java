@@ -8,27 +8,27 @@ public class Sys {
 
     @SerializedName("type")
     @Expose
-    public Integer type;
+    private Integer type;
     @SerializedName("id")
     @Expose
-    public Integer id;
+    private Integer id;
     @SerializedName("message")
     @Expose
-    public Double message;
+    private Double message;
 
     // country code: GB, JP, etc.
     @SerializedName("country")
     @Expose
-    public String country;
+    private String country;
 
     // sunrise time UNIX, UTC
     @SerializedName("sunrise")
     @Expose
-    public Integer sunrise;
+    private Integer sunrise;
     // sunset time UNIX, UTC
     @SerializedName("sunset")
     @Expose
-    public Integer sunset;
+    private Integer sunset;
 
     public Integer getType() {
         return type;
