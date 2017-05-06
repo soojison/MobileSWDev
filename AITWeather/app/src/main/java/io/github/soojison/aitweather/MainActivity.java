@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    // TODO: Fix the side navigation bar items
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity
 
         ((MainApplication) getApplication()).openRealm();
         setUpRecycler();
-
     }
 
     private void setUpRecycler() {
@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // show alert dialog
                 showAlertDialog();
             }
         });
@@ -144,6 +143,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            //TODO: settings
             return true;
         }
 
@@ -155,16 +155,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
+        if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 

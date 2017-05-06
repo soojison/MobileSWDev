@@ -5,59 +5,47 @@ import com.google.gson.annotations.SerializedName;
 
 public class Main {
 
+    // Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
     @SerializedName("temp")
     @Expose
-    public Double temp;
+    private Double temp;
+
+    // pressure in hPa
     @SerializedName("pressure")
     @Expose
-    public Double pressure;
+    private Double pressure;
+
+    // in percentage
     @SerializedName("humidity")
     @Expose
-    public Double humidity;
+    private Double humidity;
+
     @SerializedName("temp_min")
     @Expose
-    public Double tempMin;
+    private Double tempMin;
+
     @SerializedName("temp_max")
     @Expose
-    public Double tempMax;
+    private Double tempMax;
 
     public Double getTemp() {
         return temp;
-    }
-
-    public void setTemp(Double temp) {
-        this.temp = temp;
     }
 
     public Double getPressure() {
         return pressure;
     }
 
-    public void setPressure(Double pressure) {
-        this.pressure = pressure;
-    }
-
     public Double getHumidity() {
         return humidity;
-    }
-
-    public void setHumidity(Double humidity) {
-        this.humidity = humidity;
     }
 
     public Double getTempMin() {
         return tempMin;
     }
 
-    public void setTempMin(Double tempMin) {
-        this.tempMin = tempMin;
-    }
-
     public Double getTempMax() {
         return tempMax;
     }
 
-    public void setTempMax(Double tempMax) {
-        this.tempMax = tempMax;
-    }
 }

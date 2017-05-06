@@ -5,8 +5,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Clouds {
 
+    // cloudiness in %
     @SerializedName("all")
     @Expose
     public Double all;
 
+    public Double getAll() {
+        return all;
+    }
 }

@@ -6,19 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import io.github.soojison.aitweather.DetailsActivity;
-import io.github.soojison.aitweather.MainActivity;
 import io.github.soojison.aitweather.R;
-import io.github.soojison.aitweather.data.WeatherResult;
 import io.github.soojison.aitweather.realm.RealmString;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -37,7 +32,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         RealmResults<RealmString> realmResults = realm.where(RealmString.class).findAll();
 
         cityList = new ArrayList<>();
-        Toast.makeText(context, "Realm size" + realmResults.size(), Toast.LENGTH_SHORT).show();
         for (int i = 0; i < realmResults.size(); i++) {
             cityList.add(realmResults.get(i));
         }

@@ -7,8 +7,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.w3c.dom.Text;
 
@@ -35,8 +38,35 @@ public class DetailsActivity extends AppCompatActivity {
 
     public WeatherApi weatherApi;
 
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
+
     @BindView(R.id.tvCurrentTemp)
     TextView tvCurrentTemp;
+
+    @BindView(R.id.imgWeatherIcon)
+    ImageView imgWeatherIcon;
+
+    @BindView(R.id.tvDescription)
+    TextView tvDescription;
+
+    @BindView(R.id.tvWind)
+    TextView tvWind;
+
+    @BindView(R.id.tvCloud)
+    TextView tvCloud;
+
+    @BindView(R.id.tvPressure)
+    TextView tvPressure;
+
+    @BindView(R.id.tvHumidity)
+    TextView tvHumidity;
+
+    @BindView(R.id.tvSunrise)
+    TextView tvSunrise;
+
+    @BindView(R.id.tvSunset)
+    TextView tvSunSet;
 
     // TODO: icons, misc weather stuff
     // TODO: metric / imperial settings in shared preferences
@@ -66,15 +96,30 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void displayWeatherInfo(String cityName) {
         //todo: metric/imperial
+
+        // todo: handle loading while loading api data
         Call<WeatherResult> call = weatherApi.getCurrentWeather(cityName, "metric", MY_API_KEY);
         call.enqueue(new Callback<WeatherResult>() {
             @Override
             public void onResponse(Call<WeatherResult> call, Response<WeatherResult> response) {
-                tvCurrentTemp.setText(response.body().getMain().getTemp()+"");
+                // todo: method extraciton for filling out body
                 if(getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(response.body().getName());
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
+                tvTitle.setText("Weather in " + response.body().getName() + ", " + response.body().getSys().getCountry());
+                tvCurrentTemp.setText(response.body().getMain().getTemp()+"°C");
+                tvDescription.setText(response.body().getWeather().get(0).getDescription());
+                String iconURL = "http://openweathermap.org/img/w/" +
+                        response.body().getWeather().get(0).getIcon() + ".png";
+                Glide.with(getApplicationContext()).load(iconURL).into(imgWeatherIcon);
+                tvWind.setText(response.body().getWind().getSpeed() + "m/s in the direction of "
+                        + response.body().getWind().getDeg());
+                tvCloud.setText(response.body().getClouds().getAll() + "%");
+                tvPressure.setText(response.body().getMain().getPressure() + "hPa");
+                tvHumidity.setText(response.body().getMain().getHumidity() + "%");
+                tvSunrise.setText(response.body().getSys().getSunrise() + "TIME");
+                tvSunSet.setText(response.body().getSys().getSunset() + "TIME");
             }
 
             @Override
