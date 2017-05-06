@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +51,11 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.tvSunrise) TextView tvSunrise;
     @BindView(R.id.tvSunset) TextView tvSunSet;
 
+    @BindView(R.id.viewInvalidCity)
+    RelativeLayout viewInvalidCity;
+
+    @BindView(R.id.viewWithWeatherData)
+    ScrollView viewWithWeatherData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +87,8 @@ public class DetailsActivity extends AppCompatActivity {
                 if(response.code() == 200) {
                     populateWeatherData(response.body());
                 } else if(response.code() == 404) {
-
-                    // TODO: CITY NOT FOUND
-                    Toast.makeText(DetailsActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                    viewInvalidCity.setVisibility(View.VISIBLE);
+                    viewWithWeatherData.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -124,7 +130,6 @@ public class DetailsActivity extends AppCompatActivity {
             degrees = degrees.concat("F");
             speed = "m/h";
         }
-
 
         // TODO: Extract string
         tvTitle.setText("Weather in " + body.getName() + ", " + body.getSys().getCountry());
@@ -200,4 +205,5 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -1,5 +1,6 @@
 package io.github.soojison.aitweather.adapter;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +26,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     private Context context;
 
     private Realm realm;
+
 
     public WeatherAdapter(Context context, Realm realm) {
         this.context = context;
@@ -58,6 +61,8 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
                 Intent intent = new Intent(v.getContext(), DetailsActivity.class);
                 intent.putExtra(DetailsActivity.KEY_CITY_NAME, holder.tvCityName.getText().toString());
                 context.startActivity(intent);
+
+
             }
         });
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -102,4 +107,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         cityList.add(newString);
         notifyItemInserted(cityList.size()-1);
     }
+
+
 }

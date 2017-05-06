@@ -1,5 +1,6 @@
 package io.github.soojison.aitweather;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    static ProgressDialog mProgressDialog;
     // TODO: Fix the side navigation bar items
 
     @Override
@@ -155,10 +158,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_add) {
+            showAlertDialog();
+        } else if (id == R.id.nav_about) {
+            Toast.makeText(this, "This is app is made by this and that", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -170,5 +173,17 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         ((MainApplication) getApplication()).closeRealm();
+    }
+
+    public static void showDialog() {
+
+        if(mProgressDialog != null && !mProgressDialog.isShowing())
+            mProgressDialog.show();
+    }
+
+    public static void hideDialog() {
+
+        if(mProgressDialog != null && mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
     }
 }

@@ -6,6 +6,9 @@
 
     <string name="action_settings">Settings</string>
 
+    <!-- nav drawer menu strings -->
+
+
     <!-- city add dialog related strings -->
     <string name="add_city">Add City</string>
     <string name="enter_city_name">Enter City Name</string>
