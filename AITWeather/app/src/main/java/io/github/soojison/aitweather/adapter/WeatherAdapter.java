@@ -58,6 +58,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 // TODO: open a new activity where you can see the city weather info
+
                 Intent intent = new Intent(v.getContext(), DetailsActivity.class);
                 intent.putExtra(DetailsActivity.KEY_CITY_NAME, holder.tvCityName.getText().toString());
                 context.startActivity(intent);
@@ -107,6 +108,8 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         cityList.add(newString);
         notifyItemInserted(cityList.size()-1);
     }
+
+
 
 
 }

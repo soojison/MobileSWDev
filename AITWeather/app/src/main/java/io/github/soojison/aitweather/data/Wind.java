@@ -13,13 +13,13 @@ public class Wind {
     // degrees (meteorological)
     @SerializedName("deg")
     @Expose
-    private Integer deg;
+    private Double deg;
 
     public Double getSpeed() {
         return speed;
     }
 
-    public Integer getDeg() {
+    public Double getDeg() {
         return deg;
     }
 

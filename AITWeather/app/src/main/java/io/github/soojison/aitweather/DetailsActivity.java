@@ -1,5 +1,6 @@
 package io.github.soojison.aitweather;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,8 @@ public class DetailsActivity extends AppCompatActivity {
     public static final String MY_API_KEY = "13ecf6e64cda416ef869f94f53a99417";
     public static final String API_IMAGE_BASEURL = "http://openweathermap.org/img/w/";
 
+    ProgressDialog mProgressDialog;
+
     public WeatherApi weatherApi;
 
     @BindView(R.id.tvTitle) TextView tvTitle;
@@ -62,10 +65,12 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
+        mProgressDialog = new ProgressDialog(this);
 
         if(getIntent().hasExtra(KEY_CITY_NAME)) { // if there is no intent we can't do anything
             String cityName = getIntent().getStringExtra(KEY_CITY_NAME);
             initializeToolbar();
+            mProgressDialog.show();
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(HTTP_API_OPENWEATHERMAP_ORG)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -85,8 +90,10 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<WeatherResult> call, Response<WeatherResult> response) {
                 if(response.code() == 200) {
+                    mProgressDialog.dismiss();
                     populateWeatherData(response.body());
                 } else if(response.code() == 404) {
+                    mProgressDialog.dismiss();
                     viewInvalidCity.setVisibility(View.VISIBLE);
                     viewWithWeatherData.setVisibility(View.INVISIBLE);
                 }
@@ -166,7 +173,7 @@ public class DetailsActivity extends AppCompatActivity {
         return dateFormat.format(time);
     }
 
-    private String getWindDirection(Integer degree) {
+    private String getWindDirection(Double degree) {
         if(11.25 < degree && degree <= 33.75) { return "North-northeast"; }
         if(33.75 < degree && degree <= 56.25) { return "Northeast"; }
         if(56.25 < degree && degree <= 78.75) { return "East-northeast"; }
