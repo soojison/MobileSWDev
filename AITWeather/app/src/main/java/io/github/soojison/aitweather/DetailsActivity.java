@@ -8,12 +8,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -47,8 +50,10 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.tvCurrentTemp) TextView tvCurrentTemp;
     @BindView(R.id.imgWeatherIcon) ImageView imgWeatherIcon;
     @BindView(R.id.tvDescription) TextView tvDescription;
-    @BindView(R.id.tvWind) TextView tvWind;
-    @BindView(R.id.tvCloud) TextView tvCloud;
+    @BindView(R.id.tvWindSpeed) TextView tvWindSpeed;
+    @BindView(R.id.tvWindDir) TextView tvWindDir;
+    @BindView(R.id.tvCloudPercent) TextView tvCloudPercent;
+    @BindView(R.id.tvCloudDesc) TextView tvCloudDesc;
     @BindView(R.id.tvPressure) TextView tvPressure;
     @BindView(R.id.tvHumidity) TextView tvHumidity;
     @BindView(R.id.tvSunrise) TextView tvSunrise;
@@ -58,7 +63,7 @@ public class DetailsActivity extends AppCompatActivity {
     RelativeLayout viewInvalidCity;
 
     @BindView(R.id.viewWithWeatherData)
-    ScrollView viewWithWeatherData;
+    LinearLayout viewWithWeatherData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +83,7 @@ public class DetailsActivity extends AppCompatActivity {
             weatherApi = retrofit.create(WeatherApi.class);
 
             getWeatherInfo(cityName);
+
         }
     }
 
@@ -135,7 +141,7 @@ public class DetailsActivity extends AppCompatActivity {
             speed = "m/s";
         } else { // imperial
             degrees = degrees.concat("F");
-            speed = "m/h";
+            speed = "mph";
         }
 
         // TODO: Extract string
@@ -143,9 +149,10 @@ public class DetailsActivity extends AppCompatActivity {
         tvCurrentTemp.setText(body.getMain().getTemp() + degrees);
         tvDescription.setText(body.getWeather().get(0).getDescription());
         Glide.with(getApplicationContext()).load(iconURL).into(imgWeatherIcon);
-        tvWind.setText(body.getWind().getSpeed() + " " + speed + " in the direction of "
-                + getWindDirection(body.getWind().getDeg()));
-        tvCloud.setText(getCloudInfo(body.getClouds().getAll()));
+        tvWindSpeed.setText(body.getWind().getSpeed() + " " + speed);
+        tvWindDir.setText(getWindDirection(body.getWind().getDeg()));
+        tvCloudPercent.setText(body.getClouds().getAll() + "");
+        tvCloudDesc.setText(getCloudInfo(body.getClouds().getAll()));
         tvPressure.setText(body.getMain().getPressure() + " hPa");
         tvHumidity.setText(body.getMain().getHumidity() + "%");
 
@@ -155,6 +162,9 @@ public class DetailsActivity extends AppCompatActivity {
 
     // TODO: String extraction
     private String getCloudInfo(Double percent) {
+        if (0 == percent) {
+            return "Clear sky";
+        }
         if(0 < percent && percent <= 10) {
             return "Few clouds";
         } else if(10 < percent && percent <= 50) {
@@ -168,31 +178,32 @@ public class DetailsActivity extends AppCompatActivity {
 
 
     private String getSunTime(Integer unixTime) {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         Date time = new Date((long) unixTime * 1000);
         return dateFormat.format(time);
     }
 
     private String getWindDirection(Double degree) {
-        if(11.25 < degree && degree <= 33.75) { return "North-northeast"; }
-        if(33.75 < degree && degree <= 56.25) { return "Northeast"; }
-        if(56.25 < degree && degree <= 78.75) { return "East-northeast"; }
-        if(78.75 < degree && degree <= 101.25) { return "East"; }
-        if(101.25 < degree && degree <= 123.75) { return "East-Southeast"; }
-        if(123.75 < degree && degree <= 146.25) { return "Southeast"; }
-        if(146.25 < degree && degree <= 168.75) { return "South-Southeast"; }
-        if(168.75 < degree && degree <= 191.25) { return "South"; }
-        if(191.25 < degree && degree <= 213.75) { return "South-Southwest"; }
-        if(213.75 < degree && degree <= 236.25) { return "Southwest"; }
-        if(236.25 < degree && degree <= 258.75) { return "West-southwest"; }
-        if(258.75 < degree && degree <= 281.25) { return "West"; }
-        if(213.75 < degree && degree <= 236.25) { return "Southwest"; }
-        if(236.25 < degree && degree <= 258.75) { return "West-southwest"; }
-        if(258.75 < degree && degree <= 281.25) { return "West"; }
-        if(281.25 < degree && degree <= 303.75) { return "West-northwest"; }
-        if(303.75 < degree && degree <= 326.25) { return "Northwest"; }
-        if(326.25 < degree && degree <= 348.75) { return "North-northwest"; }
-        return "North";
+        if(degree == null) { return "undefined"; }// it happens
+        if(11.25 < degree && degree <= 33.75) { return "NNE"; }
+        else if(33.75 < degree && degree <= 56.25) { return "NE"; }
+        else if(56.25 < degree && degree <= 78.75) { return "ENE"; }
+        else if(78.75 < degree && degree <= 101.25) { return "E"; }
+        else if(101.25 < degree && degree <= 123.75) { return "ESE"; }
+        else if(123.75 < degree && degree <= 146.25) { return "SE"; }
+        else if(146.25 < degree && degree <= 168.75) { return "SSE"; }
+        else if(168.75 < degree && degree <= 191.25) { return "S"; }
+        else if(191.25 < degree && degree <= 213.75) { return "SSW"; }
+        else if(213.75 < degree && degree <= 236.25) { return "SW"; }
+        else if(236.25 < degree && degree <= 258.75) { return "WSW"; }
+        else if(258.75 < degree && degree <= 281.25) { return "W"; }
+        else if(213.75 < degree && degree <= 236.25) { return "SW"; }
+        else if(236.25 < degree && degree <= 258.75) { return "WSW"; }
+        else if(258.75 < degree && degree <= 281.25) { return "W"; }
+        else if(281.25 < degree && degree <= 303.75) { return "WNW"; }
+        else if(303.75 < degree && degree <= 326.25) { return "NW"; }
+        else if(326.25 < degree && degree <= 348.75) { return "NNW"; }
+        else { return "N"; }
     }
 
     private void initializeToolbar() {
