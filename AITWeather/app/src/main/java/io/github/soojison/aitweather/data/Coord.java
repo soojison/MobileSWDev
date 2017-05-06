@@ -6,13 +6,12 @@ import com.google.gson.annotations.SerializedName;
 public class Coord {
 
     // City Geo location, longditude and latitude
-
     @SerializedName("lon")
     @Expose
-    public Double lon;
+    private Double lon;
     @SerializedName("lat")
     @Expose
-    public Double lat;
+    private Double lat;
 
     public Double getLon() {
         return lon;

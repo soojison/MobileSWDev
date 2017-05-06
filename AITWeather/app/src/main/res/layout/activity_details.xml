@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context="io.github.soojison.aitweather.DetailsActivity">
 
+    <!-- todo: factor out to include statements -->
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-100dp"
-            android:paddingBottom="70dp"
+            android:paddingBottom="30dp"
             android:id="@+id/imgNotFound"
             android:src="@drawable/notfound" />
         <TextView
@@ -46,6 +47,32 @@
             android:textStyle="bold"
             android:text="City does not exist"
             android:layout_alignBottom="@id/imgNotFound"/>
+    </RelativeLayout>
+
+    <!-- view when other error occurrs- timeout, etc -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/viewError">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-100dp"
+            android:paddingBottom="30dp"
+            android:id="@+id/imgError"
+            android:src="@drawable/timeout" />
+        <TextView
+            android:id="@+id/tvErrorDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_alignBottom="@id/imgError"/>
     </RelativeLayout>
 
     <!-- view when city exists -->

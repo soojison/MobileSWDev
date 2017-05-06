@@ -3,7 +3,6 @@ package io.github.soojison.aitweather.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-// Mi ez? Nem tudom...
 public class Sys {
 
     @SerializedName("type")
@@ -12,6 +11,7 @@ public class Sys {
     @SerializedName("id")
     @Expose
     private Integer id;
+    // Mi ez? Nem tudom...
     @SerializedName("message")
     @Expose
     private Double message;
@@ -25,6 +25,7 @@ public class Sys {
     @SerializedName("sunrise")
     @Expose
     private Integer sunrise;
+
     // sunset time UNIX, UTC
     @SerializedName("sunset")
     @Expose

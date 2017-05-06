@@ -33,10 +33,10 @@ public class WeatherResult {
     @SerializedName("sys")
     @Expose
     private Sys sys;
-    // name of city
     @SerializedName("id")
     @Expose
     private Integer id;
+    // name of city
     @SerializedName("name")
     @Expose
     private String name;

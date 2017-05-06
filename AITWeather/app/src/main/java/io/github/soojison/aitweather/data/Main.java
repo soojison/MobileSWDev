@@ -20,6 +20,7 @@ public class Main {
     @Expose
     private Double humidity;
 
+    // TODO: use these?
     @SerializedName("temp_min")
     @Expose
     private Double tempMin;

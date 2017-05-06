@@ -10,13 +10,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -58,12 +55,10 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.tvHumidity) TextView tvHumidity;
     @BindView(R.id.tvSunrise) TextView tvSunrise;
     @BindView(R.id.tvSunset) TextView tvSunSet;
-
-    @BindView(R.id.viewInvalidCity)
-    RelativeLayout viewInvalidCity;
-
-    @BindView(R.id.viewWithWeatherData)
-    LinearLayout viewWithWeatherData;
+    @BindView(R.id.viewInvalidCity) RelativeLayout viewInvalidCity;
+    @BindView(R.id.viewWithWeatherData) LinearLayout viewWithWeatherData;
+    @BindView(R.id.viewError) RelativeLayout viewError;
+    @BindView(R.id.tvErrorDesc) TextView tvErrorDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +66,11 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
         mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage(getResources().getString(R.string.progress_dialog_loading));
 
         if(getIntent().hasExtra(KEY_CITY_NAME)) { // if there is no intent we can't do anything
             String cityName = getIntent().getStringExtra(KEY_CITY_NAME);
+            // TODO: toolbar menu that lets you refresh the data
             initializeToolbar();
             mProgressDialog.show();
             Retrofit retrofit = new Retrofit.Builder()
@@ -81,16 +78,14 @@ public class DetailsActivity extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             weatherApi = retrofit.create(WeatherApi.class);
-
             getWeatherInfo(cityName);
-
         }
     }
 
     private void getWeatherInfo(String cityName) {
-        // todo: handle loading while loading api data
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String units = prefs.getString("temp_list", "metric");
+
         Call<WeatherResult> call = weatherApi.getCurrentWeather(cityName, units, MY_API_KEY);
         call.enqueue(new Callback<WeatherResult>() {
             @Override
@@ -107,20 +102,22 @@ public class DetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<WeatherResult> call, Throwable t) {
-
-                String errorType;
-                String errorDesc;
+                mProgressDialog.dismiss();
+                viewError.setVisibility(View.VISIBLE);
+                viewWithWeatherData.setVisibility(View.INVISIBLE);
+                String errorType, errorDesc;
                 if(t instanceof IOException) {
-                    errorType = "Timeout";
-                    errorDesc = String.valueOf(t.getCause());
+                    errorType = "Timeout Error";
+                    errorDesc = String.valueOf(t.getLocalizedMessage());
                 } else if (t instanceof IllegalStateException) {
-                    errorType = "ConversionError";
-                    errorDesc = String.valueOf(t.getCause());
+                    errorType = "Conversion Error";
+                    errorDesc = String.valueOf(t.getLocalizedMessage());
                 } else {
-                    errorType = "Other";
+                    errorType = "Other Error";
                     errorDesc = String.valueOf(t.getLocalizedMessage());
                 }
-                Toast.makeText(DetailsActivity.this, errorDesc, Toast.LENGTH_LONG).show();
+                tvErrorDesc.setText(errorType);
+                Toast.makeText(DetailsActivity.this, errorDesc, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -175,7 +172,6 @@ public class DetailsActivity extends AppCompatActivity {
             return "Overcast clouds";
         }
     }
-
 
     private String getSunTime(Integer unixTime) {
         DateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());

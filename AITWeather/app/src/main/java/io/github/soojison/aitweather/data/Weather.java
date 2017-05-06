@@ -13,17 +13,17 @@ public class Weather {
     // group of weather params: rain, snow, extreme, etc.
     @SerializedName("main")
     @Expose
-    public String main;
+    private String main;
 
     // weather condition within group
     @SerializedName("description")
     @Expose
-    public String description;
+    private String description;
 
     // weather icon id
     @SerializedName("icon")
     @Expose
-    public String icon;
+    private String icon;
 
     public Integer getId() {
         return id;
@@ -34,6 +34,7 @@ public class Weather {
     }
 
     public String getDescription() {
+        // to capitalize the string -- weird that OW doesn't give you in this form already
         return description.substring(0, 1).toUpperCase() + description.substring(1);
     }
 

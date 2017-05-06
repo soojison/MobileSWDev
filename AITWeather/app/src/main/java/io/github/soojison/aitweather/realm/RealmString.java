@@ -5,6 +5,9 @@ import io.realm.annotations.PrimaryKey;
 
 public class RealmString extends RealmObject {
 
+    // For some reason Realm doesn't support String,
+    // so you have to create an object that's essentially a string...
+
     @PrimaryKey
     private String cityID;
     private String cityName;

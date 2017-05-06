@@ -7,7 +7,6 @@ import retrofit2.http.Query;
 
 public interface WeatherApi {
 
-
     String WEATHER_API_PATH = "data/2.5/weather";
     String QUERY_CITY = "q";
     String QUERY_UNITS = "units";
