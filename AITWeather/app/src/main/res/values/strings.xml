@@ -32,6 +32,10 @@
     <!-- unit settings -->
     <string name="pref_header_units">Units</string>
     <string name="pref_temp_title">Change units</string>
+    <string name="details_pressure">Pressure</string>
+    <string name="details_humidity">Humidity</string>
+    <string name="details_sunrise">Sunrise</string>
+    <string name="details_sunset">Sunset</string>
     <string-array name="pref_temp_list_titles">
         <item>Metric</item>
         <item>Imperial</item>
