@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,7 +45,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     public WeatherApi weatherApi;
 
-    @BindView(R.id.tvTitle) TextView tvTitle;
+    private boolean units; // true = metric, false = imperial
+
     @BindView(R.id.tvCurrentTemp) TextView tvCurrentTemp;
     @BindView(R.id.imgWeatherIcon) ImageView imgWeatherIcon;
     @BindView(R.id.tvDescription) TextView tvDescription;
@@ -70,6 +73,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         if(getIntent().hasExtra(KEY_CITY_NAME)) { // if there is no intent we can't do anything
             String cityName = getIntent().getStringExtra(KEY_CITY_NAME);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            units = prefs.getString("temp_list", "0").equals("0");
             // TODO: toolbar menu that lets you refresh the data
             initializeToolbar();
             mProgressDialog.show();
@@ -83,93 +88,83 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void getWeatherInfo(String cityName) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String units = prefs.getString("temp_list", "metric");
+        String units_param = units ? "metric" : "imperial";
 
-        Call<WeatherResult> call = weatherApi.getCurrentWeather(cityName, units, MY_API_KEY);
-        call.enqueue(new Callback<WeatherResult>() {
-            @Override
-            public void onResponse(Call<WeatherResult> call, Response<WeatherResult> response) {
-                if(response.code() == 200) {
+        try { // URLEncoder requires try/catch block
+            String queryCity = URLEncoder.encode(cityName, "UTF-8");
+            Call<WeatherResult> call = weatherApi.getCurrentWeather(queryCity, units_param, MY_API_KEY);
+            call.enqueue(new Callback<WeatherResult>() {
+                @Override
+                public void onResponse(Call<WeatherResult> call, Response<WeatherResult> response) {
                     mProgressDialog.dismiss();
-                    populateWeatherData(response.body());
-                } else if(response.code() == 404) {
+                    if(response.code() == 200) { // if successful
+                        populateWeatherData(response.body());
+                    } else if(response.code() == 404) { // if city does not exist
+                        viewInvalidCity.setVisibility(View.VISIBLE);
+                        viewWithWeatherData.setVisibility(View.INVISIBLE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<WeatherResult> call, Throwable t) { // other errors
                     mProgressDialog.dismiss();
-                    viewInvalidCity.setVisibility(View.VISIBLE);
+                    viewError.setVisibility(View.VISIBLE);
                     viewWithWeatherData.setVisibility(View.INVISIBLE);
+                    String errorType, errorDesc;
+                    if(t instanceof IOException) {
+                        errorType = "Timeout Error";
+                        errorDesc = String.valueOf(t.getLocalizedMessage());
+                    } else if (t instanceof IllegalStateException) {
+                        errorType = "Conversion Error";
+                        errorDesc = String.valueOf(t.getLocalizedMessage());
+                    } else {
+                        errorType = "Other Error";
+                        errorDesc = String.valueOf(t.getLocalizedMessage());
+                    }
+                    tvErrorDesc.setText(errorType);
+                    Toast.makeText(DetailsActivity.this, errorDesc, Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            @Override
-            public void onFailure(Call<WeatherResult> call, Throwable t) {
-                mProgressDialog.dismiss();
-                viewError.setVisibility(View.VISIBLE);
-                viewWithWeatherData.setVisibility(View.INVISIBLE);
-                String errorType, errorDesc;
-                if(t instanceof IOException) {
-                    errorType = "Timeout Error";
-                    errorDesc = String.valueOf(t.getLocalizedMessage());
-                } else if (t instanceof IllegalStateException) {
-                    errorType = "Conversion Error";
-                    errorDesc = String.valueOf(t.getLocalizedMessage());
-                } else {
-                    errorType = "Other Error";
-                    errorDesc = String.valueOf(t.getLocalizedMessage());
-                }
-                tvErrorDesc.setText(errorType);
-                Toast.makeText(DetailsActivity.this, errorDesc, Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     private void populateWeatherData(WeatherResult body) {
-
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(body.getName());
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(getResources().getString(
+                    R.string.weather_info_header, body.getName(), body.getSys().getCountry()));
         }
 
         String iconURL = API_IMAGE_BASEURL + body.getWeather().get(0).getIcon() + ".png";
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String degrees = "°";
-        String speed;
-        if(prefs.getString("temp_list", "metric").equals("metric")) { // metric
-            degrees = degrees.concat("C");
-            speed = "m/s";
-        } else { // imperial
-            degrees = degrees.concat("F");
-            speed = "mph";
-        }
+        String degrees = units ? "°C" : "°F";
+        String speed = units ? "m/s" : "mph";
 
-        // TODO: Extract string
-        tvTitle.setText("Weather in " + body.getName() + ", " + body.getSys().getCountry());
+        // no need to extract the rest since it's universal/won't need translations...
         tvCurrentTemp.setText(body.getMain().getTemp() + degrees);
         tvDescription.setText(body.getWeather().get(0).getDescription());
         Glide.with(getApplicationContext()).load(iconURL).into(imgWeatherIcon);
         tvWindSpeed.setText(body.getWind().getSpeed() + " " + speed);
         tvWindDir.setText(getWindDirection(body.getWind().getDeg()));
-        tvCloudPercent.setText(body.getClouds().getAll() + "");
+        tvCloudPercent.setText(body.getClouds().getAll() + "%");
         tvCloudDesc.setText(getCloudInfo(body.getClouds().getAll()));
         tvPressure.setText(body.getMain().getPressure() + " hPa");
         tvHumidity.setText(body.getMain().getHumidity() + "%");
-
         tvSunrise.setText(getSunTime(body.getSys().getSunrise()));
         tvSunSet.setText(getSunTime(body.getSys().getSunset()));
     }
 
-    // TODO: String extraction
     private String getCloudInfo(Double percent) {
         if (0 == percent) {
-            return "Clear sky";
-        }
-        if(0 < percent && percent <= 10) {
-            return "Few clouds";
+            return getString(R.string.cloud_clear_sky);
+        } else if(0 < percent && percent <= 10) {
+            return getString(R.string.cloud_few_clouds);
         } else if(10 < percent && percent <= 50) {
-            return "Scattered clouds";
+            return getString(R.string.cloud_scattered_clouds);
         } else if(50 < percent && percent <= 90) {
-            return "Broken clouds";
+            return getString(R.string.cloud_broken_clouds);
         } else {
-            return "Overcast clouds";
+            return getString(R.string.cloud_overcast_clouds);
         }
     }
 
@@ -180,7 +175,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private String getWindDirection(Double degree) {
-        if(degree == null) { return "undefined"; }// it happens
+        if(degree == null) { return "undefined"; } // api returns null for wind direction sometimes
         if(11.25 < degree && degree <= 33.75) { return "NNE"; }
         else if(33.75 < degree && degree <= 56.25) { return "NE"; }
         else if(56.25 < degree && degree <= 78.75) { return "ENE"; }
@@ -207,8 +202,7 @@ public class DetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null) {
-            // TODO: some cool display to tell u how wrong u are
-            getSupportActionBar().setTitle("Weather Details");
+            getSupportActionBar().setTitle(R.string.placeholder_activity_title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 

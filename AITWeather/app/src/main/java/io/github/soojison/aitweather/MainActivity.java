@@ -1,9 +1,13 @@
 package io.github.soojison.aitweather;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.ListPreference;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         initializeLayout();
         ButterKnife.bind(this);
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 
         ((MainApplication) getApplication()).openRealm();
         setUpRecycler();

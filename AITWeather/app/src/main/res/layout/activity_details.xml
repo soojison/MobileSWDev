@@ -9,19 +9,7 @@
 
     <!-- todo: factor out to include statements -->
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/toolbar_layout"/>
 
     <!-- view when city does not exist -->
     <RelativeLayout
@@ -45,7 +33,7 @@
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:text="City does not exist"
+            android:text="@string/city_does_not_exist"
             android:layout_alignBottom="@id/imgNotFound"/>
     </RelativeLayout>
 
@@ -82,14 +70,6 @@
         android:orientation="vertical"
         android:id="@+id/viewWithWeatherData"
         android:padding="16dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Loading"
-            android:id="@+id/tvTitle"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:textSize="36sp"/>
 
         <!-- card for general info -->
         <android.support.v7.widget.CardView
@@ -139,14 +119,15 @@
         </android.support.v7.widget.CardView>
 
         <!-- card for misc info -->
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="4dp">
 
 
             <GridLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="6"
                 android:orientation="horizontal"
