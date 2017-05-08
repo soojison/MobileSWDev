@@ -87,7 +87,6 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
             String cityName = getIntent().getStringExtra(KEY_CITY_NAME);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             units = prefs.getString("temp_list", "0").equals("0");
-            // TODO: toolbar menu that lets you refresh the data
             initializeToolbar();
             showDialog();
             Retrofit retrofit = new Retrofit.Builder()
