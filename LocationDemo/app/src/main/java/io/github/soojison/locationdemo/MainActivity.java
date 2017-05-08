@@ -15,18 +15,34 @@ public class MainActivity extends AppCompatActivity
         implements AITLocationManager.OnNewLocationAvailible {
 
     private TextView tvData;
+    private AITLocationManager aitLocationManager = new AITLocationManager(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tvData = (TextView) findViewById(R.id.tvData);
+        requestNeededPermission(); // this will start the whole procedure basically
     }
+
+
+    private Location prevLoc = null;
+    private double dist = 0;
 
     @Override
     public void onNewLocation(Location location) {
-        tvData.setText("Lat: " + location.getLatitude() + "\n" +
-                "Long: " + location.getLongitude());
+        if(prevLoc != null) {
+            dist += prevLoc.distanceTo(location);
+        } else {
+            prevLoc = location;
+        }
+        tvData.setText(
+                "Lat: " + location.getLatitude() + "\n" +
+                        "Long: " + location.getLongitude() + "\n" +
+                        "Alt: " + location.getAltitude() + "\n" +
+                        "Acc: " + location.getProvider() + "\n" +
+                        "dist: " + dist
+        );
     }
 
     // GROSS!!
@@ -41,11 +57,12 @@ public class MainActivity extends AppCompatActivity
             }
             ActivityCompat.requestPermissions(
                     this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     101);
 
         } else {
             // start doing our thang
+            aitLocationManager.startLocationMonitoring(this);
         }
     }
 
@@ -58,11 +75,19 @@ public class MainActivity extends AppCompatActivity
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission granted jupeee!", Toast.LENGTH_SHORT).show();
                 // do our job
+                aitLocationManager.startLocationMonitoring(this);
             } else {
                 Toast.makeText(this, "Permission was not granted. Go to hell :)", Toast.LENGTH_SHORT).show();
             }
 
         }
+    }
 
+    @Override
+    protected void onDestroy() {
+        if(aitLocationManager != null) {
+            aitLocationManager.stopLocationMonitoring();
+        }
+        super.onDestroy();
     }
 }

@@ -6,6 +6,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import java.security.Security;
+
 public class AITLocationManager implements LocationListener {
 
 
@@ -13,9 +15,19 @@ public class AITLocationManager implements LocationListener {
         public void onNewLocation(Location location);
     }
 
-    public void startLocationMonitoring(Context context) {
-        LocationManager locationManager = (LocationManager) context.getSystemService(
+    private LocationManager locationManager;
+    private OnNewLocationAvailible onNewLocationAvailible;
+
+    public AITLocationManager(OnNewLocationAvailible onNewLocationAvailible) {
+        this.onNewLocationAvailible = onNewLocationAvailible;
+    }
+
+    public void startLocationMonitoring(Context context) throws SecurityException {
+        locationManager = (LocationManager) context.getSystemService(
                 Context.LOCATION_SERVICE);
+
+        // some emulators don't like the network provider
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         // two types of permission!
         // user privacy-wise, your current location is a dangerous permission
@@ -26,12 +38,12 @@ public class AITLocationManager implements LocationListener {
     }
 
     public void stopLocationMonitoring() {
-
+        locationManager.removeUpdates(this);
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
+        onNewLocationAvailible.onNewLocation(location);
     }
 
     @Override
