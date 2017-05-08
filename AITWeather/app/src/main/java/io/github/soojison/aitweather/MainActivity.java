@@ -1,13 +1,12 @@
 package io.github.soojison.aitweather;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,18 +28,16 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.soojison.aitweather.adapter.WeatherAdapter;
-import io.github.soojison.aitweather.data.Main;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public WeatherAdapter weatherAdapter;
+    private WeatherAdapter weatherAdapter;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    static ProgressDialog mProgressDialog;
-    // TODO: Fix the side navigation bar items
+    private static ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +90,9 @@ public class MainActivity extends AppCompatActivity
     private void showAlertDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.add_city_dialog, null);
+        // suppress those pesky warnings since when creating a dialog there is no parent
+        @SuppressLint("InflateParams") View dialogView = inflater.inflate(R.layout.add_city_dialog, null);
         dialogBuilder.setView(dialogView);
-
         final EditText etCity = (EditText) dialogView.findViewById(R.id.etCity);
 
         dialogBuilder.setTitle(R.string.add_city);
@@ -160,13 +157,13 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_add) {
             showAlertDialog();
         } else if (id == R.id.nav_about) {
-            Toast.makeText(this, "This is app is made by this and that", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "App created by Sooji Son\nIcons from icons8.com", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -178,17 +175,5 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         ((MainApplication) getApplication()).closeRealm();
-    }
-
-    public static void showDialog() {
-
-        if(mProgressDialog != null && !mProgressDialog.isShowing())
-            mProgressDialog.show();
-    }
-
-    public static void hideDialog() {
-
-        if(mProgressDialog != null && mProgressDialog.isShowing())
-            mProgressDialog.dismiss();
     }
 }

@@ -8,11 +8,11 @@
         android:id="@+id/imgCloud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="5dp"
-        android:src="@drawable/clouds_48"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="5dp"
+        android:src="@drawable/clouds_48" />
 
     <TextView
         android:id="@+id/tvCloudPercent"
@@ -26,6 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tvCloudPercent"
-        android:layout_below="@+id/tvCloudPercent"/>
+        android:layout_below="@+id/tvCloudPercent" />
 
 </RelativeLayout>

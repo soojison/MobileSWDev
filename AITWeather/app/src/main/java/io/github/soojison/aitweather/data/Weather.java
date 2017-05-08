@@ -8,7 +8,7 @@ public class Weather {
     // weather condition ID
     @SerializedName("id")
     @Expose
-    public Integer id;
+    private Integer id;
 
     // group of weather params: rain, snow, extreme, etc.
     @SerializedName("main")

@@ -7,7 +7,7 @@ import io.realm.RealmConfiguration;
 
 public class MainApplication extends Application {
 
-    Realm realm;
+    private Realm realm;
 
     @Override
     public void onCreate() {

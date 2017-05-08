@@ -29,11 +29,4 @@ public class RealmString extends RealmObject {
         this.cityName = cityName;
     }
 
-    public String getCityID() {
-        return cityID;
-    }
-
-    public void setCityID(String cityID) {
-        this.cityID = cityID;
-    }
 }

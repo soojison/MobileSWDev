@@ -1,8 +1,10 @@
 package io.github.soojison.aitweather;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -33,17 +41,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String KEY_CITY_NAME = "KEY_CITY_NAME";
 
-    public static final String HTTP_API_OPENWEATHERMAP_ORG = "http://api.openweathermap.org";
-    public static final String MY_API_KEY = "13ecf6e64cda416ef869f94f53a99417";
-    public static final String API_IMAGE_BASEURL = "http://openweathermap.org/img/w/";
+    private static final String HTTP_API_OPENWEATHERMAP_ORG = "http://api.openweathermap.org";
+    private static final String MY_API_KEY = "13ecf6e64cda416ef869f94f53a99417";
+    private static final String API_IMAGE_BASEURL = "http://openweathermap.org/img/w/";
 
-    ProgressDialog mProgressDialog;
+    private static ProgressDialog mProgressDialog;
 
-    public WeatherApi weatherApi;
+    private WeatherApi weatherApi;
 
     private boolean units; // true = metric, false = imperial
 
@@ -62,12 +70,15 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.viewWithWeatherData) LinearLayout viewWithWeatherData;
     @BindView(R.id.viewError) RelativeLayout viewError;
     @BindView(R.id.tvErrorDesc) TextView tvErrorDesc;
+    private double longitude = 0;
+    private double latitude = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
+
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage(getResources().getString(R.string.progress_dialog_loading));
 
@@ -77,7 +88,7 @@ public class DetailsActivity extends AppCompatActivity {
             units = prefs.getString("temp_list", "0").equals("0");
             // TODO: toolbar menu that lets you refresh the data
             initializeToolbar();
-            mProgressDialog.show();
+            showDialog();
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(HTTP_API_OPENWEATHERMAP_ORG)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -96,7 +107,7 @@ public class DetailsActivity extends AppCompatActivity {
             call.enqueue(new Callback<WeatherResult>() {
                 @Override
                 public void onResponse(Call<WeatherResult> call, Response<WeatherResult> response) {
-                    mProgressDialog.dismiss();
+                    hideDialog();
                     if(response.code() == 200) { // if successful
                         populateWeatherData(response.body());
                     } else if(response.code() == 404) { // if city does not exist
@@ -107,7 +118,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<WeatherResult> call, Throwable t) { // other errors
-                    mProgressDialog.dismiss();
+                    hideDialog();
                     viewError.setVisibility(View.VISIBLE);
                     viewWithWeatherData.setVisibility(View.INVISIBLE);
                     String errorType, errorDesc;
@@ -130,6 +141,7 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void populateWeatherData(WeatherResult body) {
         if(getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(
@@ -139,7 +151,6 @@ public class DetailsActivity extends AppCompatActivity {
         String iconURL = API_IMAGE_BASEURL + body.getWeather().get(0).getIcon() + ".png";
         String degrees = units ? "°C" : "°F";
         String speed = units ? "m/s" : "mph";
-
         // no need to extract the rest since it's universal/won't need translations...
         tvCurrentTemp.setText(body.getMain().getTemp() + degrees);
         tvDescription.setText(body.getWeather().get(0).getDescription());
@@ -152,6 +163,12 @@ public class DetailsActivity extends AppCompatActivity {
         tvHumidity.setText(body.getMain().getHumidity() + "%");
         tvSunrise.setText(getSunTime(body.getSys().getSunrise()));
         tvSunSet.setText(getSunTime(body.getSys().getSunset()));
+        longitude = body.getCoord().getLon();
+        latitude = body.getCoord().getLat();
+        SupportMapFragment supportMapFragment =  SupportMapFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                supportMapFragment).commit();
+        supportMapFragment.getMapAsync(this);
     }
 
     private String getCloudInfo(Double percent) {
@@ -214,4 +231,23 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
+    public static void showDialog() {
+        if(mProgressDialog != null && !mProgressDialog.isShowing())
+            mProgressDialog.show();
+    }
+
+    public static void hideDialog() {
+
+        if(mProgressDialog != null && mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng marker = new LatLng(latitude, longitude);
+        googleMap.addMarker(new MarkerOptions()
+                .position(marker)
+                .title("Marker"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker,10));
+    }
 }

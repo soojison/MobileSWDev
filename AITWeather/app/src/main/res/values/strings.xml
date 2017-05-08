@@ -10,6 +10,9 @@
     <string name="navdrawer_menu_add">Add</string>
     <string name="navdrawer_menu_about">About</string>
 
+    <!-- recycler -->
+    <string name="see_details">See details</string>
+
     <!-- city add dialog related strings -->
     <string name="add_city">Add City</string>
     <string name="enter_city_name">Enter City Name</string>
@@ -21,21 +24,21 @@
     <!-- Details Activity strings -->
     <string name="progress_dialog_loading">Loading data…</string>
     <string name="weather_info_header">%1$s, %2$s</string>
-    <string name="cloud_clear_sky">Clear sky</string>
-    <string name="cloud_few_clouds">Few clouds</string>
-    <string name="cloud_scattered_clouds">Scattered clouds</string>
-    <string name="cloud_broken_clouds">Broken clouds</string>
-    <string name="cloud_overcast_clouds">Overcast clouds</string>
+    <string name="cloud_clear_sky">Clear</string>
+    <string name="cloud_few_clouds">Few</string>
+    <string name="cloud_scattered_clouds">Scattered</string>
+    <string name="cloud_broken_clouds">Broken</string>
+    <string name="cloud_overcast_clouds">Overcast</string>
     <string name="placeholder_activity_title">Weather Details</string>
     <string name="city_does_not_exist">City does not exist</string>
-
-    <!-- unit settings -->
-    <string name="pref_header_units">Units</string>
-    <string name="pref_temp_title">Change units</string>
     <string name="details_pressure">Pressure</string>
     <string name="details_humidity">Humidity</string>
     <string name="details_sunrise">Sunrise</string>
     <string name="details_sunset">Sunset</string>
+
+    <!-- unit settings -->
+    <string name="pref_header_units">Units</string>
+    <string name="pref_temp_title">Change units</string>
     <string-array name="pref_temp_list_titles">
         <item>Metric</item>
         <item>Imperial</item>
