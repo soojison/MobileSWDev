@@ -8,27 +8,27 @@
     android:layout_marginRight="8dp">
 
     <ImageView
-        android:id="@+id/imgPressure"
+        android:id="@+id/imgMinTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:paddingRight="5dp"
-        android:src="@drawable/pressure_48" />
+        android:src="@drawable/temperature_48" />
 
     <TextView
-        android:id="@+id/tvPressure"
+        android:id="@+id/tvMinTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imgPressure"
+        android:layout_toRightOf="@+id/imgMinTemp"
         android:textStyle="bold" />
 
     <TextView
+        android:text="@string/details_minimum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tvPressure"
-        android:layout_below="@+id/tvPressure"
-        android:text="@string/details_pressure" />
+        android:layout_alignLeft="@id/tvMinTemp"
+        android:layout_below="@+id/tvMinTemp" />
 
 </RelativeLayout>

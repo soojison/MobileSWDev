@@ -15,17 +15,22 @@
         android:layout_height="match_parent"
         android:gravity="center|center">
 
+
         <include layout="@layout/details_wind_layout" />
 
         <include layout="@layout/details_pressure_layout" />
 
-        <include layout="@layout/details_cloud_layout" />
-
         <include layout="@layout/details_humidity_layout" />
+
+        <include layout="@layout/details_cloud_layout" />
 
         <include layout="@layout/details_sunrise_layout" />
 
         <include layout="@layout/details_sunset_layout" />
+
+        <include layout="@layout/details_min_temp_layout"/>
+
+        <include layout="@layout/details_max_temp_layout"/>
 
     </com.wefika.flowlayout.FlowLayout>
 </android.support.v7.widget.CardView>

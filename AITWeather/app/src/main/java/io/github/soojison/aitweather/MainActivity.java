@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_add) {
             showAlertDialog();
         } else if (id == R.id.nav_about) {
-            Toast.makeText(this, "App created by Sooji Son\nIcons from icons8.com", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.about_toast_string), Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

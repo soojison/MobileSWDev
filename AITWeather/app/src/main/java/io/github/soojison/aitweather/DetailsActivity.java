@@ -65,6 +65,8 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
     @BindView(R.id.tvHumidity) TextView tvHumidity;
     @BindView(R.id.tvSunrise) TextView tvSunrise;
     @BindView(R.id.tvSunset) TextView tvSunSet;
+    @BindView(R.id.tvMinTemp) TextView tvMinTemp;
+    @BindView(R.id.tvMaxTemp) TextView tvMaxTemp;
     @BindView(R.id.viewInvalidCity) RelativeLayout viewInvalidCity;
     @BindView(R.id.viewWithWeatherData) LinearLayout viewWithWeatherData;
     @BindView(R.id.viewError) RelativeLayout viewError;
@@ -98,6 +100,7 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void getWeatherInfo(String cityName) {
+        // units for api call, no need to translate
         String units_param = units ? "metric" : "imperial";
 
         try { // URLEncoder requires try/catch block
@@ -156,12 +159,14 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
         Glide.with(getApplicationContext()).load(iconURL).into(imgWeatherIcon);
         tvWindSpeed.setText(body.getWind().getSpeed() + " " + speed);
         tvWindDir.setText(getWindDirection(body.getWind().getDeg()));
-        tvCloudPercent.setText(body.getClouds().getAll() + "%");
+        tvCloudPercent.setText(body.getClouds().getAll().intValue() + "%");
         tvCloudDesc.setText(getCloudInfo(body.getClouds().getAll()));
-        tvPressure.setText(body.getMain().getPressure() + " hPa");
-        tvHumidity.setText(body.getMain().getHumidity() + "%");
+        tvPressure.setText(body.getMain().getPressure().intValue() + " hPa");
+        tvHumidity.setText(body.getMain().getHumidity().intValue() + "%");
         tvSunrise.setText(getSunTime(body.getSys().getSunrise()));
         tvSunSet.setText(getSunTime(body.getSys().getSunset()));
+        tvMinTemp.setText(body.getMain().getTempMin() + degrees);
+        tvMaxTemp.setText(body.getMain().getTempMax() + degrees);
         longitude = body.getCoord().getLon();
         latitude = body.getCoord().getLat();
         SupportMapFragment supportMapFragment =  SupportMapFragment.newInstance();
