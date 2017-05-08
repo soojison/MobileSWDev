@@ -1,7 +1,6 @@
 package io.github.soojison.aitweather;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,8 +35,6 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-
-    private static ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         // suppress those pesky warnings since when creating a dialog there is no parent
-        @SuppressLint("InflateParams") View dialogView = inflater.inflate(R.layout.add_city_dialog, null);
+        @SuppressLint("InflateParams") View dialogView = inflater.inflate(R.layout.dialog_add_city, null);
         dialogBuilder.setView(dialogView);
         final EditText etCity = (EditText) dialogView.findViewById(R.id.etCity);
 

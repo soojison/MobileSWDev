@@ -43,7 +43,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rowView = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.weather_card,
+                R.layout.recycler_city_card,
                 parent,
                 false
         );

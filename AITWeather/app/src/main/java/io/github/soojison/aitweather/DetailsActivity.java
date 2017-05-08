@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -123,17 +122,17 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
                     viewWithWeatherData.setVisibility(View.INVISIBLE);
                     String errorType, errorDesc;
                     if(t instanceof IOException) {
-                        errorType = "Timeout Error";
+                        errorType = getString(R.string.error_timeout);
                         errorDesc = String.valueOf(t.getLocalizedMessage());
                     } else if (t instanceof IllegalStateException) {
-                        errorType = "Conversion Error";
+                        errorType = getString(R.string.error_conversion);
                         errorDesc = String.valueOf(t.getLocalizedMessage());
                     } else {
-                        errorType = "Other Error";
+                        errorType = getString(R.string.error_other);
                         errorDesc = String.valueOf(t.getLocalizedMessage());
                     }
                     tvErrorDesc.setText(errorType);
-                    Toast.makeText(DetailsActivity.this, errorDesc, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsActivity.this, errorDesc, Toast.LENGTH_LONG).show();
                 }
             });
         } catch (UnsupportedEncodingException e) {
@@ -142,6 +141,7 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     @SuppressLint("SetTextI18n")
+    // since units are universal/won't need translations/string extraction will make it more confusing
     private void populateWeatherData(WeatherResult body) {
         if(getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getResources().getString(
@@ -151,7 +151,6 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
         String iconURL = API_IMAGE_BASEURL + body.getWeather().get(0).getIcon() + ".png";
         String degrees = units ? "°C" : "°F";
         String speed = units ? "m/s" : "mph";
-        // no need to extract the rest since it's universal/won't need translations...
         tvCurrentTemp.setText(body.getMain().getTemp() + degrees);
         tvDescription.setText(body.getWeather().get(0).getDescription());
         Glide.with(getApplicationContext()).load(iconURL).into(imgWeatherIcon);

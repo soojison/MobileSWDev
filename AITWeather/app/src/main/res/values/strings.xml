@@ -36,6 +36,10 @@
     <string name="details_sunrise">Sunrise</string>
     <string name="details_sunset">Sunset</string>
 
+    <string name="error_timeout">Timeout Error</string>
+    <string name="error_conversion">Conversion Error</string>
+    <string name="error_other">Other Error</string>
+
     <!-- unit settings -->
     <string name="pref_header_units">Units</string>
     <string name="pref_temp_title">Change units</string>

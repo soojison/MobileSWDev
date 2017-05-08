@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:context="io.github.soojison.aitweather.MainActivity">
 
-    <include layout="@layout/toolbar_layout"/>
+    <include layout="@layout/layout_toolbar"/>
 
-    <include layout="@layout/content_main"/>
+    <include layout="@layout/body_of_main_activity"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
